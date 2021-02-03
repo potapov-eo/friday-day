@@ -1,0 +1,11 @@
+/*
+.button:focus {
+    outline: 3px solid transparent;
+    background: red;
+}*/
+.button {
+    outline: 3px solid transparent;
+    background: #049251;
+    padding: 10px;
+    border-radius: 9px
+}
