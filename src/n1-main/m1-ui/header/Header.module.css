@@ -1,3 +1,9 @@
-.center{
-    text-align: center;
+.header {
+
+    display: flex;
+    align-items:center;
+    justify-content: center;
+    height: 50px;
+    background: #9eeceb;
+    border: 1px solid;
 }

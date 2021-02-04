@@ -8,7 +8,7 @@ import {store} from "../m2-bll/store";
 
 function App() {
     return (
-        <div className="App">
+        <div >
             <Provider store={store}>
                 <HashRouter>
 
