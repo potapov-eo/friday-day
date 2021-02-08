@@ -46,12 +46,11 @@ export const Register = () => {
     })
 
     if (isLoggedIn) {
-
         return <Redirect to={PATH.PROFILE}/>
     }
     if (isRegister) {
 
-        return <Redirect to={PATH.PROFILE}/>
+        return <Redirect to={PATH.LOGIN}/>
     }
 
     return <div>

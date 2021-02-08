@@ -1,5 +1,6 @@
 import {Dispatch} from 'redux'
 import {AuthAPI} from '../../../n1-main/m3-dal/instance'
+import {setAppErrorAC} from "../../../n1-main/m2-bll/app-reduser";
 
 const SET_USER_DATA = 'SET_USER_DATA'
 const SET_ISLOGGEDIN = 'SET_ISLOGGEDIN'
@@ -60,11 +61,10 @@ export const getMe = () => async (dispatch: Dispatch) => {
 export const login = (email: string, password: string, rememberMe: boolean) =>
     async (dispatch: any) => {
         try {
-            let response = await AuthAPI.login(email, password, rememberMe)
-            if (response.data.resultCode === 0) {
+            await AuthAPI.login(email, password, rememberMe)
                 dispatch(getMe())
                 dispatch(setIsLoggedIn(true))
-            }
+
         } catch (e) {
             const error = e.response 
             ? e.response.data.error 
@@ -76,14 +76,16 @@ export const logout = () =>
     async (dispatch: any) => {
         try {
             const response = await AuthAPI.logout()
-            if (response.data.resultCode === 0) {
+            dispatch(setIsLoggedIn(false))
                 dispatch(setUserData(null, null, null, null, null, null, null,false, false, false, null))
-            }
+            dispatch(setAppErrorAC(null))
         } catch (e) {
             const error = e.response 
             ? e.response.data.error 
             : (e.message + ', more details in the console')
+            dispatch(setAppErrorAC(error))
         }
+
     }
 
 //types

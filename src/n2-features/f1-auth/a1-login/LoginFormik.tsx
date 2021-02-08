@@ -6,6 +6,7 @@ import {login} from './login-reducer';
 import { Redirect } from 'react-router-dom';
 import { useFormik } from 'formik';
 import {AppRootStateType} from '../../../../src/n1-main/m2-bll/store'
+import {PATH} from "../../../n1-main/m1-ui/routes/Routes";
 
 
 export const Login = () => {
@@ -38,7 +39,7 @@ export const Login = () => {
       })
 
       if (isLoggedIn) {
-        return <Redirect  to = {"/"}/>
+        return <Redirect  to = {PATH.PROFILE}/>
       }
   return (
     <div className="App">
