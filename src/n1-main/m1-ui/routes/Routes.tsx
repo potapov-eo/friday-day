@@ -3,7 +3,7 @@ import {Switch, Redirect, Route} from "react-router-dom";
 import {Error404} from "../../../n2-features/f4-404/Error404";
 import {Home} from "../../../n2-features/f3-Home/Home";
 import {Test} from "../../../n2-features/f0-test/test";
-import {Login} from "../../../n2-features/f1-auth/a1-login/Login";
+import {Login} from "../../../n2-features/f1-auth/a1-login/LoginFormik";
 import {Register} from "../../../n2-features/f1-auth/a2-register/Register";
 import {RecoveryPassword} from "../../../n2-features/f1-auth/a3-recoveryPassword/RecoveryPassword";
 import {NewPassword} from "../../../n2-features/f1-auth/a4-newPassword/NewPassword";
