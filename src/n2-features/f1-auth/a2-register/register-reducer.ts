@@ -32,14 +32,16 @@ export const RegisterTC = (data: RegisterParamsType) => async (dispatch: Dispatc
         dispatch(setIsRegister(true))
         dispatch(setAppStatusAC('succeeded'))
         dispatch(setAppErrorAC(null))
-          }
-    catch (err)
-    {
+    } catch (e) {
         dispatch(setAppStatusAC('failed'))
+        const error = e.response
+            ? e.response.data.error
+            : (e.message + ', more details in the console')
 
-        dispatch(setAppErrorAC(err.message))
+        dispatch(setAppErrorAC(error))
 
-           }
+
+    }
 
 }
 
@@ -48,5 +50,5 @@ export type RegisterParamsType = {
     password: string
 }
 
-type ActionsType = ReturnType<typeof setIsRegister>|setAppStatusACType|setAppErrorACType
+type ActionsType = ReturnType<typeof setIsRegister> | setAppStatusACType | setAppErrorACType
 
