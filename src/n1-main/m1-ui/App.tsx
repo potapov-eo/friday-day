@@ -1,23 +1,34 @@
 import React from 'react';
 import './App.css';
 import {HashRouter} from "react-router-dom";
-import {Header} from "./header/Header";
+import {useSelector} from 'react-redux';
+import {AppRootStateType} from "../m2-bll/store";
+import {RequestStatusType} from "../m2-bll/app-reduser";
+import Preloader from "./common/Preloder/Preloader";
 import {Routes} from "./routes/Routes";
-import {Provider} from 'react-redux';
-import {store} from "../m2-bll/store";
+import {ErrorSnackBar} from "./common/ErrorSnackBar/ErrorSnackBar";
+import {Header} from "./header/Header";
+
+
 
 function App() {
+
+    const status = useSelector<AppRootStateType, RequestStatusType>(state => state.app.status)
+    const error = useSelector<AppRootStateType,string | null >(state => state.app.error)
+
+
     return (
-        <div >
-            <Provider store={store}>
-                <HashRouter>
+        <div>
 
-                    <Header/>
+            <HashRouter>
 
-                    <Routes/>
+                <Header/>
 
-                </HashRouter>
-            </Provider>
+                {status === 'loading' && <Preloader/>}
+                <Routes/>
+                {error && <ErrorSnackBar errorMessage={error}/>}
+            </HashRouter>
+
         </div>
     );
 }
