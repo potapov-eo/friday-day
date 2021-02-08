@@ -1,21 +1,22 @@
-import React, {useEffect} from 'react'
+import React from 'react'
 import {useFormik} from "formik";
 import {useDispatch, useSelector} from "react-redux";
-import {RegisterTC, setIsRegister} from "./register-reducer";
-import {HashRouter, Redirect} from "react-router-dom";
+import {RegisterTC} from "./register-reducer";
+import {Redirect} from "react-router-dom";
 import {AppRootStateType} from "../../../n1-main/m2-bll/store";
 import {PATH} from "../../../n1-main/m1-ui/routes/Routes";
+import {RequestStatusType} from "../../../n1-main/m2-bll/app-reduser";
 
 export const Register = () => {
     const dispatch = useDispatch()
-
+    const status = useSelector<AppRootStateType, RequestStatusType>(state => state.app.status)
     const isLoggedIn = useSelector<AppRootStateType, boolean>(state => state.login.isLoggedIn)
     const isRegister = useSelector<AppRootStateType, boolean>(state => state.register.isRegister)
     type FormikErrorType = {
         email?: string
         password?: string
     }
-
+    const disable = status==='loading'
     const formik = useFormik({
         initialValues: {
             email: 'potapov.eo@yandex.ru',
@@ -78,7 +79,7 @@ export const Register = () => {
                 {formik.touched.password && formik.errors.password ?
                     <div style={{color: "red"}}>{formik.errors.password}</div> : null}
             </div>
-            <button type="submit">Register</button>
+            <button disabled={disable} type="submit">Register</button>
 
         </form>
 

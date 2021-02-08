@@ -1,4 +1,3 @@
-import {Dispatch} from "redux";
 
 export type RequestStatusType = 'idle' | 'loading' | 'succeeded' | 'failed'
 
