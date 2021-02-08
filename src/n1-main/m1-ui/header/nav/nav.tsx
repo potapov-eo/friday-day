@@ -6,30 +6,30 @@ import {PATH} from "../../routes/Routes";
 export const Nav = () => {
     return (
 
-            <div className={s.nav}>
+        <div className={s.nav}>
 
                 <span>
                     <NavLink to={PATH.HOME} activeClassName={s.activeLink}>HOME</NavLink>
                 </span>
-                <span>
+            <span>
                     <NavLink to={PATH.TEST} activeClassName={s.activeLink}>TEST</NavLink>
                 </span>
-                <span>
+            <span>
                     <NavLink to={PATH.LOGIN} activeClassName={s.activeLink}>LOGIN</NavLink>
                 </span>
-                <span>
+            <span>
                     <NavLink to={PATH.REGISTER} activeClassName={s.activeLink}>REGISTER</NavLink>
                 </span>
-                <span>
+            <span>
                     <NavLink to={PATH.RECOVERY_PASSWORD} activeClassName={s.activeLink}>RECOVERY_PASSWORD</NavLink>
                 </span>
-                <span>
+            <span>
                     <NavLink to={PATH.NEW_PASSWORD} activeClassName={s.activeLink}>NEW_PASSWORD</NavLink>
                 </span>
-                <span>
+            <span>
                     <NavLink to={PATH.PROFILE} activeClassName={s.activeLink}>PROFILE</NavLink>
                 </span>
-            </div>
+        </div>
 
 
     )

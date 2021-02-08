@@ -1,23 +1,51 @@
+import {setIsLoggedIn, setUserData} from "../../n2-features/f1-auth/a1-login/login-reducer";
 
 export type RequestStatusType = 'idle' | 'loading' | 'succeeded' | 'failed'
 
 
-export type InitialStateType = {
+export type AppInitialStateType = {
     error: string | null
     status: RequestStatusType
+    _id: string | null
+    email: string | null,
+    name: string | null,
+    avatar: string | null,
+    publicCardPacksCount: number | null,
+    created: Date | null,
+    updated: Date | null,
+    isAdmin: boolean,
+    verified: boolean, // подтвердил ли почту
+    rememberMe: boolean,
+    isLoggedIn: boolean
+
 
 }
-const initialState: InitialStateType = {
+const initialState: AppInitialStateType = {
     status: 'succeeded',
     error: null,
+    _id: null as string | null,
+    email: null as string | null,
+    name: null as string | null,
+    avatar: null as string | null,
+    publicCardPacksCount: null as number | null,
+    created: null as Date | null,
+    updated: null as Date | null,
+    isAdmin: false,
+    verified: false, // подтвердил ли почту
+    rememberMe: false,
+    isLoggedIn: false
 
 }
-export const appReducer = (state: InitialStateType = initialState, action: ActionsType): InitialStateType => {
+export const appReducer = (state: AppInitialStateType = initialState, action: ActionsType): AppInitialStateType => {
     switch (action.type) {
         case 'APP/SET-STATUS':
             return {...(state), status: action.status}
         case 'APP/SET-ERROR':
             return {...(state), error: action.error}
+        case "SET_USER_DATA":
+            return {...state, ...action.data}
+        case "SET_ISLOGGEDIN":
+            return {...state, isLoggedIn: action.value}
 
         default:
             return state
@@ -32,4 +60,8 @@ export const setAppErrorAC = (error: string | null) =>
 export type setAppStatusACType = ReturnType<typeof setAppStatusAC>
 export type setAppErrorACType = ReturnType<typeof setAppErrorAC>
 
-type ActionsType = setAppStatusACType|setAppErrorACType
+type ActionsType =
+    setAppStatusACType
+    | setAppErrorACType
+    | ReturnType<typeof setUserData>
+    | ReturnType<typeof setIsLoggedIn>
