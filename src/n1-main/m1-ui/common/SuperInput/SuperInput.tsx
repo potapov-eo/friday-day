@@ -12,7 +12,7 @@ name?:string
 
 const SuperInput: React.FC<SuperButtonPropsType> = (
     {
-        name="push",
+      
         ...restProps// все остальные пропсы попадут в объект restProps, там же будет children
     }
 ) => {
