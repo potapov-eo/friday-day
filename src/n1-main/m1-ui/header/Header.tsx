@@ -8,7 +8,7 @@ import {AppRootStateType} from "../../m2-bll/store";
 
 export const Header = () => {
     const dispatch = useDispatch()
-    const UserName = useSelector<AppRootStateType, string | null>(state => state.app.name)
+    const UserName = useSelector<AppRootStateType, string | null>(state => state.app.UserData.name)
     const isLoggedIn = useSelector<AppRootStateType, boolean>(state => state.app.isLoggedIn)
 
     const logoutOnClick = () => {
@@ -19,7 +19,7 @@ export const Header = () => {
         <div className={s.header}>
             <Nav/>
             {isLoggedIn && < SuperButton onClick={logoutOnClick} name="logout"/>}
-            {UserName && <div style={{margin: "10px", color: "red"}}> YOUR NAME : {UserName} </div>}
+            {isLoggedIn && <div style={{margin: "10px", color: "red"}}> YOUR NAME : {UserName} </div>}
         </div>
     )
 }

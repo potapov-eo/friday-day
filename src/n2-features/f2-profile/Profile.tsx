@@ -1,19 +1,19 @@
 import React, {useEffect} from 'react'
 import {useDispatch, useSelector} from "react-redux";
-import {getMe, setIsLoggedIn} from "../f1-auth/a1-login/login-reducer";
+import {getMe} from "../f1-auth/a1-login/login-reducer";
 import {AppRootStateType} from "../../n1-main/m2-bll/store";
 import {Redirect} from "react-router-dom";
 import {PATH} from "../../n1-main/m1-ui/routes/Routes";
-import {AppInitialStateType} from "../../n1-main/m2-bll/app-reduser";
+import {UserDataType} from "../../n1-main/m2-bll/app-reduser";
 
 
 export const Profile = () => {
     const dispatch = useDispatch()
 
     const isLoggedIn = useSelector<AppRootStateType, boolean>(state => state.app.isLoggedIn)
-    const userData = useSelector<AppRootStateType, AppInitialStateType>(state => state.app)
+    const userData = useSelector<AppRootStateType, UserDataType>(state => state.app.UserData)
     useEffect(() => {
-        if(!isLoggedIn) {
+        if (!isLoggedIn) {
             dispatch(getMe())
         }
     }, [isLoggedIn])

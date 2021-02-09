@@ -2,10 +2,7 @@ import {setIsLoggedIn, setUserData} from "../../n2-features/f1-auth/a1-login/log
 
 export type RequestStatusType = 'idle' | 'loading' | 'succeeded' | 'failed'
 
-
-export type AppInitialStateType = {
-    error: string | null
-    status: RequestStatusType
+export type UserDataType = {
     _id: string | null
     email: string | null,
     name: string | null,
@@ -16,6 +13,11 @@ export type AppInitialStateType = {
     isAdmin: boolean,
     verified: boolean, // подтвердил ли почту
     rememberMe: boolean,
+}
+export type AppInitialStateType = {
+    error: string | null
+    status: RequestStatusType
+    UserData: UserDataType
     isLoggedIn: boolean
 
 
@@ -23,16 +25,18 @@ export type AppInitialStateType = {
 const initialState: AppInitialStateType = {
     status: 'succeeded',
     error: null,
-    _id: null as string | null,
-    email: null as string | null,
-    name: null as string | null,
-    avatar: null as string | null,
-    publicCardPacksCount: null as number | null,
-    created: null as Date | null,
-    updated: null as Date | null,
-    isAdmin: false,
-    verified: false, // подтвердил ли почту
-    rememberMe: false,
+    UserData: {
+        _id: null as string | null,
+        email: null as string | null,
+        name: null as string | null,
+        avatar: null as string | null,
+        publicCardPacksCount: null as number | null,
+        created: null as Date | null,
+        updated: null as Date | null,
+        isAdmin: false,
+        verified: false, // подтвердил ли почту
+        rememberMe: false,
+    },
     isLoggedIn: false
 
 }
@@ -43,7 +47,7 @@ export const appReducer = (state: AppInitialStateType = initialState, action: Ac
         case 'APP/SET-ERROR':
             return {...(state), error: action.error}
         case "SET_USER_DATA":
-            return {...state, ...action.data}
+            return {...state,UserData:action.data}
         case "SET_ISLOGGEDIN":
             return {...state, isLoggedIn: action.value}
 

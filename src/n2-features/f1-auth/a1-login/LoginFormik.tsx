@@ -45,7 +45,7 @@ export const Login = () => {
     if (isLoggedIn) {
         dispatch(setAppErrorAC("you are already logged in"))
         return <Redirect to={PATH.PROFILE}/>
-           }
+    }
 
     return (
         <div className="App">

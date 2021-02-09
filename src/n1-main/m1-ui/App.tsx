@@ -10,11 +10,10 @@ import {ErrorSnackBar} from "./common/ErrorSnackBar/ErrorSnackBar";
 import {Header} from "./header/Header";
 
 
-
 function App() {
 
     const status = useSelector<AppRootStateType, RequestStatusType>(state => state.app.status)
-    const error = useSelector<AppRootStateType,string | null >(state => state.app.error)
+    const error = useSelector<AppRootStateType, string | null>(state => state.app.error)
 
 
     return (
