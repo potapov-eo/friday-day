@@ -1,7 +1,6 @@
 import React from 'react'
-import {Switch, Redirect, Route} from "react-router-dom";
+import {Redirect, Route, Switch} from "react-router-dom";
 import {Error404} from "../../../n2-features/f4-404/Error404";
-import {Home} from "../../../n2-features/f3-Home/Home";
 import {Test} from "../../../n2-features/f0-test/test";
 import {Login} from "../../../n2-features/f1-auth/a1-login/LoginFormik";
 import {Register} from "../../../n2-features/f1-auth/a2-register/Register";
@@ -25,8 +24,7 @@ export const Routes = () => {
 
             <Switch>
 
-                <Route path={"/"} exact render={() => <Redirect to={PATH.HOME}/>}/>
-                <Route path={PATH.HOME} render={() => <Home/>}/>
+                <Route path={"/"} exact render={() => <Redirect to={PATH.PROFILE}/>}/>
                 <Route path={PATH.TEST} render={() => <Test/>}/>
                 <Route path={PATH.LOGIN} render={() => <Login/>}/>
                 <Route path={PATH.REGISTER} render={() => <Register/>}/>
