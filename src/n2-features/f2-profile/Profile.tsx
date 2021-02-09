@@ -9,20 +9,24 @@ import {AppInitialStateType} from "../../n1-main/m2-bll/app-reduser";
 
 export const Profile = () => {
     const dispatch = useDispatch()
-    useEffect(() => {
-        dispatch(getMe())
-    },[])
-    const isLoggedIn  = useSelector<AppRootStateType, boolean>(state => state.app.isLoggedIn)
-    const userData  = useSelector<AppRootStateType,AppInitialStateType >(state => state.app)
-    if (!isLoggedIn) {
 
-        return <Redirect  to = {PATH.LOGIN}/>
+    const isLoggedIn = useSelector<AppRootStateType, boolean>(state => state.app.isLoggedIn)
+    const userData = useSelector<AppRootStateType, AppInitialStateType>(state => state.app)
+    useEffect(() => {
+        if(!isLoggedIn) {
+            dispatch(getMe())
+        }
+    }, [isLoggedIn])
+
+    if (!isLoggedIn) {
+        return <Redirect to={PATH.LOGIN}/>
 
     }
 
     return (
 
         <div className="App">
+            PROFILE
             <div>{`User Name : ${userData.name}`}</div>
             <div>{`User email : ${userData.email}`}</div>
             <div>{`User id : ${userData._id}`}</div>

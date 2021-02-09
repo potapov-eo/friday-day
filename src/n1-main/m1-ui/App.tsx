@@ -19,11 +19,8 @@ function App() {
 
     return (
         <div>
-
             <HashRouter>
-
                 <Header/>
-
                 {status === 'loading' && <Preloader/>}
                 <Routes/>
                 {error && <ErrorSnackBar errorMessage={error}/>}

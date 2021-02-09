@@ -7,7 +7,7 @@ import {Redirect} from 'react-router-dom';
 import {useFormik} from 'formik';
 import {AppRootStateType} from '../../../../src/n1-main/m2-bll/store'
 import {PATH} from "../../../n1-main/m1-ui/routes/Routes";
-import {RequestStatusType} from "../../../n1-main/m2-bll/app-reduser";
+import {RequestStatusType, setAppErrorAC} from "../../../n1-main/m2-bll/app-reduser";
 
 
 export const Login = () => {
@@ -16,6 +16,7 @@ export const Login = () => {
     const dispatch = useDispatch()
 
     const disable = status === 'loading'
+
     const formik = useFormik({
         initialValues: {
             email: "nya-admin@nya.nya",
@@ -42,8 +43,9 @@ export const Login = () => {
     })
 
     if (isLoggedIn) {
+        dispatch(setAppErrorAC("you are already logged in"))
         return <Redirect to={PATH.PROFILE}/>
-    }
+           }
 
     return (
         <div className="App">

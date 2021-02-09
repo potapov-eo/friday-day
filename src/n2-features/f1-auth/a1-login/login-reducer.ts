@@ -19,11 +19,11 @@ export const loginReducer = (state = initialState, action: ActionsType): Initial
 
 //AC
 export const setUserData = (_id: string | null, email: string | null, name: string | null, avatar: string | null, publicCardPacksCount: number | null,
-                            created: Date | null, updated: Date | null, isAdmin: boolean, verified: boolean, rememberMe: boolean, error: string | null) =>
+                            created: Date | null, updated: Date | null, isAdmin: boolean, verified: boolean) =>
     ({
         type: SET_USER_DATA, data: {
             _id, email, name, avatar, publicCardPacksCount, created, updated, isAdmin, verified,
-            rememberMe, error
+
         }
     } as const)
 
@@ -38,15 +38,17 @@ export const getMe = () => async (dispatch: Dispatch) => {
 
         let {
             _id, email, name, avatar, publicCardPacksCount, created, updated, isAdmin, verified,
-            rememberMe, error
+            rememberMe
         } = response.data
-        dispatch(setUserData(_id, email, name, avatar, publicCardPacksCount, created, updated, true, verified,
-            rememberMe, error))
+        dispatch(setUserData(_id, email, name, avatar, publicCardPacksCount, created, updated, isAdmin, verified,
+           ))
         dispatch(setAppStatusAC('succeeded'))
         dispatch(setIsLoggedIn(true))
-        dispatch(setAppErrorAC(null))
+
+
 
     } catch (e) {
+        dispatch(setAppStatusAC('failed'))
         const error = e.response
             ? e.response.data.error
             : (e.message + ', more details in the console')
@@ -54,11 +56,16 @@ export const getMe = () => async (dispatch: Dispatch) => {
     }
 }
 
-export const login = (email: string, password: string, rememberMe: boolean) =>
+export const login = (mail: string, password: string, rememberMe: boolean) =>
     async (dispatch: any) => {
         try {
             dispatch(setAppStatusAC('loading'))
-            await AuthAPI.login(email, password, rememberMe)
+            let response=  await AuthAPI.login(mail, password, rememberMe)
+            let {
+                _id, email, name, avatar, publicCardPacksCount, created, updated, isAdmin, verified
+            } = response.data
+            dispatch(setUserData(_id, email, name, avatar, publicCardPacksCount, created, updated, isAdmin, verified,
+                ))
             dispatch(setIsLoggedIn(true))
             dispatch(setAppStatusAC('succeeded'))
             dispatch(setAppErrorAC(null))
@@ -79,7 +86,7 @@ export const logout = () =>
             await AuthAPI.logout()
             dispatch(setAppStatusAC('succeeded'))
             dispatch(setIsLoggedIn(false))
-            dispatch(setUserData(null, null, null, null, null, null, null, false, false, false, null))
+            dispatch(setUserData(null, null, null, null, null, null, null, false, false,  ))
             dispatch(setAppErrorAC(null))
         } catch (e) {
             const error = e.response

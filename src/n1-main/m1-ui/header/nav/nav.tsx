@@ -8,9 +8,7 @@ export const Nav = () => {
 
         <div className={s.nav}>
 
-                <span>
-                    <NavLink to={PATH.HOME} activeClassName={s.activeLink}>HOME</NavLink>
-                </span>
+
             <span>
                     <NavLink to={PATH.TEST} activeClassName={s.activeLink}>TEST</NavLink>
                 </span>

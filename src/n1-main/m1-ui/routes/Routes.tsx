@@ -25,8 +25,7 @@ export const Routes = () => {
 
             <Switch>
 
-                <Route path={"/"} exact render={() => <Redirect to={PATH.HOME}/>}/>
-                <Route path={PATH.HOME} render={() => <Home/>}/>
+                <Route path={"/"} exact render={() => <Redirect to={PATH.PROFILE}/>}/>
                 <Route path={PATH.TEST} render={() => <Test/>}/>
                 <Route path={PATH.LOGIN} render={() => <Login/>}/>
                 <Route path={PATH.REGISTER} render={() => <Register/>}/>
