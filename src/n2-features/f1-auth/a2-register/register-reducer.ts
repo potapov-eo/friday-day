@@ -1,4 +1,3 @@
-import React from 'react'
 import {RegisterAPI} from "../../../n1-main/m3-dal/instance";
 import {Dispatch} from "redux";
 import {
