@@ -5,8 +5,8 @@ import {Test} from "../../../n2-features/f0-test/test";
 import {Login} from "../../../n2-features/f1-auth/a1-login/LoginFormik";
 import {Register} from "../../../n2-features/f1-auth/a2-register/Register";
 import {RecoveryPassword} from "../../../n2-features/f1-auth/a3-recoveryPassword/RecoveryPassword";
-import {NewPassword} from "../../../n2-features/f1-auth/a4-newPassword/NewPassword";
 import {Profile} from "../../../n2-features/f2-profile/Profile";
+import {NewPassword} from "../../../n2-features/f1-auth/a4-newPassword/NewPassword";
 
 export const PATH = {
     HOME: "/home",
@@ -29,10 +29,10 @@ export const Routes = () => {
                 <Route path={PATH.LOGIN} render={() => <Login/>}/>
                 <Route path={PATH.REGISTER} render={() => <Register/>}/>
                 <Route path={PATH.RECOVERY_PASSWORD} render={() => <RecoveryPassword/>}/>
-                <Route path={PATH.NEW_PASSWORD} render={() => <NewPassword/>}/>
+                <Route path={`${PATH.NEW_PASSWORD}/:token`} render={() => <NewPassword/> }/>
+                <Route path={PATH.NEW_PASSWORD} exact render={ () => <RecoveryPassword/>}/>
                 <Route path={PATH.PROFILE} render={() => <Profile/>}/>
                 <Route render={() => <Error404/>}/>
-
 
             </Switch>
         </div>

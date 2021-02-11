@@ -38,8 +38,6 @@ export const RegisterTC = (data: RegisterParamsType) => async (dispatch: Dispatc
             : (e.message + ', more details in the console')
 
         dispatch(setAppErrorAC(error))
-
-
     }
 
 }
