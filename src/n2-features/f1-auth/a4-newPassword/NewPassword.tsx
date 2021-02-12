@@ -3,18 +3,15 @@ import {useFormik} from "formik";
 import {useDispatch, useSelector} from "react-redux";
 import {Redirect, useParams} from "react-router-dom";
 import {AppRootStateType} from "../../../n1-main/m2-bll/store";
-import {RequestStatusType, setAppErrorAC} from "../../../n1-main/m2-bll/app-reduser";
+import {RequestStatusType} from "../../../n1-main/m2-bll/app-reduser";
 import SuperButton from "../../../n1-main/m1-ui/common/SuperButton/SuperButton";
 import SuperInput from "../../../n1-main/m1-ui/common/SuperInput/SuperInput";
-import {newPasswordReducer, setPasswordTC} from "./newPassword-reducer";
+import {setPasswordTC} from "./newPassword-reducer";
 import {PATH} from "../../../n1-main/m1-ui/routes/Routes";
 
 export const NewPassword = () => {
     const dispatch = useDispatch()
     const status = useSelector<AppRootStateType, RequestStatusType>(state => state.app.status)
-    const registeredEmail = useSelector<AppRootStateType, boolean>(state => state.recoveryPassword.registeredEmail)
-    // const isLoggedIn = useSelector<AppRootStateType, boolean>(state => state.app.isLoggedIn)
-    // const isRegister = useSelector<AppRootStateType, boolean>(state => state.register.isRegister)
     const newPassword = useSelector<AppRootStateType, string>(state => state.newPassword.newPassword)
     type FormikErrorType = {
         password?: string
@@ -22,7 +19,9 @@ export const NewPassword = () => {
     }
 
 
+
     let {token}: any = useParams()
+    console.log(token)
 
     const disable = status === 'loading'
 
@@ -45,24 +44,13 @@ export const NewPassword = () => {
         },
 
         onSubmit: values => {
-
             dispatch(setPasswordTC({password: values.password, resetPasswordToken: values.resetPasswordToken}))
             formik.resetForm()
         },
     })
-    if(newPassword){
+    if (newPassword) {
         return <Redirect to={PATH.LOGIN}/>
     }
-
-
-    /* if (isLoggedIn) {
-         dispatch(setAppErrorAC("you are already logged in"))
-         return <Redirect to={PATH.PROFILE}/>
-     }
-     if (isRegister) {
-
-         return <Redirect to={PATH.LOGIN}/>
-     }*/
 
     return <div className="App">
         <form onSubmit={formik.handleSubmit}>
