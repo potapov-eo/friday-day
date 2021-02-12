@@ -1,7 +1,7 @@
 import React from 'react'
 import {useFormik} from "formik";
 import {useDispatch, useSelector} from "react-redux";
-import { useParams} from "react-router-dom";
+import {useParams} from "react-router-dom";
 import {AppRootStateType} from "../../../n1-main/m2-bll/store";
 import SuperButton from "../../../n1-main/m1-ui/common/SuperButton/SuperButton";
 import SuperInput from "../../../n1-main/m1-ui/common/SuperInput/SuperInput";
@@ -13,6 +13,10 @@ export const RecoveryPassword = () => {
     const status = useSelector<AppRootStateType, RequestStatusType>(state => state.app.status)
     const registeredEmail = useSelector<AppRootStateType, boolean>(state => state.recoveryPassword.registeredEmail)
 
+    const from = "test-front-admin <ai73a@yandex.by>"
+    const message = "<div>password recovery link:<a href='http://localhost:3000/#/new-password/$token$'>link</a></div>"
+
+
     type FormikErrorType = {
         email?: string
         from?: string
@@ -22,9 +26,7 @@ export const RecoveryPassword = () => {
 
     const formik = useFormik({
         initialValues: {
-            email: '',
-            from: "test-front-admin <ai73a@yandex.by>",
-            message: "<div>password recovery link:<a href='http://localhost:3000/#/new-password/$token$'>link</a></div>"
+            email: ''
         },
         validate: (values) => {
             const errors: FormikErrorType = {};
@@ -37,12 +39,13 @@ export const RecoveryPassword = () => {
         },
 
         onSubmit: values => {
-            dispatch(verificationEmailTC({email: values.email, from: values.from, message: values.message}))
+
+            dispatch(verificationEmailTC({email: values.email, from, message}))
             formik.resetForm()
         },
     })
 
-    const{ token }: any = useParams()
+    const {token}: any = useParams()
 
     if (registeredEmail) {
         return (
