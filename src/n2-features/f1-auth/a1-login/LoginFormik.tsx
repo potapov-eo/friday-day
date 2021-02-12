@@ -49,7 +49,7 @@ export const Login = () => {
 
     return (
         <div className="App">
-            LOGIN
+            <h1>LOG IN</h1>
             <form onSubmit={formik.handleSubmit}>
                 <div><SuperInput name="email" onChange={formik.handleChange} onBlur={formik.handleBlur} type="text"
                                  value={formik.values.email} placeholder={"Email"}/></div>
@@ -61,7 +61,7 @@ export const Login = () => {
                     <div style={{color: "red"}}> {formik.errors.password} </div> : null}
                 <div><span>Remember me </span><SuperInput name="rememberMe" onChange={formik.handleChange}
                                                           checked={formik.values.rememberMe} type="checkbox"/></div>
-                <div><SuperButton disabled={disable} name="login"/></div>
+                <div><SuperButton disabled={disable} name="log in"/></div>
             </form>
         </div>
     )

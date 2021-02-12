@@ -63,7 +63,7 @@ export const Register = () => {
     return <div className="App">
 
         <form onSubmit={formik.handleSubmit}>
-            REGISTRATION
+           <h1>REGISTRATION</h1> 
             <div>
                 <SuperInput
                     placeholder={"email"}

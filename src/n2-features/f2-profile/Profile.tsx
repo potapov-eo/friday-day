@@ -5,6 +5,8 @@ import {AppRootStateType} from "../../n1-main/m2-bll/store";
 import {Redirect} from "react-router-dom";
 import {PATH} from "../../n1-main/m1-ui/routes/Routes";
 import {UserDataType} from "../../n1-main/m2-bll/app-reduser";
+import s from "./Profile.module.css";
+
 
 
 export const Profile = () => {
@@ -22,17 +24,20 @@ export const Profile = () => {
         return <Redirect to={PATH.LOGIN}/>
 
     }
-
+     const avatar = "https://www.gravatar.com/avatar/c37e0453882ec1e1d40bb4387e27b1dc?s=200&r=g&d=mm"
     return (
 
-        <div className="App">
-            PROFILE
-            <div>{`User Name : ${userData.name}`}</div>
-            <div>{`User email : ${userData.email}`}</div>
-            <div>{`User id : ${userData._id}`}</div>
-            <div>{`public Card Packs Count : ${userData.publicCardPacksCount}`}</div>
-            <div>{`avatar : ${userData.avatar}`}</div>
-
+        <div className={s.profile}>
+            <h1>PROFILE</h1>
+            <div className={s.profileContainer}>
+                <img className={s.avatar} src = {avatar}/>
+                {/* {userData.avatar} */}
+                <div className={s.info}>
+                    <div> Name: <span>{userData.name}</span></div>
+                    <div> Email: <span>{userData.email}</span></div>
+                    <div>Public Card Packs Count: <span>{userData.publicCardPacksCount}</span></div>
+                </div>
+            </div>
         </div>
     )
 }
