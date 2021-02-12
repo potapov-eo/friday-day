@@ -33,9 +33,9 @@ export const Profile = () => {
                 <img className={s.avatar} src = {avatar}/>
                 {/* {userData.avatar} */}
                 <div className={s.info}>
-                    <div> Name: <span>{userData.name}</span></div>
-                    <div> Email: <span>{userData.email}</span></div>
-                    <div>Public Card Packs Count: <span>{userData.publicCardPacksCount}</span></div>
+                    <div> Name: <span>{userData?userData.name:null}</span></div>
+                    <div> Email: <span>{userData?userData.email:null}</span></div>
+                    <div>Public Card Packs Count: <span>{userData?userData.publicCardPacksCount:null}</span></div>
                 </div>
             </div>
         </div>

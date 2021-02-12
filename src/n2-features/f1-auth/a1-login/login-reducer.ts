@@ -1,6 +1,6 @@
 import {Dispatch} from 'redux'
 import {AuthAPI} from '../../../n1-main/m3-dal/instance'
-import {setAppErrorAC, setAppStatusAC} from "../../../n1-main/m2-bll/app-reduser";
+import {setAppErrorAC, setAppStatusAC, UserDataType} from "../../../n1-main/m2-bll/app-reduser";
 
 const SET_USER_DATA = 'SET_USER_DATA'
 const SET_ISLOGGEDIN = 'SET_ISLOGGEDIN'
@@ -17,13 +17,9 @@ export const loginReducer = (state = initialState, action: ActionsType): Initial
 }
 
 //AC
-export const setUserData = (_id: string | null, email: string | null, name: string | null, avatar: string | null, publicCardPacksCount: number | null,
-                            created: Date | null, updated: Date | null, isAdmin: boolean, verified: boolean, rememberMe: false,) =>
+export const setUserData = (userData:UserDataType) =>
     ({
-        type: SET_USER_DATA, data: {
-            _id, email, name, avatar, publicCardPacksCount, created, updated, isAdmin, verified, rememberMe
-
-        }
+        type: SET_USER_DATA, userData
     } as const)
 
 export const setIsLoggedIn = (value: boolean) => ({type: SET_ISLOGGEDIN, value} as const)
@@ -35,12 +31,8 @@ export const getMe = () => async (dispatch: Dispatch) => {
         dispatch(setAppStatusAC('loading'))
         let response = await AuthAPI.getAuthMe()
 
-        let {
-            _id, email, name, avatar, publicCardPacksCount, created, updated, isAdmin, verified,
-            rememberMe
-        } = response.data
-        dispatch(setUserData(_id, email, name, avatar, publicCardPacksCount, created, updated, isAdmin, verified, rememberMe
-        ))
+        let userData = response.data
+        dispatch(setUserData(userData))
         dispatch(setAppStatusAC('succeeded'))
         dispatch(setIsLoggedIn(true))
 
@@ -59,11 +51,8 @@ export const login = (mail: string, password: string, remember_Me: boolean) =>
         try {
             dispatch(setAppStatusAC('loading'))
             let response = await AuthAPI.login(mail, password, remember_Me)
-            let {
-                _id, email, name, avatar, publicCardPacksCount, created, updated, isAdmin, verified, rememberMe
-            } = response.data
-            dispatch(setUserData(_id, email, name, avatar, publicCardPacksCount, created, updated, isAdmin, verified, rememberMe
-            ))
+            let userData = response.data
+            dispatch(setUserData(userData))
             dispatch(setIsLoggedIn(true))
             dispatch(setAppStatusAC('succeeded'))
             dispatch(setAppErrorAC(null))
@@ -84,7 +73,7 @@ export const logout = () =>
             await AuthAPI.logout()
             dispatch(setAppStatusAC('succeeded'))
             dispatch(setIsLoggedIn(false))
-            dispatch(setUserData(null, null, null, null, null, null, null, false, false, false))
+            dispatch(setUserData(null ))
             dispatch(setAppErrorAC(null))
         } catch (e) {
             const error = e.response
