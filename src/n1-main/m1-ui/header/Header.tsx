@@ -8,7 +8,7 @@ import {AppRootStateType} from "../../m2-bll/store";
 
 export const Header = () => {
     const dispatch = useDispatch()
-    const UserName = useSelector<AppRootStateType, string | null>(state => state.app.UserData.name)
+    const UserName = useSelector<AppRootStateType, string | null>(state =>state.app.UserData? state.app.UserData.name: null)
     const isLoggedIn = useSelector<AppRootStateType, boolean>(state => state.app.isLoggedIn)
 
     const logoutOnClick = () => {

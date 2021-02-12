@@ -27,11 +27,11 @@ export const Profile = () => {
 
         <div className="App">
             PROFILE
-            <div>{`User Name : ${userData.name}`}</div>
-            <div>{`User email : ${userData.email}`}</div>
-            <div>{`User id : ${userData._id}`}</div>
-            <div>{`public Card Packs Count : ${userData.publicCardPacksCount}`}</div>
-            <div>{`avatar : ${userData.avatar}`}</div>
+            <div>{`User Name : ${userData?userData.name:null}`}</div>
+            <div>{`User email : ${userData?userData.email:null}`}</div>
+            <div>{`User id : ${userData?userData._id:null}`}</div>
+            <div>{`public Card Packs Count : ${userData?userData.publicCardPacksCount:null}`}</div>
+            <div>{`avatar : ${userData?userData.avatar:null}`}</div>
 
         </div>
     )

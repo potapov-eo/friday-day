@@ -13,7 +13,7 @@ export type UserDataType = {
     isAdmin: boolean,
     verified: boolean, // подтвердил ли почту
     rememberMe: boolean,
-}
+} | null
 export type AppInitialStateType = {
     error: string | null
     status: RequestStatusType
@@ -47,7 +47,7 @@ export const appReducer = (state: AppInitialStateType = initialState, action: Ac
         case 'APP/SET-ERROR':
             return {...(state), error: action.error}
         case "SET_USER_DATA":
-            return {...state,UserData:action.data}
+            return {...state,UserData:action.userData}
         case "SET_ISLOGGEDIN":
             return {...state, isLoggedIn: action.value}
 
