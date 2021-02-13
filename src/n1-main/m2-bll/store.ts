@@ -4,6 +4,7 @@ import {loginReducer} from "../../n2-features/f1-auth/a1-login/login-reducer";
 import {registerReducer} from "../../n2-features/f1-auth/a2-register/register-reducer";
 import {recoveryPasswordReducer} from "../../n2-features/f1-auth/a3-recoveryPassword/recoveryPassword-reducer";
 import {newPasswordReducer} from "../../n2-features/f1-auth/a4-newPassword/newPassword-reducer";
+import { cardsReducer } from '../../n2-features/f5-cards/cards-reduser';
 import {appReducer} from "./app-reduser";
 
 
@@ -12,7 +13,8 @@ const rootReducer = combineReducers({
     register:registerReducer,
     recoveryPassword:recoveryPasswordReducer,
     newPassword:newPasswordReducer,
-    app:appReducer
+    app:appReducer,
+    cards:cardsReducer
 
 })
 
