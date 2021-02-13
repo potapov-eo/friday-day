@@ -1,6 +1,6 @@
 import {Dispatch} from 'redux'
 import {AuthAPI} from '../../../n1-main/m3-dal/instance'
-import {setAppErrorAC, setAppStatusAC, UserDataType} from "../../../n1-main/m2-bll/app-reduser";
+import {receivedResponseAC, setAppErrorAC, setAppStatusAC, UserDataType} from "../../../n1-main/m2-bll/app-reduser";
 
 const SET_USER_DATA = 'SET_USER_DATA'
 const SET_ISLOGGEDIN = 'SET_ISLOGGEDIN'
@@ -17,7 +17,7 @@ export const loginReducer = (state = initialState, action: ActionsType): Initial
 }
 
 //AC
-export const setUserData = (userData:UserDataType) =>
+export const setUserData = (userData: UserDataType) =>
     ({
         type: SET_USER_DATA, userData
     } as const)
@@ -30,12 +30,8 @@ export const getMe = () => async (dispatch: Dispatch) => {
     try {
         dispatch(setAppStatusAC('loading'))
         let response = await AuthAPI.getAuthMe()
-
         let userData = response.data
-        dispatch(setUserData(userData))
-        dispatch(setAppStatusAC('succeeded'))
-        dispatch(setIsLoggedIn(true))
-
+        dispatch(receivedResponseAC(userData, 'succeeded', null, true))
 
     } catch (e) {
         dispatch(setAppStatusAC('failed'))
@@ -52,10 +48,7 @@ export const login = (mail: string, password: string, remember_Me: boolean) =>
             dispatch(setAppStatusAC('loading'))
             let response = await AuthAPI.login(mail, password, remember_Me)
             let userData = response.data
-            dispatch(setUserData(userData))
-            dispatch(setIsLoggedIn(true))
-            dispatch(setAppStatusAC('succeeded'))
-            dispatch(setAppErrorAC(null))
+            dispatch(receivedResponseAC(userData, 'succeeded', null, true))
 
         } catch (e) {
             dispatch(setAppStatusAC('failed'))
@@ -71,10 +64,8 @@ export const logout = () =>
         try {
             dispatch(setAppStatusAC('loading'))
             await AuthAPI.logout()
-            dispatch(setAppStatusAC('succeeded'))
-            dispatch(setIsLoggedIn(false))
-            dispatch(setUserData(null ))
-            dispatch(setAppErrorAC(null))
+            dispatch(receivedResponseAC(null, 'succeeded', null, false))
+
         } catch (e) {
             const error = e.response
                 ? e.response.data.error

@@ -43,13 +43,16 @@ const initialState: AppInitialStateType = {
 export const appReducer = (state: AppInitialStateType = initialState, action: ActionsType): AppInitialStateType => {
     switch (action.type) {
         case 'APP/SET-STATUS':
-            return {...(state), status: action.status}
+            return {...state, status: action.status}
         case 'APP/SET-ERROR':
-            return {...(state), error: action.error}
+            return {...state, error: action.error}
         case "SET_USER_DATA":
             return {...state,UserData:action.userData}
         case "SET_ISLOGGEDIN":
             return {...state, isLoggedIn: action.value}
+        case "SET-RECEIVED-RESPONSE":
+            return {...state,status: action.status, error: action.error,UserData:action.userData, isLoggedIn: action.value}
+
 
         default:
             return state
@@ -59,13 +62,21 @@ export const setAppStatusAC = (status: RequestStatusType) =>
     ({type: 'APP/SET-STATUS', status} as const)
 export const setAppErrorAC = (error: string | null) =>
     ({type: 'APP/SET-ERROR', error} as const)
+export const receivedResponseAC=(userData:UserDataType,status: RequestStatusType,error: string | null,value: boolean)=>
+    ({type: 'SET-RECEIVED-RESPONSE', userData,status,error,value} as const)
+
 
 
 export type setAppStatusACType = ReturnType<typeof setAppStatusAC>
 export type setAppErrorACType = ReturnType<typeof setAppErrorAC>
+export type receivedResponseACType = ReturnType<typeof receivedResponseAC>
 
 type ActionsType =
     setAppStatusACType
     | setAppErrorACType
     | ReturnType<typeof setUserData>
     | ReturnType<typeof setIsLoggedIn>
+    |receivedResponseACType
+
+
+

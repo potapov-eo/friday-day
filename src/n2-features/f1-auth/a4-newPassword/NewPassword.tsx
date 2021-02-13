@@ -20,7 +20,7 @@ export const NewPassword = () => {
 
 
 
-    let {token}: any = useParams()
+    let {token} = useParams<{token:string}>()
     console.log(token)
 
     const disable = status === 'loading'

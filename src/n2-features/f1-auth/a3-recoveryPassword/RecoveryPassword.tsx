@@ -7,6 +7,7 @@ import SuperButton from "../../../n1-main/m1-ui/common/SuperButton/SuperButton";
 import SuperInput from "../../../n1-main/m1-ui/common/SuperInput/SuperInput";
 import {verificationEmailTC} from "./recoveryPassword-reducer";
 import {RequestStatusType} from "../../../n1-main/m2-bll/app-reduser";
+import {DEV_VERSION} from "../../../config";
 
 export const RecoveryPassword = () => {
     const dispatch = useDispatch()
@@ -14,7 +15,11 @@ export const RecoveryPassword = () => {
     const registeredEmail = useSelector<AppRootStateType, boolean>(state => state.recoveryPassword.registeredEmail)
 
     const from = "test-front-admin <ai73a@yandex.by>"
-    const message = "<div>password recovery link:<a href='http://localhost:3000/#/new-password/$token$'>link</a></div>"
+    const message = !DEV_VERSION
+        ?"<div>password recovery link:<a" +
+        " href='http://localhost:3000/#/new-password/$token$'>link</a></div>"
+        :"<div>password recovery link:<a" +
+        " href='https://potapov-eo.github.io/friday-day/#/new-password/$token$'>link</a></div>"
 
 
     type FormikErrorType = {
@@ -45,7 +50,7 @@ export const RecoveryPassword = () => {
         },
     })
 
-    const {token}: any = useParams()
+    const {token} = useParams<{token:string}>()
 
     if (registeredEmail) {
         return (

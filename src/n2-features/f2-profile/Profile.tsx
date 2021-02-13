@@ -8,14 +8,13 @@ import {UserDataType} from "../../n1-main/m2-bll/app-reduser";
 import s from "./Profile.module.css";
 
 
-
 export const Profile = () => {
     const dispatch = useDispatch()
 
     const isLoggedIn = useSelector<AppRootStateType, boolean>(state => state.app.isLoggedIn)
     const userData = useSelector<AppRootStateType, UserDataType>(state => state.app.UserData)
     useEffect(() => {
-        if (!isLoggedIn) {
+        if (isLoggedIn) {
             dispatch(getMe())
         }
     }, [isLoggedIn])
