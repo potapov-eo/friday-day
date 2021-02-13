@@ -10,23 +10,26 @@ export const Nav = () => {
 
 
             <span>
-                    <NavLink to={PATH.TEST} activeClassName={s.activeLink}>TEST</NavLink>
-                </span>
+                <NavLink to={PATH.TEST} activeClassName={s.activeLink}>TEST</NavLink>
+            </span>
             <span>
-                    <NavLink to={PATH.LOGIN} activeClassName={s.activeLink}>LOGIN</NavLink>
-                </span>
+                <NavLink to={PATH.LOGIN} activeClassName={s.activeLink}>LOGIN</NavLink>
+            </span>
             <span>
-                    <NavLink to={PATH.REGISTER} activeClassName={s.activeLink}>REGISTER</NavLink>
-                </span>
+                <NavLink to={PATH.REGISTER} activeClassName={s.activeLink}>REGISTER</NavLink>
+            </span>
             <span>
-                    <NavLink to={PATH.RECOVERY_PASSWORD} activeClassName={s.activeLink}>RECOVERY_PASSWORD</NavLink>
-                </span>
+                <NavLink to={PATH.RECOVERY_PASSWORD} activeClassName={s.activeLink}>RECOVERY_PASSWORD</NavLink>
+            </span>
             <span>
-                    <NavLink to={PATH.NEW_PASSWORD} activeClassName={s.activeLink}>NEW_PASSWORD</NavLink>
-                </span>
+                <NavLink to={PATH.NEW_PASSWORD} activeClassName={s.activeLink}>NEW_PASSWORD</NavLink>
+            </span>
             <span>
-                    <NavLink to={PATH.PROFILE} activeClassName={s.activeLink}>PROFILE</NavLink>
-                </span>
+                <NavLink to={PATH.PROFILE} activeClassName={s.activeLink}>PROFILE</NavLink>
+            </span>
+            <span>
+                <NavLink to={PATH.CARDS} activeClassName={s.activeLink}>CARDS</NavLink>
+            </span>
         </div>
 
 

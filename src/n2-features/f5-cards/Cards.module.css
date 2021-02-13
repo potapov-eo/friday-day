@@ -1,0 +1,13 @@
+.table {
+    text-align: center;
+  height: 100vh;
+}
+.tableString {
+    display: flex;
+    align-items: center;
+    }
+.tableString>div{
+    height: 50px;
+    width: 150px;
+    border-bottom: 2px solid #404040;
+    }
