@@ -3,6 +3,7 @@ import {DEV_VERSION} from "../../config";
 import {RegisterParamsType} from "../../n2-features/f1-auth/a2-register/register-reducer";
 import {registeredEmailType} from "../../n2-features/f1-auth/a3-recoveryPassword/recoveryPassword-reducer";
 import {SetPasswordType} from "../../n2-features/f1-auth/a4-newPassword/newPassword-reducer";
+import {PackType} from "../../n2-features/f5-cards/cards-reduser"
 
 export const baseURL = !DEV_VERSION
     ? "http://localhost:7542/2.0"
@@ -34,5 +35,20 @@ export const recoveryPasswordAPI = {
     },
     setPassword(data: SetPasswordType) {
         return instance.post('/auth/set-new-password', data)
+    }
+}
+
+export const CardsAPI = {
+    getCardPacks() {
+        return instance.get(`cards/pack`)
+    },
+    createCardsPack(cardsPack:PackType) {
+        return instance.post(`cards/pack`, cardsPack)
+    },
+    daluteCardsPack(idCarsPack: string) {
+        return instance.delete(`cards/pack/${idCarsPack}`)
+    },
+    updateCardsPack(cardsPack:PackType,idCarsPack: string ) {
+        return instance.put(`cards/pack/${idCarsPack}`, cardsPack)
     }
 }

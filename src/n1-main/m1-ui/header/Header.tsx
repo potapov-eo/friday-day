@@ -1,4 +1,4 @@
-import React from 'react'
+import React, {useState} from 'react'
 import s from "./Header.module.css"
 import {Nav} from "./nav/nav";
 import SuperButton from '../../../n1-main/m1-ui/common/SuperButton/SuperButton';
@@ -22,11 +22,11 @@ export const Header = () => {
     return (
         <div className={s.header}>
             <FontAwesomeIcon icon={faDAndD} size="4x" /> 
-             <Nav/>
+             <Nav/>           
 
            
            <div className={s.burger}>
-                <a href="" className={s.a} onClick={()=>{alert("menu open")}}>
+                <a href="" className={s.a}>
                     <span className={s.burgerToggle}>
                         <span className={s.nk1}></span>
                         <span className={s.nk2}></span>
