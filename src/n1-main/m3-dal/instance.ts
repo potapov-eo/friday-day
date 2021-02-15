@@ -45,20 +45,21 @@ export const CardsAPI = {
     },
 
     createCardsPack() {
-        return instance.post(`cards/pack`,{ params: { name: "myName" } })
+        return instance.post(`cards/pack`,{  name: "myName"  })
     },
-    daluteCardsPack(idCarsPack: string) {
+    deleteCardsPack(idCarsPack: string) {
         return instance.delete(`cards/pack/${idCarsPack}`)
     },
-    updateCardsPack(cardsPack:PackType,idCarsPack: string ) {
-        return instance.put(`cards/pack/${idCarsPack}`, cardsPack)
+    updateCardsPack(cardsPack:cardsPackType ) {
+        return instance.put(`cards/pack/`, cardsPack)
     },
    getCards(packId:string) {
         return instance.get(`cards/card/?cardsPack_id=${packId}`)
     }
 }
-export type CreatePackType = {
-
+export type cardsPackType = {
+    _id:string
+    name?:string
 }
 
 export type getCardPacksDataType={

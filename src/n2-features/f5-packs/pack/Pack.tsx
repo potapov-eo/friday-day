@@ -15,14 +15,14 @@ type packPropsType ={
 }
 export const Pack = (props:packPropsType) => {
     const registerUserId = useSelector<AppRootStateType, string>(state => state.app.UserData?state.app.UserData._id:"")
-    const myPack =( props.userId === registerUserId)
+    const isMyPack =( props.userId === registerUserId)
     return (
 
         <div className={s.tableString} key={props.pack_id}>
             <div>{props.name}</div>
             <div>{props.cardsCount}</div>
             <div>{props.updated}</div>
-            <div><SuperButton disabled={myPack} name={"del"}/></div><div><SuperButton name={"update"}/></div>
+            <div><SuperButton disabled={isMyPack} name={"del"}/></div><div><SuperButton name={"update"}/></div>
             <NavLink to={`${PATH.CARDS}/${props.pack_id}`} activeClassName={s.activeLink}>CARDS</NavLink>
         </div>
 

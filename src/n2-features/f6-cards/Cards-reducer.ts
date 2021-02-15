@@ -1,6 +1,7 @@
 import {CardsAPI} from "../../n1-main/m3-dal/instance";
 import {Dispatch} from "redux";
 import {setAppErrorAC, setAppStatusAC} from "../../n1-main/m2-bll/app-reduser";
+import {AxiosResponse} from "axios";
 
 type InitialStateType = {
 cards:Array<CardType>
@@ -25,7 +26,7 @@ export const getCardTC = (packId:string) =>
     async (dispatch: Dispatch) => {
         try {
             dispatch(setAppStatusAC('loading'))
-            const response = <any> await  CardsAPI.getCards(packId)
+            const response = <AxiosResponse<GetCardsResponseType>> await  CardsAPI.getCards(packId)
             const cards = response.data.cards
             dispatch(setCardAC(cards))
             dispatch(setAppStatusAC('succeeded'))

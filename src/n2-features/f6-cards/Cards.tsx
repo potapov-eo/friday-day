@@ -7,14 +7,21 @@ import {PATH} from "../../n1-main/m1-ui/routes/Routes";
 import s from "../f5-packs/Packs.module.css";
 import {CardType, getCardTC} from "./Cards-reducer";
 import {Card} from "./card/Card";
+import {PackType} from "../f5-packs/Packs-reduser";
 
 export const Cards = () => {
     const dispatch = useDispatch()
+    const {token} = useParams<{ token: string }>()
+    const registerUserId = useSelector<AppRootStateType, string>(state => state.app.UserData ? state.app.UserData._id : "")
     const isLoggedIn = useSelector<AppRootStateType, boolean>(state => state.app.isLoggedIn)
     const cards = useSelector<AppRootStateType, Array<CardType>>(state => state.cards.cards)
-    const {token} = useParams<{ token: string }>()
+    const packs = useSelector<AppRootStateType, Array<PackType>>(state => state.packs.cardPacks)
+    const pack= packs.find(p=>p._id===token)
+    const createdUserId =pack? pack.user_id:""
+    const isMyPack =( createdUserId === registerUserId)
+
     useEffect(() => {
-        if (token ) {
+        if (token) {
             dispatch(getCardTC(token))
         }
     }, [])
@@ -29,15 +36,18 @@ export const Cards = () => {
             <h1>Cards</h1>
 
             <div className={s.tableString}>
-                <div>type</div>
                 <div>question</div>
-                <div>rating</div>
+                <div>answer</div>
+                <div>grade</div>
+                <div>updated</div>
+                <div></div>
+                <div><button disabled={isMyPack}>add</button></div>
+
 
             </div>
 
             {cards.map(card =>
-                <Card _id={card._id} user_id={card.user_id} type={card.type} question={card.question}
-                      rating={card.rating}/>
+                <Card card={card}/>
             )}
         </div>
     )
