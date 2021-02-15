@@ -4,7 +4,7 @@ import {getMe} from "../f1-auth/a1-login/login-reducer";
 import {AppRootStateType} from "../../n1-main/m2-bll/store";
 import {Redirect} from "react-router-dom";
 import {PATH} from "../../n1-main/m1-ui/routes/Routes";
-import {UserDataType} from "../../n1-main/m2-bll/app-reduser";
+import {setAppErrorAC, UserDataType} from "../../n1-main/m2-bll/app-reduser";
 import s from "./Profile.module.css";
 
 
@@ -20,6 +20,7 @@ export const Profile = () => {
     }, [isLoggedIn])
 
     if (!isLoggedIn) {
+        dispatch(setAppErrorAC("you are not authorized"))
         return <Redirect to={PATH.LOGIN}/>
 
     }

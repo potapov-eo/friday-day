@@ -7,7 +7,9 @@ import {Register} from "../../../n2-features/f1-auth/a2-register/Register";
 import {RecoveryPassword} from "../../../n2-features/f1-auth/a3-recoveryPassword/RecoveryPassword";
 import {Profile} from "../../../n2-features/f2-profile/Profile";
 import {NewPassword} from "../../../n2-features/f1-auth/a4-newPassword/NewPassword";
-import {Cards} from "../../../n2-features/f5-cards/Cards";
+import { Packs } from '../../../n2-features/f5-packs/Packs';
+import {Cards} from "../../../n2-features/f6-cards/Cards";
+
 
 export const PATH = {
     HOME: "/home",
@@ -17,6 +19,7 @@ export const PATH = {
     RECOVERY_PASSWORD: "/recovery-password",
     NEW_PASSWORD: "/new-password",
     PROFILE: "/profile",
+    PACK: "/packs",
     CARDS: "/cards"
 }
 
@@ -34,6 +37,8 @@ export const Routes = () => {
                 <Route path={`${PATH.NEW_PASSWORD}/:token`} render={() => <NewPassword/> }/>
                 <Route path={PATH.NEW_PASSWORD} exact render={ () => <RecoveryPassword/>}/>
                 <Route path={PATH.PROFILE} render={() => <Profile/>}/>
+                <Route path={PATH.PACK} render={() => <Packs/>}/>
+                <Route path={`${PATH.CARDS}/:token`} render={() => <Cards/>}/>
                 <Route path={PATH.CARDS} render={() => <Cards/>}/>
                 <Route render={() => <Error404/>}/>
 

@@ -28,6 +28,9 @@ export const Nav = () => {
                 <NavLink to={PATH.PROFILE} activeClassName={s.activeLink}>PROFILE</NavLink>
             </span>
             <span>
+                <NavLink to={PATH.PACK} activeClassName={s.activeLink}>PACKS</NavLink>
+            </span>
+            <span>
                 <NavLink to={PATH.CARDS} activeClassName={s.activeLink}>CARDS</NavLink>
             </span>
         </div>

@@ -3,7 +3,8 @@ import {DEV_VERSION} from "../../config";
 import {RegisterParamsType} from "../../n2-features/f1-auth/a2-register/register-reducer";
 import {registeredEmailType} from "../../n2-features/f1-auth/a3-recoveryPassword/recoveryPassword-reducer";
 import {SetPasswordType} from "../../n2-features/f1-auth/a4-newPassword/newPassword-reducer";
-import {PackType} from "../../n2-features/f5-cards/cards-reduser"
+import {PackType} from "../../n2-features/f5-packs/Packs-reduser";
+
 
 export const baseURL = !DEV_VERSION
     ? "http://localhost:7542/2.0"
@@ -39,16 +40,32 @@ export const recoveryPasswordAPI = {
 }
 
 export const CardsAPI = {
-    getCardPacks() {
-        return instance.get(`cards/pack`)
+    getCardPacks(data:getCardPacksDataType) {
+        return instance.get(`cards/pack`,{ params: data })
     },
-    createCardsPack(cardsPack:PackType) {
-        return instance.post(`cards/pack`, cardsPack)
+
+    createCardsPack() {
+        return instance.post(`cards/pack`,{ params: { name: "myName" } })
     },
     daluteCardsPack(idCarsPack: string) {
         return instance.delete(`cards/pack/${idCarsPack}`)
     },
     updateCardsPack(cardsPack:PackType,idCarsPack: string ) {
         return instance.put(`cards/pack/${idCarsPack}`, cardsPack)
+    },
+   getCards(packId:string) {
+        return instance.get(`cards/card/?cardsPack_id=${packId}`)
     }
+}
+export type CreatePackType = {
+
+}
+
+export type getCardPacksDataType={
+    packName?:string
+    min?:number
+    max?:number
+    sortPacks?:string
+    page?:number
+    pageCount?:number
 }

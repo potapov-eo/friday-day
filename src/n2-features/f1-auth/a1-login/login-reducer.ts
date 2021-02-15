@@ -1,6 +1,11 @@
 import {Dispatch} from 'redux'
 import {AuthAPI} from '../../../n1-main/m3-dal/instance'
-import {receivedResponseAC, setAppErrorAC, setAppStatusAC, UserDataType} from "../../../n1-main/m2-bll/app-reduser";
+import {
+    receivedResponseAC,
+    setAppErrorAC,
+    setAppStatusAC,
+     UserDataType
+} from "../../../n1-main/m2-bll/app-reduser";
 
 const SET_USER_DATA = 'SET_USER_DATA'
 const SET_ISLOGGEDIN = 'SET_ISLOGGEDIN'

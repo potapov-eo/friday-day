@@ -3,7 +3,7 @@ import {setIsLoggedIn, setUserData} from "../../n2-features/f1-auth/a1-login/log
 export type RequestStatusType = 'idle' | 'loading' | 'succeeded' | 'failed'
 
 export type UserDataType = {
-    _id: string | null
+    _id: string
     email: string | null,
     name: string | null,
     avatar: string | null,
@@ -19,6 +19,7 @@ export type AppInitialStateType = {
     status: RequestStatusType
     UserData: UserDataType
     isLoggedIn: boolean
+    userId?:string
 
 
 }
@@ -26,7 +27,7 @@ const initialState: AppInitialStateType = {
     status: 'succeeded',
     error: null,
     UserData: {
-        _id: null as string | null,
+        _id:"",
         email: null as string | null,
         name: null as string | null,
         avatar: null as string | null,
@@ -38,6 +39,7 @@ const initialState: AppInitialStateType = {
         rememberMe: false,
     },
     isLoggedIn: false
+
 
 }
 export const appReducer = (state: AppInitialStateType = initialState, action: ActionsType): AppInitialStateType => {
@@ -67,9 +69,11 @@ export const receivedResponseAC=(userData:UserDataType,status: RequestStatusType
 
 
 
+
 export type setAppStatusACType = ReturnType<typeof setAppStatusAC>
 export type setAppErrorACType = ReturnType<typeof setAppErrorAC>
 export type receivedResponseACType = ReturnType<typeof receivedResponseAC>
+
 
 type ActionsType =
     setAppStatusACType
@@ -77,6 +81,7 @@ type ActionsType =
     | ReturnType<typeof setUserData>
     | ReturnType<typeof setIsLoggedIn>
     |receivedResponseACType
+
 
 
 

@@ -1,5 +1,6 @@
-import { CardsAPI } from '../../../src/n1-main/m3-dal/instance'
+import {CardsAPI, getCardPacksDataType} from '../../../src/n1-main/m3-dal/instance'
 import { Dispatch } from 'redux'
+import {setAppErrorAC, setAppStatusAC} from "../../n1-main/m2-bll/app-reduser";
 
 let initialState = {
     cardPacks: [] as Array<PackType>,
@@ -10,7 +11,7 @@ let initialState = {
     pageCount: 4
 }
 
-export const cardsReducer = (state: InitialStateType = initialState, action: ActionsType): InitialStateType => {
+export const packsReducer = (state: InitialStateType = initialState, action: ActionsType): InitialStateType => {
     switch (action.type) {
         case 'CARDS/SET-CARD-PACKS':
             return { ...state, cardPacks: action.cardPacks }
@@ -32,15 +33,47 @@ export const addPackAC = (pack: PackType) => ({ type: 'CARDS/ADD-PACK', pack} as
 export const updatePackAC = (packId: string, pack: PackType) => ({ type: 'CARDS/UPDATE-PACK', packId, pack} as const)
 
 //TC
-export const getCardPacksTC = () =>
+export const getCardPacksTC = (getData:getCardPacksDataType={}) =>
     async (dispatch: Dispatch) => {
         try {
-            const response: any = await CardsAPI.getCardPacks()
+            dispatch(setAppStatusAC('loading'))
+            const response = await CardsAPI.getCardPacks(getData)
             const cards = response.data.cardPacks
             dispatch(setCardPacksAC(cards))
-        } catch (error) {
+            dispatch(setAppStatusAC('succeeded'))
+            dispatch(setAppErrorAC(null))
+        } catch (e) {
+            dispatch(setAppStatusAC('failed'))
+            const error = e.response
+                ? e.response.data.error
+                : (e.message + ', more details in the console')
+
+            dispatch(setAppErrorAC(error))
         }
     }
+export const addCardPacksTC = (getData:getCardPacksDataType={}) =>
+    async (dispatch: Dispatch) => {
+        try {
+            dispatch(setAppStatusAC('loading'))
+            const createResponse = await CardsAPI.createCardsPack()
+            const getResponse = await CardsAPI.getCardPacks(getData)
+            const cards = getResponse.data.cardPacks
+            dispatch(setCardPacksAC(cards))
+            dispatch(setAppStatusAC('succeeded'))
+            dispatch(setAppErrorAC(null))
+        } catch (e) {
+            dispatch(setAppStatusAC('failed'))
+            const error = e.response
+                ? e.response.data.error
+                : (e.message + ', more details in the console')
+
+            dispatch(setAppErrorAC(error))
+        }
+    }
+
+
+
+
 //types
 type ActionsType = 
 | ReturnType<typeof setCardPacksAC>
@@ -49,8 +82,8 @@ type ActionsType =
 | ReturnType<typeof updatePackAC>
 
 export type PackType = {
-    _id?: string
-    user_id?: string
+    _id: string
+    user_id: string
     user_name?: string
     private?: boolean
     name: string

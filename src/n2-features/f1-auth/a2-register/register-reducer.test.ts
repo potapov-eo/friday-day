@@ -5,6 +5,7 @@ let startState: InitialStateType
 beforeEach(() => {
     startState = {
         isRegister: false
+
     }
 
 });
