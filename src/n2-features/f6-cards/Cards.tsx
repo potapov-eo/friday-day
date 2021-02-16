@@ -7,6 +7,7 @@ import {PATH} from "../../n1-main/m1-ui/routes/Routes";
 import s from "../f5-packs/Packs.module.css";
 import {addCardTC, CardType, getCardTC} from "./Cards-reducer";
 import {Card} from "./card/Card";
+import {PackType} from "../f5-packs/Packs-reduser";
 
 export const Cards = () => {
     const dispatch = useDispatch()
@@ -15,7 +16,9 @@ export const Cards = () => {
     const registerUserId = useSelector<AppRootStateType, string>(state => state.app.UserData ? state.app.UserData._id : "")
     const isLoggedIn = useSelector<AppRootStateType, boolean>(state => state.app.isLoggedIn)
     const cards = useSelector<AppRootStateType, Array<CardType>>(state => state.cards.cards)
-    const createdUserId = cards[0] ? cards[0].user_id : ""
+    const packs = useSelector<AppRootStateType, Array<PackType>>(state => state.packs.cardPacks)
+    const pack= packs.find(p=>p._id===token)
+    const createdUserId =pack? pack.user_id:registerUserId
     const isMyPack = (createdUserId === registerUserId) && !(status === 'loading')
 
     useEffect(() => {

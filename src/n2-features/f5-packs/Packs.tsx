@@ -19,7 +19,7 @@ export const Packs = () => {
     const [isChange, setIsChange] = useState<boolean>(false)
     const [idTimeout, setIdTimeout] = useState<number>(0)
     const [searchName, setSearchName] = useState<string>("")
-    const isLoading=status==='loading'
+    const isLoading = status === 'loading'
 
     const setChange = useCallback(() => {
         clearTimeout(idTimeout)
@@ -48,6 +48,9 @@ export const Packs = () => {
         if (x) {
             dispatch(setPaginationAC({user_id: userId}))
             dispatch(getCardPacksTC())
+        } else {
+            dispatch(setPaginationAC({user_id: ""}))
+            dispatch(getCardPacksTC())
         }
     }, [x])
 
@@ -67,7 +70,7 @@ export const Packs = () => {
         <div className={s.table}>
             <h1>Packs</h1>
             <div> my Pack <input type={"checkbox"} onChange={() => setX(!x)}/></div>
-            <div> Pack name search:  <input value={searchName} onChange={onChangeCallback}/></div>
+            <div> Pack name search: <input value={searchName} onChange={onChangeCallback}/></div>
             <div className={s.tableString}>
                 <div>Name</div>
                 <div>cardsCount</div>
