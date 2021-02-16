@@ -17,8 +17,7 @@ export const Cards = () => {
     const isLoggedIn = useSelector<AppRootStateType, boolean>(state => state.app.isLoggedIn)
     const cards = useSelector<AppRootStateType, Array<CardType>>(state => state.cards.cards)
     const packs = useSelector<AppRootStateType, Array<PackType>>(state => state.packs.cardPacks)
-    const pack= packs.find(p=>p._id===token)
-    const createdUserId =pack? pack.user_id:""
+    const createdUserId=cards[0]?cards[0].user_id:""
     const isMyPack =( createdUserId === registerUserId)&&!(status==='loading')
 
     useEffect(() => {
