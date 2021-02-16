@@ -3,7 +3,6 @@ import {DEV_VERSION} from "../../config";
 import {RegisterParamsType} from "../../n2-features/f1-auth/a2-register/register-reducer";
 import {registeredEmailType} from "../../n2-features/f1-auth/a3-recoveryPassword/recoveryPassword-reducer";
 import {SetPasswordType} from "../../n2-features/f1-auth/a4-newPassword/newPassword-reducer";
-import {PackType} from "../../n2-features/f5-packs/Packs-reduser";
 
 
 export const baseURL = !DEV_VERSION
@@ -14,7 +13,7 @@ export const instance = axios.create({baseURL, withCredentials: true,})
 
 export const AuthAPI = {
     getAuthMe() {
-        return instance.post(`auth/me`)
+        return instance.post(`auth/me`,)
     },
     login(email: string, password: string, rememberMe: boolean) {
         return instance.post(`auth/login`, {email, password, rememberMe})
@@ -40,22 +39,32 @@ export const recoveryPasswordAPI = {
 }
 
 export const CardsAPI = {
-    getCardPacks(data:getCardPacksDataType) {
-        return instance.get(`cards/pack`,{ params: data })
+    getCardPacks(paginationData:any) {
+        return instance.get(`cards/pack`,{ params:paginationData})
     },
 
     createCardsPack() {
-        return instance.post(`cards/pack`,{  name: "myName"  })
+        return instance.post(`cards/pack`, {cardsPack: {name: "new pack 3.3"}})
     },
     deleteCardsPack(idCarsPack: string) {
-        return instance.delete(`cards/pack/${idCarsPack}`)
+        return instance.delete(`cards/pack/?id=${idCarsPack}`)
     },
-    updateCardsPack(cardsPack:cardsPackType ) {
-        return instance.put(`cards/pack/`, cardsPack)
+    updateCardsPack(id:string ) {
+        return instance.put(`cards/pack/`, {cardsPack: {_id:id, name: "new Name 1.1"}})
     },
    getCards(packId:string) {
         return instance.get(`cards/card/?cardsPack_id=${packId}`)
-    }
+    },
+    createCard(cardsPack_id:string) {
+        return instance.post(`cards/card`, {card: {question: "question №1" ,cardsPack_id:cardsPack_id}})
+    },
+    deleteCard(idCarsPack:string) {
+        return instance.delete(`cards/card/?id=${idCarsPack}`)
+    },
+    updateCard(cardId:string) {
+        return instance.put(`cards/card`,{card: {_id:cardId,
+                question: "new question 1.1.1"}})
+    },
 }
 export type cardsPackType = {
     _id:string

@@ -1,17 +1,21 @@
 import React from 'react'
 import s from '../../f5-packs/Packs.module.css'
-import {useSelector} from "react-redux";
+import {useDispatch, useSelector} from "react-redux";
 import {AppRootStateType} from "../../../n1-main/m2-bll/store";
-import {CardType} from "../Cards-reducer";
+import {CardType, removeCardTC, updateCardTC} from "../Cards-reducer";
+import {RequestStatusType} from "../../../n1-main/m2-bll/app-reduser";
 
 type cardPropsType = {
     card: CardType
 }
 export const Card = (props: cardPropsType) => {
-    const  card = props.card
+    const card = props.card
+    const dispatch = useDispatch()
     const registerUserId = useSelector<AppRootStateType, string>(state => state.app.UserData ? state.app.UserData._id : "")
-    const isMyPack =( card.user_id === registerUserId)
-
+    const status = useSelector<AppRootStateType,RequestStatusType >(state => state.app.status)
+    const isMyPack = (card.user_id === registerUserId)&&(status==='loading')
+    const removeCard = () => dispatch(removeCardTC(card.cardsPack_id, card._id))
+    const updatedCard = () => dispatch(updateCardTC(card.cardsPack_id, card._id))
     return (
 
         <div className={s.tableString} key={card._id}>
@@ -19,10 +23,13 @@ export const Card = (props: cardPropsType) => {
             <div>{card.answer}</div>
             <div>{card.grade}</div>
             <div>{card.updated}</div>
-            <div><button disabled={isMyPack}>del</button></div>
-            <div><button disabled={isMyPack}>update</button></div>
+            <div>
+                <button disabled={isMyPack} onClick={removeCard}>del</button>
+            </div>
+            <div>
+                <button disabled={isMyPack} onClick={updatedCard}>update</button>
+            </div>
 
-            {/*   <NavLink to={`${PATH.CARDS}/${props.pack_id}`} activeClassName={s.activeLink}>CARDS</NavLink>*/}
         </div>
 
     )

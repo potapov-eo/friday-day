@@ -40,7 +40,63 @@ export const getCardTC = (packId:string) =>
             dispatch(setAppErrorAC(error))
         }
     }
+export const addCardTC = (cardsPack_id:string) =>
+    async (dispatch: Dispatch) => {
+        try {
+            dispatch(setAppStatusAC('loading'))
+            const addResponse = <AxiosResponse<any>> await  CardsAPI.createCard(cardsPack_id)
+            const response = <AxiosResponse<GetCardsResponseType>> await  CardsAPI.getCards(cardsPack_id)
+            const cards = response.data.cards
+            dispatch(setCardAC(cards))
+            dispatch(setAppStatusAC('succeeded'))
+            dispatch(setAppErrorAC(null))
+        } catch (e) {
+            dispatch(setAppStatusAC('failed'))
+            const error = e.response
+                ? e.response.data.error
+                : (e.message + ', more details in the console')
 
+            dispatch(setAppErrorAC(error))
+        }
+    }
+export const removeCardTC = (cardsPack_id:string, cardId:string) =>
+    async (dispatch: Dispatch) => {
+        try {
+            dispatch(setAppStatusAC('loading'))
+            const removeResponse = <AxiosResponse<any>> await  CardsAPI.deleteCard(cardId)
+            const response = <AxiosResponse<GetCardsResponseType>> await  CardsAPI.getCards(cardsPack_id)
+            const cards = response.data.cards
+            dispatch(setCardAC(cards))
+            dispatch(setAppStatusAC('succeeded'))
+            dispatch(setAppErrorAC(null))
+        } catch (e) {
+            dispatch(setAppStatusAC('failed'))
+            const error = e.response
+                ? e.response.data.error
+                : (e.message + ', more details in the console')
+
+            dispatch(setAppErrorAC(error))
+        }
+    }
+export const updateCardTC = (cardsPack_id:string, cardId:string) =>
+    async (dispatch: Dispatch) => {
+        try {
+            dispatch(setAppStatusAC('loading'))
+            const removeResponse = <AxiosResponse<any>> await  CardsAPI.updateCard(cardId)
+            const response = <AxiosResponse<GetCardsResponseType>> await  CardsAPI.getCards(cardsPack_id)
+            const cards = response.data.cards
+            dispatch(setCardAC(cards))
+            dispatch(setAppStatusAC('succeeded'))
+            dispatch(setAppErrorAC(null))
+        } catch (e) {
+            dispatch(setAppStatusAC('failed'))
+            const error = e.response
+                ? e.response.data.error
+                : (e.message + ', more details in the console')
+
+            dispatch(setAppErrorAC(error))
+        }
+    }
 type ActionsType = ReturnType<typeof setCardAC>
 
 type GetCardsResponseType = {

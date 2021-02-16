@@ -1,24 +1,25 @@
 import React, {useEffect} from 'react'
 import {useDispatch, useSelector} from "react-redux";
 import {AppRootStateType} from "../../n1-main/m2-bll/store";
-import {setAppErrorAC} from "../../n1-main/m2-bll/app-reduser";
+import {RequestStatusType, setAppErrorAC} from "../../n1-main/m2-bll/app-reduser";
 import {Redirect, useParams} from "react-router-dom";
 import {PATH} from "../../n1-main/m1-ui/routes/Routes";
 import s from "../f5-packs/Packs.module.css";
-import {CardType, getCardTC} from "./Cards-reducer";
+import {addCardTC, CardType, getCardTC} from "./Cards-reducer";
 import {Card} from "./card/Card";
 import {PackType} from "../f5-packs/Packs-reduser";
 
 export const Cards = () => {
     const dispatch = useDispatch()
     const {token} = useParams<{ token: string }>()
+    const status = useSelector<AppRootStateType,RequestStatusType >(state => state.app.status)
     const registerUserId = useSelector<AppRootStateType, string>(state => state.app.UserData ? state.app.UserData._id : "")
     const isLoggedIn = useSelector<AppRootStateType, boolean>(state => state.app.isLoggedIn)
     const cards = useSelector<AppRootStateType, Array<CardType>>(state => state.cards.cards)
     const packs = useSelector<AppRootStateType, Array<PackType>>(state => state.packs.cardPacks)
     const pack= packs.find(p=>p._id===token)
     const createdUserId =pack? pack.user_id:""
-    const isMyPack =( createdUserId === registerUserId)
+    const isMyPack =( createdUserId === registerUserId)&&!(status==='loading')
 
     useEffect(() => {
         if (token) {
@@ -29,6 +30,7 @@ export const Cards = () => {
         dispatch(setAppErrorAC("you are not authorized"))
         return <Redirect to={PATH.LOGIN}/>
     }
+    const  addCard = () =>dispatch(addCardTC(token))
     return (
 
 
@@ -41,7 +43,7 @@ export const Cards = () => {
                 <div>grade</div>
                 <div>updated</div>
                 <div></div>
-                <div><button disabled={isMyPack}>add</button></div>
+                <div><button onClick={addCard} disabled={!isMyPack}>add</button></div>
 
 
             </div>
