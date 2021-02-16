@@ -14,7 +14,7 @@ export const Packs = () => {
     const userId = useSelector<AppRootStateType, string>(state => state.app.UserData ? state.app.UserData._id : "")
     const cardPacks = useSelector<AppRootStateType, Array<PackType>>(state => state.packs.cardPacks)
     const status = useSelector<AppRootStateType, RequestStatusType>(state => state.app.status)
-    const [x, setX] = useState(false);
+
     const dispatch = useDispatch()
     const [isChange, setIsChange] = useState<boolean>(false)
     const [idTimeout, setIdTimeout] = useState<number>(0)
@@ -40,23 +40,25 @@ export const Packs = () => {
 
 
     useEffect(() => {
+
         if (isLoggedIn) {
             dispatch(getCardPacksTC())
         }
-    }, [])
-    useEffect(() => {
-        if (x) {
+    }, [isLoggedIn])
+
+    const change = (e: ChangeEvent<HTMLInputElement>) => {
+        if (e.currentTarget.value) {
             dispatch(setPaginationAC({user_id: userId}))
             dispatch(getCardPacksTC())
+
         } else {
             dispatch(setPaginationAC({user_id: ""}))
             dispatch(getCardPacksTC())
         }
-    }, [x])
-
+    }
 
     if (!isLoggedIn) {
-        dispatch(setAppErrorAC("you are not authorized"))
+        dispatch(setAppErrorAC("you are not authorized)"))
         return <Redirect to={PATH.LOGIN}/>
     }
     const addPack = () => dispatch(addCardPacksTC())
@@ -69,7 +71,8 @@ export const Packs = () => {
 
         <div className={s.table}>
             <h1>Packs</h1>
-            <div> my Pack <input type={"checkbox"} onChange={() => setX(!x)}/></div>
+            {/*<div> my Pack <input type={"checkbox"} onChange={() => setX(!x)}/></div>*/}
+            <div> my Pack <input type={"checkbox"} onChange={change}/></div>
             <div> Pack name search: <input value={searchName} onChange={onChangeCallback}/></div>
             <div className={s.tableString}>
                 <div>Name</div>
