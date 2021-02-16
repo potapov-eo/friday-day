@@ -53,7 +53,7 @@ export const appReducer = (state: AppInitialStateType = initialState, action: Ac
         case "SET_ISLOGGEDIN":
             return {...state, isLoggedIn: action.value}
         case "SET-RECEIVED-RESPONSE":
-            return {...state,status: action.status, error: action.error,UserData:action.userData, isLoggedIn: action.value}
+            return {...state,status: action.status, error: action.error,UserData:action.userData, isLoggedIn: action.isLoggedIn}
 
 
         default:
@@ -64,8 +64,8 @@ export const setAppStatusAC = (status: RequestStatusType) =>
     ({type: 'APP/SET-STATUS', status} as const)
 export const setAppErrorAC = (error: string | null) =>
     ({type: 'APP/SET-ERROR', error} as const)
-export const receivedResponseAC=(userData:UserDataType,status: RequestStatusType,error: string | null,value: boolean)=>
-    ({type: 'SET-RECEIVED-RESPONSE', userData,status,error,value} as const)
+export const receivedResponseAC=(userData:UserDataType,status: RequestStatusType,error: string | null,isLoggedIn: boolean)=>
+    ({type: 'SET-RECEIVED-RESPONSE', userData,status,error,isLoggedIn} as const)
 
 
 
