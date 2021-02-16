@@ -8,20 +8,24 @@ import {PATH} from "../../../n1-main/m1-ui/routes/Routes";
 import {removePackTC, updateTC} from "../Packs-reduser";
 import {RequestStatusType} from "../../../n1-main/m2-bll/app-reduser";
 
-type packPropsType ={
-    name:string
-    cardsCount?:number
-    updated?:string
-    pack_id:string
-    userId:string
+type packPropsType = {
+    name: string
+    cardsCount?: number
+    updated?: string
+    pack_id: string
+    userId: string
 }
-export const Pack = (props:packPropsType) => {
+export const Pack = (props: packPropsType) => {
     const dispatch = useDispatch()
-    const status = useSelector<AppRootStateType,RequestStatusType >(state => state.app.status)
-    const registerUserId = useSelector<AppRootStateType, string>(state => state.app.UserData?state.app.UserData._id:"")
-    const isMyPack =( props.userId === registerUserId)&&!(status==='loading')
-    const del = () =>{dispatch(removePackTC(props.pack_id))}
-    const update = () =>{dispatch(updateTC(props.pack_id))}
+    const status = useSelector<AppRootStateType, RequestStatusType>(state => state.app.status)
+    const registerUserId = useSelector<AppRootStateType, string>(state => state.app.UserData ? state.app.UserData._id : "")
+    const isMyPack = (props.userId === registerUserId) && !(status === 'loading')
+    const del = () => {
+        dispatch(removePackTC(props.pack_id))
+    }
+    const update = () => {
+        dispatch(updateTC(props.pack_id))
+    }
     return (
 
         <div className={s.tableString} key={props.pack_id}>

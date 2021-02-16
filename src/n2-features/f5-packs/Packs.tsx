@@ -1,20 +1,42 @@
-import React, {useEffect, useState} from 'react'
-import {useSelector, useDispatch} from 'react-redux'
+import React, {ChangeEvent, useCallback, useEffect, useState} from 'react'
+import {useDispatch, useSelector} from 'react-redux'
 import {AppRootStateType} from '../../../src/n1-main/m2-bll/store'
-import {PackType, getCardPacksTC, addCardPacksTC, setPaginationAC} from './/Packs-reduser'
+import {addCardPacksTC, getCardPacksTC, PackType, setPaginationAC} from './/Packs-reduser'
 import s from './Packs.module.css'
 import SuperButton from "../../n1-main/m1-ui/common/SuperButton/SuperButton";
 import {Pack} from "./pack/Pack";
-import {setAppErrorAC} from "../../n1-main/m2-bll/app-reduser";
+import {RequestStatusType, setAppErrorAC} from "../../n1-main/m2-bll/app-reduser";
 import {Redirect} from "react-router-dom";
 import {PATH} from "../../n1-main/m1-ui/routes/Routes";
 
 export const Packs = () => {
     const isLoggedIn = useSelector<AppRootStateType, boolean>(state => state.app.isLoggedIn)
-    const userId = useSelector<AppRootStateType, string>(state =>state.app.UserData? state.app.UserData._id:"")
+    const userId = useSelector<AppRootStateType, string>(state => state.app.UserData ? state.app.UserData._id : "")
     const cardPacks = useSelector<AppRootStateType, Array<PackType>>(state => state.packs.cardPacks)
+    const status = useSelector<AppRootStateType, RequestStatusType>(state => state.app.status)
     const [x, setX] = useState(false);
     const dispatch = useDispatch()
+    const [isChange, setIsChange] = useState<boolean>(false)
+    const [idTimeout, setIdTimeout] = useState<number>(0)
+    const [searchName, setSearchName] = useState<string>("")
+    const isLoading=status==='loading'
+
+    const setChange = useCallback(() => {
+        clearTimeout(idTimeout)
+        const id = window.setTimeout(() => {
+            setIsChange(true)
+            setIdTimeout(0)
+        }, 1500)
+        setIdTimeout(id)
+    }, [idTimeout])
+
+    useEffect(() => {
+        if (isChange && !isLoading) {
+            dispatch(setPaginationAC({packName: searchName}))
+            dispatch(getCardPacksTC())
+            setIsChange(false)
+        }
+    }, [setChange, isChange, setIsChange, setPaginationAC, isLoading])
 
 
     useEffect(() => {
@@ -24,7 +46,7 @@ export const Packs = () => {
     }, [])
     useEffect(() => {
         if (x) {
-            dispatch(setPaginationAC({user_id:userId}))
+            dispatch(setPaginationAC({user_id: userId}))
             dispatch(getCardPacksTC())
         }
     }, [x])
@@ -35,16 +57,17 @@ export const Packs = () => {
         return <Redirect to={PATH.LOGIN}/>
     }
     const addPack = () => dispatch(addCardPacksTC())
-
-
-
-
+    const onChangeCallback = (e: ChangeEvent<HTMLInputElement>) => {
+        setSearchName(e.currentTarget.value)
+        setChange()
+    }
 
     return (
 
         <div className={s.table}>
             <h1>Packs</h1>
-          my Pack  <input type={"checkbox"} onChange={() => setX(!x)} />
+            <div> my Pack <input type={"checkbox"} onChange={() => setX(!x)}/></div>
+            <div> Pack name search<input value={searchName} onChange={onChangeCallback}/></div>
             <div className={s.tableString}>
                 <div>Name</div>
                 <div>cardsCount</div>

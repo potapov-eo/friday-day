@@ -39,8 +39,8 @@ export const recoveryPasswordAPI = {
 }
 
 export const CardsAPI = {
-    getCardPacks(paginationData:any) {
-        return instance.get(`cards/pack`,{ params:paginationData})
+    getCardPacks(paginationData: any) {
+        return instance.get(`cards/pack`, {params: paginationData})
     },
 
     createCardsPack() {
@@ -49,33 +49,37 @@ export const CardsAPI = {
     deleteCardsPack(idCarsPack: string) {
         return instance.delete(`cards/pack/?id=${idCarsPack}`)
     },
-    updateCardsPack(id:string ) {
-        return instance.put(`cards/pack/`, {cardsPack: {_id:id, name: "new Name 1.1"}})
+    updateCardsPack(id: string) {
+        return instance.put(`cards/pack/`, {cardsPack: {_id: id, name: "new Name 1.1"}})
     },
-   getCards(packId:string) {
+    getCards(packId: string) {
         return instance.get(`cards/card/?cardsPack_id=${packId}`)
     },
-    createCard(cardsPack_id:string) {
-        return instance.post(`cards/card`, {card: {question: "question №1" ,cardsPack_id:cardsPack_id}})
+    createCard(cardsPack_id: string) {
+        return instance.post(`cards/card`, {card: {question: "question №1", cardsPack_id: cardsPack_id}})
     },
-    deleteCard(idCarsPack:string) {
+    deleteCard(idCarsPack: string) {
         return instance.delete(`cards/card/?id=${idCarsPack}`)
     },
-    updateCard(cardId:string) {
-        return instance.put(`cards/card`,{card: {_id:cardId,
-                question: "new question 1.1.1"}})
+    updateCard(cardId: string) {
+        return instance.put(`cards/card`, {
+            card: {
+                _id: cardId,
+                question: "new question 1.1.1"
+            }
+        })
     },
 }
 export type cardsPackType = {
-    _id:string
-    name?:string
+    _id: string
+    name?: string
 }
 
-export type getCardPacksDataType={
-    packName?:string
-    min?:number
-    max?:number
-    sortPacks?:string
-    page?:number
-    pageCount?:number
+export type getCardPacksDataType = {
+    packName?: string
+    min?: number
+    max?: number
+    sortPacks?: string
+    page?: number
+    pageCount?: number
 }

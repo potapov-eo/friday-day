@@ -1,4 +1,4 @@
-import {CardsAPI, cardsPackType, getCardPacksDataType} from '../../../src/n1-main/m3-dal/instance'
+import {CardsAPI, getCardPacksDataType} from '../../../src/n1-main/m3-dal/instance'
 import {Dispatch} from 'redux'
 import {setAppErrorAC, setAppStatusAC} from "../../n1-main/m2-bll/app-reduser";
 import {AxiosResponse} from "axios";
@@ -24,8 +24,8 @@ export const packsReducer = (state: InitialStateType = initialState, action: Act
     switch (action.type) {
         case 'CARDS/SET-CARD-PACKS':
             return {...state, cardPacks: action.cardPacks,}
-            case 'SET-PAGINATION-PROPERTY':
-            return {...state, pagination:{...state.pagination,...action.property} }
+        case 'SET-PAGINATION-PROPERTY':
+            return {...state, pagination: {...state.pagination, ...action.property}}
 
 
         default:
@@ -38,7 +38,7 @@ export const setCardPacksAC = (cardPacks: Array<PackType>) => ({type: 'CARDS/SET
 export const removePackAC = (packId: string) => ({type: 'CARDS/REMOVE-PACK', packId} as const)
 export const addPackAC = (pack: PackType) => ({type: 'CARDS/ADD-PACK', pack} as const)
 export const updatePackAC = (packId: string, pack: PackType) => ({type: 'CARDS/UPDATE-PACK', packId, pack} as const)
-export const setPaginationAC = (property : setPaginationType) => ({type: 'SET-PAGINATION-PROPERTY', property} as const)
+export const setPaginationAC = (property: setPaginationType) => ({type: 'SET-PAGINATION-PROPERTY', property} as const)
 
 //TC
 
@@ -159,6 +159,12 @@ export type getCardPacksResponseType = {
     token: string
     tokenDeathTime: Date
 }
-export type setPaginationType = {packName: string}|{min: number}|{max: number}|{sortPacks: string}|{page: number}
-    |{pageCount: number}|{user_id: string}
+export type setPaginationType =
+    { packName: string }
+    | { min: number }
+    | { max: number }
+    | { sortPacks: string }
+    | { page: number }
+    | { pageCount: number }
+    | { user_id: string }
 

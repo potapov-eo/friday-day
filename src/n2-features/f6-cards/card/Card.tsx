@@ -12,7 +12,7 @@ export const Card = (props: cardPropsType) => {
     const card = props.card
     const dispatch = useDispatch()
     const registerUserId = useSelector<AppRootStateType, string>(state => state.app.UserData ? state.app.UserData._id : "")
-    const status = useSelector<AppRootStateType,RequestStatusType >(state => state.app.status)
+    const status = useSelector<AppRootStateType, RequestStatusType>(state => state.app.status)
     const isMyPack = (card.user_id === registerUserId)&&(status==='loading')
     const removeCard = () => dispatch(removeCardTC(card.cardsPack_id, card._id))
     const updatedCard = () => dispatch(updateCardTC(card.cardsPack_id, card._id))
