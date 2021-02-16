@@ -67,7 +67,7 @@ export const Packs = () => {
         <div className={s.table}>
             <h1>Packs</h1>
             <div> my Pack <input type={"checkbox"} onChange={() => setX(!x)}/></div>
-            <div> Pack name search<input value={searchName} onChange={onChangeCallback}/></div>
+            <div> Pack name search:  <input value={searchName} onChange={onChangeCallback}/></div>
             <div className={s.tableString}>
                 <div>Name</div>
                 <div>cardsCount</div>
