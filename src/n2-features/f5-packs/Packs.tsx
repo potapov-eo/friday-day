@@ -8,6 +8,9 @@ import {Pack} from "./pack/Pack";
 import {RequestStatusType, setAppErrorAC} from "../../n1-main/m2-bll/app-reduser";
 import {Redirect} from "react-router-dom";
 import {PATH} from "../../n1-main/m1-ui/routes/Routes";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome"
+import { faSortDown, faSortUp } from '@fortawesome/free-solid-svg-icons'
+import { SortButtons } from '../../n1-main/m1-ui/common/SortButtons/SortButtons'
 
 export const Packs = () => {
     const isLoggedIn = useSelector<AppRootStateType, boolean>(state => state.app.isLoggedIn)
@@ -66,7 +69,6 @@ export const Packs = () => {
         setSearchName(e.currentTarget.value)
         setChange()
     }
-
     return (
 
         <div className={s.table}>
@@ -75,12 +77,20 @@ export const Packs = () => {
             <div> my Pack <input type={"checkbox"} onChange={change}/></div>
             <div> Pack name search: <input value={searchName} onChange={onChangeCallback}/></div>
             <div className={s.tableString}>
-                <div>Name</div>
-                <div>cardsCount</div>
-                <div>updated</div>
-                <div></div>
+                <div className={s.tableColumnTitle}>
+                    <SortButtons param="name" />
+                    <h2> Name</h2>
+                </div>
+                <div className={s.tableColumnTitle}>
+                    <SortButtons param="cardsCount" />
+                    <h2> CardsCount</h2>
+                </div>
+                <div className={s.tableColumnTitle}>
+                    <SortButtons param="updated" />
+                    <h2> Updated</h2>
+                </div>
                 <div><SuperButton onClick={addPack} name={"add"}/></div>
-                <div>Cards</div>
+                <h2>Cards</h2>
             </div>
 
             {cardPacks.map(packs =>

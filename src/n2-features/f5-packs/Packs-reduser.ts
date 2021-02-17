@@ -44,6 +44,7 @@ export const setPaginationAC = (property: setPaginationType) => ({type: 'SET-PAG
 
 export const getCardPacksTC = (getData: getCardPacksDataType = {}) =>
     async (dispatch: Dispatch, getState: () => AppRootStateType) => {
+        debugger
         try {
             dispatch(setAppStatusAC('loading'))
             const paginationData = getState().packs.pagination
