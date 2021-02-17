@@ -13,14 +13,14 @@ export const Profile = () => {
 
     const isLoggedIn = useSelector<AppRootStateType, boolean>(state => state.app.isLoggedIn)
     const userData = useSelector<AppRootStateType, UserDataType>(state => state.app.UserData)
-    useEffect(() => {
+   /* useEffect(() => {
         if (isLoggedIn) {
             dispatch(getMe())
+
         }
-    }, [isLoggedIn])
+    }, [isLoggedIn])*/
 
     if (!isLoggedIn) {
-        dispatch(setAppErrorAC("you are not authorized"))
         return <Redirect to={PATH.LOGIN}/>
 
     }

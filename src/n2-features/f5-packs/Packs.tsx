@@ -21,6 +21,8 @@ export const Packs = () => {
     const [searchName, setSearchName] = useState<string>("")
     const isLoading = status === 'loading'
 
+    const [firstRender, setFirstRender] = useState<boolean>(true)
+
     const setChange = useCallback(() => {
         clearTimeout(idTimeout)
         const id = window.setTimeout(() => {
@@ -39,6 +41,13 @@ export const Packs = () => {
     }, [setChange, isChange, setIsChange, setPaginationAC, isLoading])
 
 
+   /* useEffect(() => {
+
+        if (firstRender) {
+            dispatch(getCardPacksTC())
+            setFirstRender(false)
+        }
+    }, [firstRender])*/
     useEffect(() => {
 
         if (isLoggedIn) {
@@ -47,20 +56,17 @@ export const Packs = () => {
     }, [isLoggedIn])
 
     const change = (e: ChangeEvent<HTMLInputElement>) => {
-        if (e.currentTarget.value) {
+        if (e.currentTarget.checked) {
             dispatch(setPaginationAC({user_id: userId}))
             dispatch(getCardPacksTC())
 
         } else {
             dispatch(setPaginationAC({user_id: ""}))
             dispatch(getCardPacksTC())
+
         }
     }
 
-    if (!isLoggedIn) {
-        dispatch(setAppErrorAC("you are not authorized)"))
-        return <Redirect to={PATH.LOGIN}/>
-    }
     const addPack = () => dispatch(addCardPacksTC())
     const onChangeCallback = (e: ChangeEvent<HTMLInputElement>) => {
         setSearchName(e.currentTarget.value)
@@ -69,19 +75,19 @@ export const Packs = () => {
 
     return (
 
-        <div className={s.table}>
+       <div className={s.table}>
             <h1>Packs</h1>
-            {/*<div> my Pack <input type={"checkbox"} onChange={() => setX(!x)}/></div>*/}
+
             <div> my Pack <input type={"checkbox"} onChange={change}/></div>
             <div> Pack name search: <input value={searchName} onChange={onChangeCallback}/></div>
-            <div className={s.tableString}>
+           {isLoggedIn?<div className={s.tableString}>
                 <div>Name</div>
                 <div>cardsCount</div>
                 <div>updated</div>
                 <div></div>
                 <div><SuperButton onClick={addPack} name={"add"}/></div>
                 <div>Cards</div>
-            </div>
+            </div>:<div>"you are not authorized"</div>}
 
             {cardPacks.map(packs =>
                 <Pack name={packs.name} cardsCount={packs.cardsCount} updated={packs.updated} pack_id={packs._id}

@@ -52,7 +52,7 @@ export const Register = () => {
     })
 
     if (isLoggedIn) {
-        dispatch(setAppErrorAC("you are already logged in"))
+     /*   dispatch(setAppErrorAC("you are already logged in"))*/
         return <Redirect to={PATH.PROFILE}/>
     }
     if (isRegister) {

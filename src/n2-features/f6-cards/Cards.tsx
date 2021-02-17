@@ -26,10 +26,7 @@ export const Cards = () => {
             dispatch(getCardTC(token))
         }
     }, [])
-    if (!isLoggedIn) {
-        dispatch(setAppErrorAC("you are not authorized"))
-        return <Redirect to={PATH.LOGIN}/>
-    }
+
     const addCard = () => dispatch(addCardTC(token))
     return (
 
@@ -37,23 +34,23 @@ export const Cards = () => {
         <div className={s.table}>
             <h1>Cards</h1>
 
-            <div className={s.tableString}>
+            {isLoggedIn?<div className={s.tableString}>
                 <div>question</div>
                 <div>answer</div>
                 <div>grade</div>
                 <div>updated</div>
                 <div></div>
                 <div>
-                    <button onClick={addCard} disabled={!isMyPack}>add</button>
+                <button onClick={addCard} disabled={!isMyPack}>add</button>
                 </div>
 
 
-            </div>
+                </div>:<div>"you are not authorized"</div>}
 
             {cards.map(card =>
                 <Card card={card}/>
-            )}
-        </div>
+                )}
+                </div>
     )
 }
 

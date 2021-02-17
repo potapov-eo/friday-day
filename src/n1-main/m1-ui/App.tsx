@@ -1,20 +1,27 @@
-import React from 'react';
+import React, {useEffect, useState} from 'react';
 import './App.css';
 import {HashRouter} from "react-router-dom";
-import {useSelector} from 'react-redux';
+import {useDispatch, useSelector} from 'react-redux';
 import {AppRootStateType} from "../m2-bll/store";
 import {RequestStatusType} from "../m2-bll/app-reduser";
 import Preloader from "./common/Preloder/Preloader";
 import {Routes} from "./routes/Routes";
 import {ErrorSnackBar} from "./common/ErrorSnackBar/ErrorSnackBar";
 import {Header} from "./header/Header";
+import {getMe} from "../../n2-features/f1-auth/a1-login/login-reducer";
 
 
 function App() {
-
+    const dispatch = useDispatch()
     const status = useSelector<AppRootStateType, RequestStatusType>(state => state.app.status)
     const error = useSelector<AppRootStateType, string | null>(state => state.app.error)
-
+    const [firstRender, setFirstRender] = useState<boolean>(true)
+    useEffect(() => {
+        if (firstRender) {
+            dispatch(getMe())
+            setFirstRender(false)
+        }
+    }, [firstRender])
 
     return (
         <div>

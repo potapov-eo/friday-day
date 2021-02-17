@@ -3,6 +3,7 @@ import {Dispatch} from 'redux'
 import {setAppErrorAC, setAppStatusAC} from "../../n1-main/m2-bll/app-reduser";
 import {AxiosResponse} from "axios";
 import {AppRootStateType} from "../../n1-main/m2-bll/store";
+import {setIsLoggedIn} from "../f1-auth/a1-login/login-reducer";
 
 
 let initialState = {
@@ -40,6 +41,7 @@ export const addPackAC = (pack: PackType) => ({type: 'CARDS/ADD-PACK', pack} as 
 export const updatePackAC = (packId: string, pack: PackType) => ({type: 'CARDS/UPDATE-PACK', packId, pack} as const)
 export const setPaginationAC = (property: setPaginationType) => ({type: 'SET-PAGINATION-PROPERTY', property} as const)
 
+
 //TC
 
 export const getCardPacksTC = (getData: getCardPacksDataType = {}) =>
@@ -52,6 +54,7 @@ export const getCardPacksTC = (getData: getCardPacksDataType = {}) =>
             dispatch(setCardPacksAC(packs))
             dispatch(setAppStatusAC('succeeded'))
             dispatch(setAppErrorAC(null))
+            dispatch(setIsLoggedIn(true))
 
         } catch (e) {
             dispatch(setAppStatusAC('failed'))
@@ -73,7 +76,7 @@ export const addCardPacksTC = () =>
             dispatch(setCardPacksAC(packs))
             dispatch(setAppStatusAC('succeeded'))
             dispatch(setAppErrorAC(null))
-        } catch (e) {
+        } catch (e) { debugger
             dispatch(setAppStatusAC('failed'))
             const error = e.response
                 ? e.response.data.error
