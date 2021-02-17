@@ -1,11 +1,8 @@
 import {Dispatch} from 'redux'
 import {AuthAPI} from '../../../n1-main/m3-dal/instance'
-import {
-    receivedResponseAC,
-    setAppErrorAC,
-    setAppStatusAC,
-     UserDataType
-} from "../../../n1-main/m2-bll/app-reduser";
+import {receivedResponseAC, setAppErrorAC, setAppStatusAC, UserDataType} from "../../../n1-main/m2-bll/app-reduser";
+import {setCardPacksAC} from "../../f5-packs/Packs-reduser";
+import {setCardAC} from "../../f6-cards/Cards-reducer";
 
 const SET_USER_DATA = 'SET_USER_DATA'
 const SET_ISLOGGEDIN = 'SET_ISLOGGEDIN'
@@ -70,7 +67,8 @@ export const logout = () =>
             dispatch(setAppStatusAC('loading'))
             await AuthAPI.logout()
             dispatch(receivedResponseAC(null, 'succeeded', null, false))
-
+            dispatch(setCardPacksAC([]))
+            dispatch(setCardAC([]))
         } catch (e) {
             const error = e.response
                 ? e.response.data.error

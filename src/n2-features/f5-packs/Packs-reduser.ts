@@ -46,7 +46,6 @@ export const setPaginationAC = (property: setPaginationType) => ({type: 'SET-PAG
 
 export const getCardPacksTC = (getData: getCardPacksDataType = {}) =>
     async (dispatch: Dispatch, getState: () => AppRootStateType) => {
-        debugger
         try {
             dispatch(setAppStatusAC('loading'))
             const paginationData = getState().packs.pagination
@@ -77,7 +76,8 @@ export const addCardPacksTC = () =>
             dispatch(setCardPacksAC(packs))
             dispatch(setAppStatusAC('succeeded'))
             dispatch(setAppErrorAC(null))
-        } catch (e) { debugger
+        } catch (e) {
+            debugger
             dispatch(setAppStatusAC('failed'))
             const error = e.response
                 ? e.response.data.error

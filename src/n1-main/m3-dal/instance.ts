@@ -3,7 +3,7 @@ import {DEV_VERSION} from "../../config";
 import {RegisterParamsType} from "../../n2-features/f1-auth/a2-register/register-reducer";
 import {registeredEmailType} from "../../n2-features/f1-auth/a3-recoveryPassword/recoveryPassword-reducer";
 import {SetPasswordType} from "../../n2-features/f1-auth/a4-newPassword/newPassword-reducer";
-import {config} from "@fortawesome/fontawesome-svg-core";
+import {store} from "../m2-bll/store";
 
 
 export const baseURL = !DEV_VERSION

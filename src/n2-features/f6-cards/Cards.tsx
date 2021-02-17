@@ -1,9 +1,8 @@
 import React, {useEffect} from 'react'
 import {useDispatch, useSelector} from "react-redux";
 import {AppRootStateType} from "../../n1-main/m2-bll/store";
-import {RequestStatusType, setAppErrorAC} from "../../n1-main/m2-bll/app-reduser";
-import {Redirect, useParams} from "react-router-dom";
-import {PATH} from "../../n1-main/m1-ui/routes/Routes";
+import {RequestStatusType} from "../../n1-main/m2-bll/app-reduser";
+import {useParams} from "react-router-dom";
 import s from "../f5-packs/Packs.module.css";
 import {addCardTC, CardType, getCardTC} from "./Cards-reducer";
 import {Card} from "./card/Card";
@@ -17,15 +16,15 @@ export const Cards = () => {
     const isLoggedIn = useSelector<AppRootStateType, boolean>(state => state.app.isLoggedIn)
     const cards = useSelector<AppRootStateType, Array<CardType>>(state => state.cards.cards)
     const packs = useSelector<AppRootStateType, Array<PackType>>(state => state.packs.cardPacks)
-    const pack= packs.find(p=>p._id===token)
-    const createdUserId =pack? pack.user_id:registerUserId
+    const pack = packs.find(p => p._id === token)
+    const createdUserId = pack ? pack.user_id : registerUserId
     const isMyPack = (createdUserId === registerUserId) && !(status === 'loading')
 
     useEffect(() => {
         if (token) {
             dispatch(getCardTC(token))
         }
-    }, [])
+    }, [token])
 
     const addCard = () => dispatch(addCardTC(token))
     return (
@@ -34,23 +33,23 @@ export const Cards = () => {
         <div className={s.table}>
             <h1>Cards</h1>
 
-            {isLoggedIn?<div className={s.tableString}>
+            {isLoggedIn ? <div className={s.tableString}>
                 <div>question</div>
                 <div>answer</div>
                 <div>grade</div>
                 <div>updated</div>
                 <div></div>
                 <div>
-                <button onClick={addCard} disabled={!isMyPack}>add</button>
+                    <button onClick={addCard} disabled={!isMyPack}>add</button>
                 </div>
 
 
-                </div>:<div>"you are not authorized"</div>}
+            </div> : <div>"you are not authorized"</div>}
 
             {cards.map(card =>
                 <Card card={card}/>
-                )}
-                </div>
+            )}
+        </div>
     )
 }
 

@@ -43,7 +43,7 @@ export const Login = () => {
     })
 
     if (isLoggedIn) {
-       /* dispatch(setAppErrorAC("you are already logged in"))*/
+        /* dispatch(setAppErrorAC("you are already logged in"))*/
         return <Redirect to={PATH.PROFILE}/>
     }
 
@@ -61,7 +61,7 @@ export const Login = () => {
                     <div style={{color: "red"}}> {formik.errors.password} </div> : null}
                 <div><span>Remember me </span><SuperInput name="rememberMe" onChange={formik.handleChange}
                                                           checked={formik.values.rememberMe} type="checkbox"/></div>
-                <div><SuperButton disabled={disable} name="log in" /></div>
+                <div><SuperButton disabled={disable} name="log in"/></div>
             </form>
         </div>
     )

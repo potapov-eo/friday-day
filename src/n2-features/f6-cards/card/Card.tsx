@@ -13,7 +13,7 @@ export const Card = (props: cardPropsType) => {
     const dispatch = useDispatch()
     const registerUserId = useSelector<AppRootStateType, string>(state => state.app.UserData ? state.app.UserData._id : "")
     const status = useSelector<AppRootStateType, RequestStatusType>(state => state.app.status)
-    const isMyPack = (card.user_id === registerUserId)&&(status==='loading')
+    const isMyPack = (card.user_id === registerUserId) && !(status === 'loading')
     const removeCard = () => dispatch(removeCardTC(card.cardsPack_id, card._id))
     const updatedCard = () => dispatch(updateCardTC(card.cardsPack_id, card._id))
     return (
@@ -24,10 +24,10 @@ export const Card = (props: cardPropsType) => {
             <div>{card.grade}</div>
             <div>{card.updated}</div>
             <div>
-                <button disabled={isMyPack} onClick={removeCard}>del</button>
+                <button disabled={!isMyPack} onClick={removeCard}>del</button>
             </div>
             <div>
-                <button disabled={isMyPack} onClick={updatedCard}>update</button>
+                <button disabled={!isMyPack} onClick={updatedCard}>update</button>
             </div>
 
         </div>
