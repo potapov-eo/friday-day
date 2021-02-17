@@ -91,6 +91,7 @@ export const Packs = () => {
                 </div>
                 <div><SuperButton onClick={addPack} name={"add"}/></div>
                 <h2>Cards</h2>
+                
             </div>
 
             {cardPacks.map(packs =>
