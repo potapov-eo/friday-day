@@ -16,3 +16,8 @@
    color: #e08821;
    border: 1px solid #e08821;
 }
+button:disabled,
+button[disabled]{
+  border: 1px solid #666666;  
+  color: #666666;
+}

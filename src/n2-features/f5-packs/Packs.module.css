@@ -7,7 +7,11 @@
     align-items: center;
     }
 .tableString>div{
-    height: 50px;
-    width: 150px;
+    height: 80px;
+    width: 180px;
     border-bottom: 2px solid #404040;
     }
+.tableColumnTitle {
+  display: flex;
+  justify-content: space-evenly;
+}

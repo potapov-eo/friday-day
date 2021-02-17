@@ -56,7 +56,7 @@ export const Packs = () => {
     }, [isLoggedIn])
 
     const change = (e: ChangeEvent<HTMLInputElement>) => {
-        if (e.currentTarget.checked) {
+        if (e.currentTarget.value) {
             dispatch(setPaginationAC({user_id: userId}))
             dispatch(getCardPacksTC())
 
@@ -67,27 +67,30 @@ export const Packs = () => {
         }
     }
 
+    if (!isLoggedIn) {
+        dispatch(setAppErrorAC("you are not authorized)"))
+        return <Redirect to={PATH.LOGIN}/>
+    }
     const addPack = () => dispatch(addCardPacksTC())
     const onChangeCallback = (e: ChangeEvent<HTMLInputElement>) => {
         setSearchName(e.currentTarget.value)
         setChange()
     }
-
     return (
 
-       <div className={s.table}>
+        <div className={s.table}>
             <h1>Packs</h1>
-
+            {/*<div> my Pack <input type={"checkbox"} onChange={() => setX(!x)}/></div>*/}
             <div> my Pack <input type={"checkbox"} onChange={change}/></div>
             <div> Pack name search: <input value={searchName} onChange={onChangeCallback}/></div>
-           {isLoggedIn?<div className={s.tableString}>
+            <div className={s.tableString}>
                 <div>Name</div>
                 <div>cardsCount</div>
                 <div>updated</div>
                 <div></div>
                 <div><SuperButton onClick={addPack} name={"add"}/></div>
                 <div>Cards</div>
-            </div>:<div>"you are not authorized"</div>}
+            </div>
 
             {cardPacks.map(packs =>
                 <Pack name={packs.name} cardsCount={packs.cardsCount} updated={packs.updated} pack_id={packs._id}
