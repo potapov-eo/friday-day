@@ -9,6 +9,7 @@ import {Card} from "./card/Card";
 import {PackType} from "../f5-packs/Packs-reduser";
 import {Paginator} from "../../n1-main/m1-ui/common/Paginator/Paginator";
 import {getCardsDataType} from "../../n1-main/m3-dal/instance";
+import SuperButton from "../../n1-main/m1-ui/common/SuperButton/SuperButton";
 
 export const Cards = () => {
     const dispatch = useDispatch()
@@ -60,7 +61,7 @@ export const Cards = () => {
                 <div>grade</div>
                 <div>updated</div>
                 <div>
-                    <button onClick={addCard} disabled={!isMyPack}>add</button>
+                    <SuperButton onClick={addCard} disabled={!isMyPack} name={"add"}/>
                 </div>
 
             </div> : <div>"you are not authorized"</div>}

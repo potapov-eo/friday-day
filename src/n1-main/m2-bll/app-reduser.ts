@@ -20,6 +20,7 @@ export type AppInitialStateType = {
     UserData: UserDataType
     isLoggedIn: boolean
     userId?:string
+    devVersion:boolean
 
 
 }
@@ -38,8 +39,8 @@ const initialState: AppInitialStateType = {
         verified: false, // подтвердил ли почту
         rememberMe: false,
     },
-    isLoggedIn: false
-
+    isLoggedIn: false,
+    devVersion:false // для переключения м-ду локальным бэком и хироку
 
 }
 export const appReducer = (state: AppInitialStateType = initialState, action: ActionsType): AppInitialStateType => {
@@ -54,12 +55,16 @@ export const appReducer = (state: AppInitialStateType = initialState, action: Ac
             return {...state, isLoggedIn: action.value}
         case "SET-RECEIVED-RESPONSE":
             return {...state,status: action.status, error: action.error,UserData:action.userData, isLoggedIn: action.isLoggedIn}
+        case 'SET-DEV_VERSION':
+            return {...state, devVersion: action.devVersion}
 
 
         default:
             return state
     }
 }
+export const setDevVersionAC = (devVersion: boolean) =>
+    ({type: 'SET-DEV_VERSION', devVersion} as const)
 export const setAppStatusAC = (status: RequestStatusType) =>
     ({type: 'APP/SET-STATUS', status} as const)
 export const setAppErrorAC = (error: string | null) =>
@@ -73,6 +78,7 @@ export const receivedResponseAC=(userData:UserDataType,status: RequestStatusType
 export type setAppStatusACType = ReturnType<typeof setAppStatusAC>
 export type setAppErrorACType = ReturnType<typeof setAppErrorAC>
 export type receivedResponseACType = ReturnType<typeof receivedResponseAC>
+export type setDevVersionACType = ReturnType<typeof setDevVersionAC>
 
 
 type ActionsType =
@@ -81,6 +87,7 @@ type ActionsType =
     | ReturnType<typeof setUserData>
     | ReturnType<typeof setIsLoggedIn>
     |receivedResponseACType
+    |setDevVersionACType
 
 
 
