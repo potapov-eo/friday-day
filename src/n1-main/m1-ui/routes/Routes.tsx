@@ -37,7 +37,7 @@ export const Routes = () => {
                 <Route path={`${PATH.NEW_PASSWORD}/:token`} render={() => <NewPassword/> }/>
                 <Route path={PATH.NEW_PASSWORD} exact render={ () => <RecoveryPassword/>}/>
                 <Route path={PATH.PROFILE} render={() => <Profile/>}/>
-                <Route path={PATH.PACK} render={() => <Packs/>}/>
+                <Route path={PATH.PACK} render={() => <Packs />}/>
                 <Route path={`${PATH.CARDS}/:token`} render={() => <Cards/>}/>
                 <Route path={PATH.CARDS} render={() => <Cards/>}/>
                 <Route render={() => <Error404/>}/>

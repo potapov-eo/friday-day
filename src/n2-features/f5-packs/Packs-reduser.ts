@@ -16,19 +16,26 @@ let initialState = {
             sortPacks: "0updated",// сортировка
             page: 1, //номер страницы
             pageCount: 5,//кол-во элем на странице
-            user_id: ""
-        }
+            user_id: "",
 
+        },
+    totalPacksCount: 0  //кол-во колод
 }
 export type InitialStateType = typeof initialState
 export const packsReducer = (state: InitialStateType = initialState, action: ActionsType): InitialStateType => {
+
     switch (action.type) {
         case 'CARDS/SET-CARD-PACKS':
-            return {...state, cardPacks: action.cardPacks,}
+            return {...state, cardPacks: action.cardPacks}
+
         case 'SET-PAGINATION-PROPERTY':
             return {...state, pagination: {...state.pagination, ...action.property}}
 
+        case "SET-TOTAL-PACKS-COUNT":
+            return {...state,  totalPacksCount: action.packsCount}
 
+        case "SET-CURRENT-PAGE":
+            return {...state, pagination: {...state.pagination, page: action.currentPage}}
         default:
             return state
     }
@@ -39,10 +46,15 @@ export const setCardPacksAC = (cardPacks: Array<PackType>) => ({type: 'CARDS/SET
 export const removePackAC = (packId: string) => ({type: 'CARDS/REMOVE-PACK', packId} as const)
 export const addPackAC = (pack: PackType) => ({type: 'CARDS/ADD-PACK', pack} as const)
 export const updatePackAC = (packId: string, pack: PackType) => ({type: 'CARDS/UPDATE-PACK', packId, pack} as const)
+
 export const setPaginationAC = (property: setPaginationType) => ({type: 'SET-PAGINATION-PROPERTY', property} as const)
 
+export const setTotalPacksCountAC = (packsCount: number) => ({type: "SET-TOTAL-PACKS-COUNT", packsCount} as const)
+
+export const setCurrentPageAC = (currentPage: number) => ({type: 'SET-CURRENT-PAGE', currentPage} as const)
 
 //TC
+
 
 export const getCardPacksTC = (getData: getCardPacksDataType = {}) =>
     async (dispatch: Dispatch, getState: () => AppRootStateType) => {
@@ -51,6 +63,13 @@ export const getCardPacksTC = (getData: getCardPacksDataType = {}) =>
             const paginationData = getState().packs.pagination
             const response = <AxiosResponse<getCardPacksResponseType>>await CardsAPI.getCardPacks(paginationData)
             const packs = response.data.cardPacks
+
+            const cardPacksTotalCount = response.data.cardPacksTotalCount
+
+            const currentPage = getData.page
+
+            currentPage && dispatch(setCurrentPageAC(currentPage))
+            dispatch(setTotalPacksCountAC(cardPacksTotalCount))
             dispatch(setCardPacksAC(packs))
             dispatch(setAppStatusAC('succeeded'))
             dispatch(setAppErrorAC(null))
@@ -135,6 +154,8 @@ type ActionsType =
     | ReturnType<typeof addPackAC>
     | ReturnType<typeof updatePackAC>
     | ReturnType<typeof setPaginationAC>
+    | ReturnType<typeof setTotalPacksCountAC>
+    | ReturnType<typeof setCurrentPageAC>
 
 export type PackType = {
     _id: string
@@ -157,7 +178,7 @@ export type getCardPacksResponseType = {
     cardPacks: Array<PackType>
     page: number
     pageCount: number
-    cardPacksTotalCount: number
+    cardPacksTotalCount: number                  // totalItemsCount
     minCardsCount: number
     maxCardsCount: number
     token: string

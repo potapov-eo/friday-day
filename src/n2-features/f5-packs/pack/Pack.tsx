@@ -5,7 +5,7 @@ import {useDispatch, useSelector} from "react-redux";
 import {AppRootStateType} from "../../../n1-main/m2-bll/store";
 import {NavLink} from "react-router-dom";
 import {PATH} from "../../../n1-main/m1-ui/routes/Routes";
-import {removePackTC, updateTC} from "../Packs-reduser";
+import { removePackTC, updateTC} from "../Packs-reduser";
 import {RequestStatusType} from "../../../n1-main/m2-bll/app-reduser";
 
 type packPropsType = {
@@ -26,6 +26,9 @@ export const Pack = (props: packPropsType) => {
     const update = () => {
         dispatch(updateTC(props.pack_id))
     }
+
+
+
     return (
 
         <div className={s.tableString} key={props.pack_id}>

@@ -53,8 +53,8 @@ export const CardsAPI = {
     updateCardsPack(id: string) {
         return instance.put(`cards/pack/`, {cardsPack: {_id: id, name: "new Name 1.1"}})
     },
-    getCards(packId: string) {
-        return instance.get(`cards/card/?cardsPack_id=${packId}`)
+    getCards(paginationCardsData: any) {
+        return instance.get(`cards/card/`, {params: paginationCardsData})
     },
     createCard(cardsPack_id: string) {
         return instance.post(`cards/card`, {card: {question: "question №1", cardsPack_id: cardsPack_id}})
@@ -83,4 +83,16 @@ export type getCardPacksDataType = {
     sortPacks?: string
     page?: number
     pageCount?: number
+}
+
+export type getCardsDataType = {
+    cardAnswer?: string
+    cardQuestion?: string
+    cardsPack_id: string
+    min?: number
+    max?: number
+    sortCards?: string
+    page?: number
+    pageCount?: number
+
 }

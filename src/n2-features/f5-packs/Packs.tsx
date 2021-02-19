@@ -7,12 +7,16 @@ import SuperButton from "../../n1-main/m1-ui/common/SuperButton/SuperButton";
 import {Pack} from "./pack/Pack";
 import {RequestStatusType} from "../../n1-main/m2-bll/app-reduser";
 import {SortButtons} from '../../n1-main/m1-ui/common/SortButtons/SortButtons'
+import {Paginator} from "../../n1-main/m1-ui/common/Paginator/Paginator";
+import {getCardPacksDataType} from "../../n1-main/m3-dal/instance";
+
 
 export const Packs = () => {
     const isLoggedIn = useSelector<AppRootStateType, boolean>(state => state.app.isLoggedIn)
     const userId = useSelector<AppRootStateType, string>(state => state.app.UserData ? state.app.UserData._id : "")
     const cardPacks = useSelector<AppRootStateType, Array<PackType>>(state => state.packs.cardPacks)
     const status = useSelector<AppRootStateType, RequestStatusType>(state => state.app.status)
+    const page = useSelector<AppRootStateType, number>(state => state.packs.pagination.page)
 
     const dispatch = useDispatch()
     const [isChange, setIsChange] = useState<boolean>(false)
@@ -57,17 +61,34 @@ export const Packs = () => {
     }
 
     const addPack = () => dispatch(addCardPacksTC())
+
     const onChangeCallback = (e: ChangeEvent<HTMLInputElement>) => {
         setSearchName(e.currentTarget.value)
         setChange()
     }
+
+    const pageSize = useSelector<AppRootStateType, number>(state => state.packs.pagination.pageCount)
+    const totalItemsCount = useSelector<AppRootStateType, number>(state => state.packs.totalPacksCount)
+
+    const onPageChanged = (pageNumber: number) => {
+        dispatch(setPaginationAC({page: pageNumber}))
+        dispatch(getCardPacksTC())
+    }
+
     return (
 
         <div className={s.table}>
             <h1>Packs</h1>
             <div> my Pack <input type={"checkbox"} onChange={change}/></div>
+            <div>
+                <Paginator currentPage={page} pageSize={pageSize} totalItemsCount={totalItemsCount} portionSize={10}
+                           onPageChanged={onPageChanged}/>
+            </div>
+
             <div> Pack name search: <input value={searchName} onChange={onChangeCallback}/></div>
             {isLoggedIn ? <div className={s.tableString}>
+
+
                 <div className={s.tableColumnTitle}>
                     <SortButtons param="name"/>
                     <h2> Name</h2>
@@ -89,6 +110,10 @@ export const Packs = () => {
                 <Pack name={packs.name} cardsCount={packs.cardsCount} updated={packs.updated} pack_id={packs._id}
                       userId={packs.user_id}/>
             )}
+
+            <Paginator currentPage={page} pageSize={pageSize} totalItemsCount={totalItemsCount} portionSize={10}
+                       onPageChanged={onPageChanged}/>
+
         </div>
     )
 }

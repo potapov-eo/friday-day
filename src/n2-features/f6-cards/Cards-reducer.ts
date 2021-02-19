@@ -1,33 +1,62 @@
-import {CardsAPI} from "../../n1-main/m3-dal/instance";
+import {CardsAPI, getCardPacksDataType, getCardsDataType} from "../../n1-main/m3-dal/instance";
 import {Dispatch} from "redux";
 import {setAppErrorAC, setAppStatusAC} from "../../n1-main/m2-bll/app-reduser";
 import {AxiosResponse} from "axios";
+import {AppRootStateType} from "../../n1-main/m2-bll/store";
 
-type InitialStateType = {
-    cards: Array<CardType>
-}
+
 const initialState = {
-    cards: []
+    cards: [] as Array<CardType>,
+    paginationCards: {
+        page: 1,
+        pageCount: 2,
+        cardAnswer: '',
+        cardQuestion: '',
+        cardsPack_id: '',
+        min: 0,
+        max: 0,
+        sortCards: ''
+    },
+    totalCardsCount: 0
 }
+
+export type InitialStateType = typeof initialState
 
 export const cardsReducer = (state: InitialStateType = initialState, action: ActionsType): InitialStateType => {
     switch (action.type) {
         case 'SET-CARDS':
             return {...state, cards: action.cards}
-
-
+        case "SET-TOTAL-CADRS-COUNT":
+            return {...state, totalCardsCount: action.packsCount}
+        case "SET-CURRENT-PAGE":
+            return {...state, paginationCards: {...state.paginationCards, page: action.currentPage}}
+        case "SET-ID":
+            return {...state, paginationCards: {...state.paginationCards, cardsPack_id: action.id}}
         default:
             return state
     }
 }
 
+//AC
+
 export const setCardAC = (cards: Array<CardType>) => ({type: 'SET-CARDS', cards} as const)
-export const getCardTC = (packId: string) =>
-    async (dispatch: Dispatch) => {
+export const setTotalCardsCountAC = (packsCount: number) => ({type: "SET-TOTAL-CADRS-COUNT", packsCount} as const)
+export const setCurrentPageAC = (currentPage: number) => ({type: 'SET-CURRENT-PAGE', currentPage} as const)
+export const setCurrentIdAC = (id: string) => ({type: 'SET-ID', id} as const)
+
+//TC
+
+
+export const getCardTC = () =>
+    async (dispatch: Dispatch, getState: () => AppRootStateType) => {
         try {
             dispatch(setAppStatusAC('loading'))
-            const response = <AxiosResponse<GetCardsResponseType>>await CardsAPI.getCards(packId)
+
+            const paginationData = getState().cards.paginationCards
+            const response = <AxiosResponse<GetCardsResponseType>>await CardsAPI.getCards(paginationData)
             const cards = response.data.cards
+
+            dispatch(setTotalCardsCountAC(response.data.cardsTotalCount))
             dispatch(setCardAC(cards))
             dispatch(setAppStatusAC('succeeded'))
             dispatch(setAppErrorAC(null))
@@ -98,8 +127,11 @@ export const updateCardTC = (cardsPack_id: string, cardId: string) =>
         }
     }
 type ActionsType = ReturnType<typeof setCardAC>
+    | ReturnType<typeof setTotalCardsCountAC>
+    | ReturnType<typeof setCurrentPageAC>
+    | ReturnType<typeof setCurrentIdAC>
 
-type GetCardsResponseType = {
+export type GetCardsResponseType = {
     cards: Array<CardType>
     packUserId: string
     page: number
