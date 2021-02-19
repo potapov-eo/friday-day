@@ -70,11 +70,13 @@ export const getCardTC = () =>
         }
     }
 export const addCardTC = (cardsPack_id: string) =>
-    async (dispatch: Dispatch) => {
+    async (dispatch: Dispatch , getState: () => AppRootStateType) => {
         try {
             dispatch(setAppStatusAC('loading'))
+
             const addResponse = <AxiosResponse<any>>await CardsAPI.createCard(cardsPack_id)
-            const response = <AxiosResponse<GetCardsResponseType>>await CardsAPI.getCards(cardsPack_id)
+            const paginationData = getState().cards.paginationCards
+            const response = <AxiosResponse<GetCardsResponseType>>await CardsAPI.getCards(paginationData)
             const cards = response.data.cards
             dispatch(setCardAC(cards))
             dispatch(setAppStatusAC('succeeded'))
@@ -89,11 +91,12 @@ export const addCardTC = (cardsPack_id: string) =>
         }
     }
 export const removeCardTC = (cardsPack_id: string, cardId: string) =>
-    async (dispatch: Dispatch) => {
+    async (dispatch: Dispatch, getState: () => AppRootStateType) => {
         try {
             dispatch(setAppStatusAC('loading'))
             const removeResponse = <AxiosResponse<any>>await CardsAPI.deleteCard(cardId)
-            const response = <AxiosResponse<GetCardsResponseType>>await CardsAPI.getCards(cardsPack_id)
+            const paginationData = getState().cards.paginationCards
+            const response = <AxiosResponse<GetCardsResponseType>>await CardsAPI.getCards(paginationData)
             const cards = response.data.cards
             dispatch(setCardAC(cards))
             dispatch(setAppStatusAC('succeeded'))
@@ -108,11 +111,13 @@ export const removeCardTC = (cardsPack_id: string, cardId: string) =>
         }
     }
 export const updateCardTC = (cardsPack_id: string, cardId: string) =>
-    async (dispatch: Dispatch) => {
+    async (dispatch: Dispatch, getState: () => AppRootStateType) => {
         try {
             dispatch(setAppStatusAC('loading'))
             const removeResponse = <AxiosResponse<any>>await CardsAPI.updateCard(cardId)
-            const response = <AxiosResponse<GetCardsResponseType>>await CardsAPI.getCards(cardsPack_id)
+
+            const paginationData = getState().cards.paginationCards
+            const response = <AxiosResponse<GetCardsResponseType>>await CardsAPI.getCards(paginationData)
             const cards = response.data.cards
             dispatch(setCardAC(cards))
             dispatch(setAppStatusAC('succeeded'))
