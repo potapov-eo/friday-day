@@ -7,6 +7,7 @@ import s from "../f5-packs/Packs.module.css";
 import {addCardTC, CardType, getCardTC} from "./Cards-reducer";
 import {Card} from "./card/Card";
 import {PackType} from "../f5-packs/Packs-reduser";
+import SuperButton from "../../n1-main/m1-ui/common/SuperButton/SuperButton";
 
 export const Cards = () => {
     const dispatch = useDispatch()
@@ -40,7 +41,7 @@ export const Cards = () => {
                 <div>updated</div>
                 <div></div>
                 <div>
-                    <button onClick={addCard} disabled={!isMyPack}>add</button>
+                    <SuperButton onClick={addCard} disabled={!isMyPack} name={"add"}/>
                 </div>
 
 

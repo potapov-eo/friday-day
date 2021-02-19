@@ -24,9 +24,9 @@ export const Header = () => {
 
     return (
         <div className={s.header}>
-            <div className={s.devInput}><input type={"checkbox"}
+           {/* <div className={s.devInput}><input type={"checkbox"}
                                                onChange={changeDev}/> {dev ? "https://neko-back.herokuapp.com/2.0" : "http://localhost:7542/2.0/"}
-            </div>
+            </div>*/}
             <FontAwesomeIcon icon={faDAndD} size="4x"/>
             <Nav/>
 

@@ -4,6 +4,7 @@ import {useDispatch, useSelector} from "react-redux";
 import {AppRootStateType} from "../../../n1-main/m2-bll/store";
 import {CardType, removeCardTC, updateCardTC} from "../Cards-reducer";
 import {RequestStatusType} from "../../../n1-main/m2-bll/app-reduser";
+import SuperButton from "../../../n1-main/m1-ui/common/SuperButton/SuperButton";
 
 type cardPropsType = {
     card: CardType
@@ -24,10 +25,10 @@ export const Card = (props: cardPropsType) => {
             <div>{card.grade}</div>
             <div>{card.updated}</div>
             <div>
-                <button disabled={!isMyPack} onClick={removeCard}>del</button>
+                <SuperButton disabled={!isMyPack} onClick={removeCard} name={"del"}/>
             </div>
             <div>
-                <button disabled={!isMyPack} onClick={updatedCard}>update</button>
+                <SuperButton disabled={!isMyPack} onClick={updatedCard} name={"update"}/>
             </div>
 
         </div>
