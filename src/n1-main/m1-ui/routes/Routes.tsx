@@ -1,4 +1,4 @@
-import React from 'react'
+import React, {useState} from 'react'
 import {Redirect, Route, Switch} from "react-router-dom";
 import {Error404} from "../../../n2-features/f4-404/Error404";
 import {Test} from "../../../n2-features/f0-test/test";
@@ -24,6 +24,7 @@ export const PATH = {
 }
 
 export const Routes = () => {
+    let [activeModal, setActiveModal] = useState<boolean>(false) 
     return (
         <div>
 
@@ -37,7 +38,7 @@ export const Routes = () => {
                 <Route path={`${PATH.NEW_PASSWORD}/:token`} render={() => <NewPassword/> }/>
                 <Route path={PATH.NEW_PASSWORD} exact render={ () => <RecoveryPassword/>}/>
                 <Route path={PATH.PROFILE} render={() => <Profile/>}/>
-                <Route path={PATH.PACK} render={() => <Packs />}/>
+                <Route path={PATH.PACK} render={() => <Packs activeModal={activeModal} setActiveModal={setActiveModal}/>}/>
                 <Route path={`${PATH.CARDS}/:token`} render={() => <Cards/>}/>
                 <Route path={PATH.CARDS} render={() => <Cards/>}/>
                 <Route render={() => <Error404/>}/>
