@@ -9,9 +9,11 @@ import {RequestStatusType} from "../../n1-main/m2-bll/app-reduser";
 import {SortButtons} from '../../n1-main/m1-ui/common/SortButtons/SortButtons'
 import {Paginator} from "../../n1-main/m1-ui/common/Paginator/Paginator";
 import {getCardPacksDataType} from "../../n1-main/m3-dal/instance";
+import {Modal} from '../../n1-main/m1-ui/common/Modal/Modal'
+import { AddItemForm } from '../../n1-main/m1-ui/common/AddItemForm/AddItemForm'
 
 
-export const Packs = () => {
+export const Packs = (props:{activeModal:boolean, setActiveModal:(activeModal:boolean)=> void}) => {
     const isLoggedIn = useSelector<AppRootStateType, boolean>(state => state.app.isLoggedIn)
     const userId = useSelector<AppRootStateType, string>(state => state.app.UserData ? state.app.UserData._id : "")
     const cardPacks = useSelector<AppRootStateType, Array<PackType>>(state => state.packs.cardPacks)
@@ -60,7 +62,9 @@ export const Packs = () => {
         }
     }
 
-    const addPack = () => dispatch(addCardPacksTC())
+    const addPack = (newPackName: string) => {
+        dispatch(addCardPacksTC(newPackName))
+        props.setActiveModal(false)}  
 
     const onChangeCallback = (e: ChangeEvent<HTMLInputElement>) => {
         setSearchName(e.currentTarget.value)
@@ -101,10 +105,14 @@ export const Packs = () => {
                     <SortButtons param="updated"/>
                     <h2> Updated</h2>
                 </div>
-                <div><SuperButton onClick={addPack} name={"add"}/></div>
+                <div><SuperButton onClick={()=>{props.setActiveModal(true)}} name={"add"} /></div>
                 <h2>Cards</h2>
 
             </div> : <div>"you are not authorized"</div>}
+
+            <Modal activeModal={props.activeModal} setActiveModal={props.setActiveModal} >
+            <AddItemForm addItem={addPack}/>
+            </Modal>
 
             {cardPacks.map(packs =>
                 <Pack name={packs.name} cardsCount={packs.cardsCount} updated={packs.updated} pack_id={packs._id}

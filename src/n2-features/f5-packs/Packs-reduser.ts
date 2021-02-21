@@ -84,11 +84,11 @@ export const getCardPacksTC = (getData: getCardPacksDataType = {}) =>
             dispatch(setAppErrorAC(error))
         }
     }
-export const addCardPacksTC = () =>
+export const addCardPacksTC = (newPackName: string) =>
     async (dispatch: Dispatch, getState: () => AppRootStateType) => {
         try {
             dispatch(setAppStatusAC('loading'))
-            const createResponse = await CardsAPI.createCardsPack()
+            const createResponse = await CardsAPI.createCardsPack(newPackName)
             const paginationData = getState().packs.pagination
             const getResponse = <AxiosResponse<getCardPacksResponseType>>await CardsAPI.getCardPacks(paginationData)
             const packs = getResponse.data.cardPacks

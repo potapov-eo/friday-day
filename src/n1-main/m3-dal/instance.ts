@@ -45,8 +45,8 @@ export const CardsAPI = {
         return instance.get(`cards/pack`, {params: paginationData})
     },
 
-    createCardsPack() {
-        return instance.post(`cards/pack`, {cardsPack: {name: "new pack 3.3"}})
+    createCardsPack(newPackName: string) {
+        return instance.post(`cards/pack`, {cardsPack: {name: newPackName}})
     },
     deleteCardsPack(idCarsPack: string) {
         return instance.delete(`cards/pack/?id=${idCarsPack}`)
