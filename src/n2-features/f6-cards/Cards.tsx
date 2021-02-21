@@ -51,7 +51,7 @@ export const Cards = () => {
         <div className={s.table}>
             <h1>Cards</h1>
             <div>
-                <Paginator currentPage={8} pageSize={pageSize} totalItemsCount={totalItemsCount} portionSize={3}
+                <Paginator currentPage={page} pageSize={pageSize} totalItemsCount={totalItemsCount} portionSize={3}
                            onPageChanged={onPageChanged}/>
             </div>
             {isLoggedIn ? <div className={s.tableString}>
