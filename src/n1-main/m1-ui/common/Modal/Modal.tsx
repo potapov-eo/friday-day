@@ -1,4 +1,3 @@
-import React, { useState } from 'react'
 import style from './Modal.module.css'
 
 

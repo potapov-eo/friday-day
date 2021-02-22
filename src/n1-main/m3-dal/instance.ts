@@ -51,8 +51,8 @@ export const CardsAPI = {
     deleteCardsPack(idCarsPack: string) {
         return instance.delete(`cards/pack/?id=${idCarsPack}`)
     },
-    updateCardsPack(id: string) {
-        return instance.put(`cards/pack/`, {cardsPack: {_id: id, name: "new Name 1.1"}})
+    updateCardsPack(id: string, newNamePack: string) {
+        return instance.put(`cards/pack/`, {cardsPack: {_id: id, name: newNamePack}})
     },
     getCards(paginationCardsData: any) {
         return instance.get(`cards/card/`, {params: paginationCardsData})

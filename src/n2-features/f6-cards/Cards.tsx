@@ -1,4 +1,4 @@
-import React, {useEffect} from 'react'
+import React, {useEffect, useState} from 'react'
 import {useDispatch, useSelector} from "react-redux";
 import {AppRootStateType} from "../../n1-main/m2-bll/store";
 import {RequestStatusType} from "../../n1-main/m2-bll/app-reduser";
@@ -10,8 +10,11 @@ import {PackType} from "../f5-packs/Packs-reduser";
 import {Paginator} from "../../n1-main/m1-ui/common/Paginator/Paginator";
 import {getCardsDataType} from "../../n1-main/m3-dal/instance";
 import SuperButton from "../../n1-main/m1-ui/common/SuperButton/SuperButton";
+import {Modal} from '../../n1-main/m1-ui/common/Modal/Modal'
+import { AddItemForm } from '../../n1-main/m1-ui/common/AddItemForm/AddItemForm'
 
 export const Cards = () => {
+    const [activeAddCardModal, setActiveAddCardModal] = useState<boolean>(false) 
     const dispatch = useDispatch()
     const {token} = useParams<{ token: string }>()
     const status = useSelector<AppRootStateType, RequestStatusType>(state => state.app.status)
@@ -38,7 +41,9 @@ export const Cards = () => {
         }
     }, [token])
 
-    const addCard = () => dispatch(addCardTC(token))
+    const addCard = () => {
+        dispatch(addCardTC(token))
+        setActiveAddCardModal(false)}
 
     const onPageChanged = (newNumber: number) => {
         dispatch(setCurrentPageAC(newNumber))
@@ -61,7 +66,7 @@ export const Cards = () => {
                 <div>grade</div>
                 <div>updated</div>
                 <div>
-                    <SuperButton onClick={addCard} disabled={!isMyPack} name={"add"}/>
+                    <SuperButton onClick={()=>{setActiveAddCardModal(true)}}  disabled={!isMyPack} name={"add"}/>
                 </div>
 
             </div> : <div>"you are not authorized"</div>}
@@ -69,6 +74,10 @@ export const Cards = () => {
             {cards.map(card =>
                 <Card card={card}/>
             )}
+
+            <Modal activeModal={activeAddCardModal} setActiveModal={setActiveAddCardModal} >
+                <AddItemForm addItem={addCard} buttonName={"add"} />
+            </Modal>   
         </div>
     )
 }

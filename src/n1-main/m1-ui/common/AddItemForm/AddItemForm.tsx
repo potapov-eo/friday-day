@@ -1,12 +1,14 @@
 import React, {ChangeEvent, KeyboardEvent, useState} from 'react'
+import { isPropertySignature } from 'typescript'
 import SuperButton from '../SuperButton/SuperButton'
 import SuperInput from '../SuperInput/SuperInput'
 
  export type AddItemPropsType = {    
     addItem:(title:string)=>void
+    buttonName: string
 }
 
-export const AddItemForm = React.memo( ({addItem}:AddItemPropsType) => {    
+export const AddItemForm = React.memo( ({addItem,  buttonName}:AddItemPropsType) => {    
     let [title, setTitle] = useState(" ")
 
     const addItemTitle = () => { addItem(title); setTitle(" ")}
@@ -16,7 +18,7 @@ export const AddItemForm = React.memo( ({addItem}:AddItemPropsType) => {
     return (
         <div>
             <SuperInput value={title} onChange={onChangeHandler} onKeyPress={onKeyPressHandler} />
-            <SuperButton onClick={addItemTitle} name={"ADD"} />
+            <SuperButton onClick={addItemTitle} name={buttonName} />
         </div>
                 
     )
