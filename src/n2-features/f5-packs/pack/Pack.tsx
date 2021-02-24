@@ -39,7 +39,6 @@ export const Pack = (props: packPropsType) => {
             <div><SuperButton disabled={!isMyPack} name={"update"} onClick={update}/></div>
             <NavLink to={`${PATH.CARDS}/${props.pack_id}`} activeClassName={s.activeLink}>CARDS</NavLink>
         </div>
-
     )
 }
 

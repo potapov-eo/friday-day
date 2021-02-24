@@ -1,8 +1,8 @@
-import React from 'react'
+import React, {useEffect} from 'react'
 import s from '../../f5-packs/Packs.module.css'
 import {useDispatch, useSelector} from "react-redux";
 import {AppRootStateType} from "../../../n1-main/m2-bll/store";
-import {CardType, removeCardTC, updateCardTC} from "../Cards-reducer";
+import {CardType, getCardTC, removeCardTC, setCardAC, updateCardTC} from "../Cards-reducer";
 import {RequestStatusType} from "../../../n1-main/m2-bll/app-reduser";
 import SuperButton from "../../../n1-main/m1-ui/common/SuperButton/SuperButton";
 
@@ -30,8 +30,6 @@ export const Card = (props: cardPropsType) => {
             <div>
                 <SuperButton disabled={!isMyPack} onClick={updatedCard} name={"update"}/>
             </div>
-
         </div>
-
     )
 }

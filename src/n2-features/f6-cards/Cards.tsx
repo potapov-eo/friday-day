@@ -11,6 +11,8 @@ import {Paginator} from "../../n1-main/m1-ui/common/Paginator/Paginator";
 import {getCardsDataType} from "../../n1-main/m3-dal/instance";
 import SuperButton from "../../n1-main/m1-ui/common/SuperButton/SuperButton";
 
+
+
 export const Cards = () => {
     const dispatch = useDispatch()
     const {token} = useParams<{ token: string }>()
@@ -23,7 +25,7 @@ export const Cards = () => {
     const pageSize = useSelector<AppRootStateType, number>(state => state.cards.paginationCards.pageCount)
     const totalItemsCount = useSelector<AppRootStateType, number>(state => state.cards.totalCardsCount)
 
-    const getCardsData = useSelector<AppRootStateType, getCardsDataType>(state => state.cards.paginationCards)
+    // const getCardsData = useSelector<AppRootStateType, getCardsDataType>(state => state.cards.paginationCards)
 
 
     const pack = packs.find(p => p._id === token)
@@ -38,7 +40,10 @@ export const Cards = () => {
         }
     }, [token])
 
-    const addCard = () => dispatch(addCardTC(token))
+    const addCard = () => {
+        dispatch(addCardTC(token))
+        dispatch(getCardTC())
+    }
 
     const onPageChanged = (newNumber: number) => {
         dispatch(setCurrentPageAC(newNumber))
@@ -54,6 +59,7 @@ export const Cards = () => {
                 <Paginator currentPage={page} pageSize={pageSize} totalItemsCount={totalItemsCount} portionSize={3}
                            onPageChanged={onPageChanged}/>
             </div>
+
             {isLoggedIn ? <div className={s.tableString}>
 
                 <div>question</div>
@@ -62,12 +68,13 @@ export const Cards = () => {
                 <div>updated</div>
                 <div>
                     <SuperButton onClick={addCard} disabled={!isMyPack} name={"add"}/>
+
                 </div>
 
             </div> : <div>"you are not authorized"</div>}
 
             {cards.map(card =>
-                <Card card={card}/>
+                <Card card={card} />
             )}
         </div>
     )
