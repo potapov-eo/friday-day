@@ -9,9 +9,9 @@ export const Nav = () => {
         <div className={s.nav}>
 
 
-            <span>
+           {/* <span>
                 <NavLink to={PATH.TEST} activeClassName={s.activeLink}>TEST</NavLink>
-            </span>
+            </span>*/}
             <span>
                 <NavLink to={PATH.LOGIN} activeClassName={s.activeLink}>LOGIN</NavLink>
             </span>
@@ -32,6 +32,9 @@ export const Nav = () => {
             </span>
             <span>
                 <NavLink to={PATH.CARDS} activeClassName={s.activeLink}>CARDS</NavLink>
+            </span>
+            <span>
+                <NavLink to={PATH.LEARN} activeClassName={s.activeLink}>LEARN</NavLink>
             </span>
         </div>
 

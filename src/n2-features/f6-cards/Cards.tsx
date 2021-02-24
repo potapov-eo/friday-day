@@ -8,7 +8,6 @@ import {addCardTC, CardType, getCardTC, setCurrentIdAC, setCurrentPageAC} from "
 import {Card} from "./card/Card";
 import {PackType} from "../f5-packs/Packs-reduser";
 import {Paginator} from "../../n1-main/m1-ui/common/Paginator/Paginator";
-import {getCardsDataType} from "../../n1-main/m3-dal/instance";
 import SuperButton from "../../n1-main/m1-ui/common/SuperButton/SuperButton";
 
 export const Cards = () => {
@@ -23,7 +22,7 @@ export const Cards = () => {
     const pageSize = useSelector<AppRootStateType, number>(state => state.cards.paginationCards.pageCount)
     const totalItemsCount = useSelector<AppRootStateType, number>(state => state.cards.totalCardsCount)
 
-    const getCardsData = useSelector<AppRootStateType, getCardsDataType>(state => state.cards.paginationCards)
+
 
 
     const pack = packs.find(p => p._id === token)

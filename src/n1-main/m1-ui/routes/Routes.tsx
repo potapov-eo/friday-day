@@ -9,6 +9,7 @@ import {Profile} from "../../../n2-features/f2-profile/Profile";
 import {NewPassword} from "../../../n2-features/f1-auth/a4-newPassword/NewPassword";
 import { Packs } from '../../../n2-features/f5-packs/Packs';
 import {Cards} from "../../../n2-features/f6-cards/Cards";
+import {Learn} from "../../../n2-features/f6-learn/Learn";
 
 
 export const PATH = {
@@ -20,7 +21,8 @@ export const PATH = {
     NEW_PASSWORD: "/new-password",
     PROFILE: "/profile",
     PACK: "/packs",
-    CARDS: "/cards"
+    CARDS: "/cards",
+    LEARN:"/learn"
 }
 
 export const Routes = () => {
@@ -41,6 +43,8 @@ export const Routes = () => {
                 <Route path={PATH.PACK} render={() => <Packs activeModal={activeModal} setActiveModal={setActiveModal}/>}/>
                 <Route path={`${PATH.CARDS}/:token`} render={() => <Cards/>}/>
                 <Route path={PATH.CARDS} render={() => <Cards/>}/>
+                <Route path={`${PATH.LEARN}/:token`} render={() => <Learn/>}/>
+                <Route path={PATH.LEARN} render={() => <Learn/>}/>
                 <Route render={() => <Error404/>}/>
 
             </Switch>

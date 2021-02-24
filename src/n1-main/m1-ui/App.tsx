@@ -1,4 +1,4 @@
-import React, {useEffect} from 'react';
+import React, {useEffect, useState} from 'react';
 import './App.css';
 import {HashRouter} from "react-router-dom";
 import {useDispatch, useSelector} from 'react-redux';
@@ -15,10 +15,11 @@ function App() {
     const dispatch = useDispatch()
     const status = useSelector<AppRootStateType, RequestStatusType>(state => state.app.status)
     const error = useSelector<AppRootStateType, string | null>(state => state.app.error)
-
+    let [firstRendering, setFirstRendering] = useState<boolean>(true)
     useEffect(() => {
-        if (true) {
+        if (firstRendering) {
             dispatch(getMe())
+            setFirstRendering(false)
         }
     }, [])
 

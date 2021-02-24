@@ -35,9 +35,11 @@ export const Pack = (props: packPropsType) => {
             <div>{props.name}</div>
             <div>{props.cardsCount}</div>
             <div>{props.updated}</div>
+
             <div><SuperButton disabled={!isMyPack} name={"del"} onClick={del}/></div>
             <div><SuperButton disabled={!isMyPack} name={"update"} onClick={update}/></div>
             <NavLink to={`${PATH.CARDS}/${props.pack_id}`} activeClassName={s.activeLink}>CARDS</NavLink>
+            <NavLink to={`${PATH.LEARN}/${props.pack_id}`} activeClassName={s.activeLink}>Learn</NavLink>
         </div>
 
     )

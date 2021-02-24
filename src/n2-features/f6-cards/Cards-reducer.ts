@@ -9,7 +9,7 @@ const initialState = {
     cards: [] as Array<CardType>,
     paginationCards: {
         page: 1,
-        pageCount: 2,
+        pageCount: 8,
         cardAnswer: '',
         cardQuestion: '',
         cardsPack_id: '',
@@ -120,6 +120,25 @@ export const updateCardTC = (cardsPack_id: string, cardId: string) =>
             const response = <AxiosResponse<GetCardsResponseType>>await CardsAPI.getCards(paginationData)
             const cards = response.data.cards
             dispatch(setCardAC(cards))
+            dispatch(setAppStatusAC('succeeded'))
+            dispatch(setAppErrorAC(null))
+        } catch (e) {
+            dispatch(setAppStatusAC('failed'))
+            const error = e.response
+                ? e.response.data.error
+                : (e.message + ', more details in the console')
+
+            dispatch(setAppErrorAC(error))
+        }
+    }
+export const gradeCardTC = (grade: number, card_id: string) =>
+    async (dispatch: Dispatch, getState: () => AppRootStateType) => {
+        try {
+            dispatch(setAppStatusAC('loading'))
+            const Response = <AxiosResponse<any>>await CardsAPI.gradeCard(grade,card_id)
+
+            const newCards =< CardType[]> getState().cards.cards.map((card)=>card._id===card_id? card.grade=grade:card)
+            dispatch(setCardAC(newCards))
             dispatch(setAppStatusAC('succeeded'))
             dispatch(setAppErrorAC(null))
         } catch (e) {
