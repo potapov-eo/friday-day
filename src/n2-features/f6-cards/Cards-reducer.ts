@@ -137,7 +137,7 @@ export const gradeCardTC = (grade: number, card_id: string) =>
             dispatch(setAppStatusAC('loading'))
             const Response = <AxiosResponse<any>>await CardsAPI.gradeCard(grade,card_id)
 
-            const newCards =< CardType[]> getState().cards.cards.map((card)=>card._id===card_id? card.grade=grade:card)
+            const newCards =< CardType[]> getState().cards.cards.map((card)=>card._id===card_id? {...card, grade:grade}:card)
             dispatch(setCardAC(newCards))
             dispatch(setAppStatusAC('succeeded'))
             dispatch(setAppErrorAC(null))

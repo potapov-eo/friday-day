@@ -51,7 +51,7 @@ export const Learn = (props: LearnPropsType) => {
         }
     }
     const setGrade = (i: number) => {
-
+debugger
         dispatch(gradeCardTC(i + 1, card ? card._id : ""))
         setCard(getCard(cards))
         setIsChecked(false);
