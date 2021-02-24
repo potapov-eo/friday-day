@@ -1,4 +1,4 @@
-import React from 'react'
+import React, {useState} from 'react'
 import s from '../Packs.module.css'
 import SuperButton from "../../../n1-main/m1-ui/common/SuperButton/SuperButton";
 import {useDispatch, useSelector} from "react-redux";
