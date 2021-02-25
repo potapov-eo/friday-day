@@ -8,8 +8,7 @@ export let Modal = (props: { activeModal: boolean, setActiveModal: (activeModal:
         <div className={props.activeModal ? style.modalContant + ' ' + style.modalContantactive : style.modalContant}
              onClick={e => {
                  e.stopPropagation();
-                 debugger
-             }}>
+                            }}>
             {props.children}
         </div>
     </div>

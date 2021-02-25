@@ -10,6 +10,7 @@ import {RequestStatusType} from "../../../n1-main/m2-bll/app-reduser";
 import {Modal} from '../../..//n1-main/m1-ui/common/Modal/Modal'
 import {AddItemForm} from '../../../n1-main/m1-ui/common/AddItemForm/AddItemForm'
 import {BooleanForm} from "../../../n1-main/m1-ui/common/BooleanModal/BooleanForm";
+import {AddForm} from "../../../n1-main/m1-ui/common/AddForm/AddForm";
 
 
 type packPropsType = {
@@ -33,7 +34,7 @@ export const Pack = (props: packPropsType) => {
         isDel && dispatch(removePackTC(props.pack_id))
     }
 
-    const updatePack = (newNamePack: string) => {
+    const updatePack = (newNamePack: string) => { debugger
         dispatch(updateTC(props.pack_id, newNamePack))
         setActiveUpdatePackModal(false)
     }
@@ -55,10 +56,11 @@ export const Pack = (props: packPropsType) => {
             </div>
 
             <Modal activeModal={activeUpdatePackModal} setActiveModal={setActiveUpdatePackModal}>
-                <AddItemForm addItem={updatePack} buttonName={"update"}/>
+               {/* <AddItemForm addItem={updatePack} buttonName={"update"}/>*/}
+                <AddForm addItem={updatePack} buttonName={"update"} itemName={"new name"} text={"Enter new name"}/>
             </Modal>
             <Modal activeModal={activeDelPackModal} setActiveModal={setActiveDelPackModal}>
-                <BooleanForm question={"Are you sure"} push={del}/>
+                <BooleanForm question={`you want to remove the pack with the name: "${props.name}". Are you sure`} push={del}/>
             </Modal>
         </div>
 

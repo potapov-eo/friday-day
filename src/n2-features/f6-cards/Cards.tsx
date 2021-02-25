@@ -80,7 +80,7 @@ export const Cards = () => {
             )}
 
             <Modal activeModal={activeAddCardModal} setActiveModal={setActiveAddCardModal}>
-                <AddCardForm cardsPack_id={token} addCard={addCard}/>
+                <AddCardForm  addCard={addCard} text={"Enter question and answer of new card"}/>
             </Modal>
         </div>
     )

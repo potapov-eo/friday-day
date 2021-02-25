@@ -12,6 +12,7 @@ import {Modal} from '../../n1-main/m1-ui/common/Modal/Modal'
 import {AddItemForm} from '../../n1-main/m1-ui/common/AddItemForm/AddItemForm'
 import {Redirect} from "react-router-dom";
 import {PATH} from "../../n1-main/m1-ui/routes/Routes";
+import {AddForm} from "../../n1-main/m1-ui/common/AddForm/AddForm";
 
 
 export const Packs = (props: { activeModal: boolean, setActiveModal: (activeModal: boolean) => void }) => {
@@ -122,7 +123,8 @@ export const Packs = (props: { activeModal: boolean, setActiveModal: (activeModa
             </div> : <div>"you are not authorized"</div>}
 
             <Modal activeModal={activeAddPackModal} setActiveModal={setActiveAddPackModal}>
-                <AddItemForm addItem={addPack} buttonName={"add"}/>
+               {/* <AddItemForm addItem={addPack} buttonName={"add"}/>*/}
+                <AddForm addItem={addPack} buttonName={"ADD PACK"} itemName={"pack name"} text={"enter the name of the new pack"}/>
             </Modal>
 
             {cardPacks.map(packs =>

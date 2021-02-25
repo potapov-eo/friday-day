@@ -3,6 +3,7 @@ import {Dispatch} from "redux";
 import {setAppErrorAC, setAppStatusAC} from "../../n1-main/m2-bll/app-reduser";
 import {AxiosResponse} from "axios";
 import {AppRootStateType} from "../../n1-main/m2-bll/store";
+import {valueType} from "../../n1-main/m1-ui/common/AddCardForm/AddCardForm";
 
 
 const initialState = {
@@ -110,11 +111,11 @@ export const removeCardTC = (cardsPack_id: string, cardId: string) =>
             dispatch(setAppErrorAC(error))
         }
     }
-export const updateCardTC = (cardsPack_id: string, cardId: string) =>
+export const updateCardTC = ( cardId: string, value: valueType) =>
     async (dispatch: Dispatch, getState: () => AppRootStateType) => {
         try {
             dispatch(setAppStatusAC('loading'))
-            const removeResponse = <AxiosResponse<any>>await CardsAPI.updateCard(cardId)
+            const removeResponse = <AxiosResponse<any>>await CardsAPI.updateCard(cardId,value.question,value.answer)
 
             const paginationData = getState().cards.paginationCards
             const response = <AxiosResponse<GetCardsResponseType>>await CardsAPI.getCards(paginationData)

@@ -66,12 +66,12 @@ export const CardsAPI = {
     deleteCard(idCarsPack: string) {
         return instance.delete(`cards/card/?id=${idCarsPack}`)
     },
-    updateCard(cardId: string) {
+    updateCard(cardId: string, question:string, answer:string ) {
         return instance.put(`cards/card`, {
             card: {
                 _id: cardId,
-                question: "new question 1.1.1",
-                answer: "WWW"
+                question: question,
+                answer: answer
 
             }
         })

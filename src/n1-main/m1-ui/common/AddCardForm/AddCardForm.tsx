@@ -1,17 +1,16 @@
 import React from 'react'
 import {useFormik} from 'formik'
-import {useDispatch} from 'react-redux'
 import SuperInput from "../SuperInput/SuperInput";
 import SuperButton from "../SuperButton/SuperButton";
 
 export type valueType = { question: string, answer: string }
 type AddCardFormPropsType = {
-    cardsPack_id: string
+
     addCard: (value: valueType) => void
+    text?:string
 }
 export const AddCardForm = React.memo((props: AddCardFormPropsType
 ) => {
-    const dispatch = useDispatch()
 
     const formik = useFormik({
         initialValues: {
@@ -21,10 +20,10 @@ export const AddCardForm = React.memo((props: AddCardFormPropsType
         validate: (values) => {
             const errors: FormikErrorType = {};
             if (!values.question) {
-                errors.question = "Required"
+                errors.question = "Required field"
             }
             if (!values.answer) {
-                errors.answer = "Required"
+                errors.answer = "Required field"
             }
 
             return errors;
@@ -37,6 +36,7 @@ export const AddCardForm = React.memo((props: AddCardFormPropsType
 
     return (
         <div>
+            <div>{props.text}</div>
             <form onSubmit={formik.handleSubmit}>
                 <div><SuperInput name="question" onChange={formik.handleChange} onBlur={formik.handleBlur} type="text"
                                  value={formik.values.question} placeholder={"question"}/></div>

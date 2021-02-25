@@ -2,7 +2,7 @@ import React, {useState} from 'react'
 import SuperButton from '../SuperButton/SuperButton'
 
 export type BooleanFormPropsType = {
-    question: string
+    question?: string
     push: (isDel: boolean) => void
 }
 
