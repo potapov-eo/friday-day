@@ -43,8 +43,8 @@ export const Pack = (props: packPropsType) => {
                 <div>{props.updated}</div>
                 <div><SuperButton disabled={!isMyPack} name={"del"} onClick={del} /></div>
                 <div><SuperButton disabled={!isMyPack} name={"update"} onClick={() => { setActiveUpdatePackModal(true) }} /></div>
-                <NavLink to={`${PATH.CARDS}/${props.pack_id}`} activeClassName={s.activeLink}>CARDS</NavLink>
-                <NavLink to={`${PATH.LEARN}/${props.pack_id}`} activeClassName={s.activeLink}>Learn</NavLink>
+                <div><NavLink to={`${PATH.CARDS}/${props.pack_id}`} activeClassName={s.activeLink}>CARDS</NavLink></div>
+                <div><NavLink to={`${PATH.LEARN}/${props.pack_id}`} activeClassName={s.activeLink}>Learn</NavLink></div>
             </div>
 
             <Modal activeModal={activeUpdatePackModal} setActiveModal={setActiveUpdatePackModal} >

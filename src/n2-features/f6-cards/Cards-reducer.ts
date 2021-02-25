@@ -9,7 +9,7 @@ const initialState = {
     cards: [] as Array<CardType>,
     paginationCards: {
         page: 1,
-        pageCount: 8,
+        pageCount: 3,
         cardAnswer: '',
         cardQuestion: '',
         cardsPack_id: '',
@@ -69,12 +69,12 @@ export const getCardTC = () =>
             dispatch(setAppErrorAC(error))
         }
     }
-export const addCardTC = (cardsPack_id: string) =>
+export const addCardTC = (cardsPack_id: string, values:{ question: string, answer:string}) =>
     async (dispatch: Dispatch , getState: () => AppRootStateType) => {
         try {
             dispatch(setAppStatusAC('loading'))
 
-            const addResponse = <AxiosResponse<any>>await CardsAPI.createCard(cardsPack_id)
+            const addResponse = <AxiosResponse<any>>await CardsAPI.createCard(cardsPack_id,values)
             const paginationData = getState().cards.paginationCards
             const response = <AxiosResponse<GetCardsResponseType>>await CardsAPI.getCards(paginationData)
             const cards = response.data.cards

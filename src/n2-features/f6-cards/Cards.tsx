@@ -2,7 +2,7 @@ import React, {useEffect, useState} from 'react'
 import {useDispatch, useSelector} from "react-redux";
 import {AppRootStateType} from "../../n1-main/m2-bll/store";
 import {RequestStatusType} from "../../n1-main/m2-bll/app-reduser";
-import {useParams} from "react-router-dom";
+import {Redirect, useParams} from "react-router-dom";
 import s from "../f5-packs/Packs.module.css";
 import {addCardTC, CardType, getCardTC, setCurrentIdAC, setCurrentPageAC} from "./Cards-reducer";
 import {Card} from "./card/Card";
@@ -11,6 +11,8 @@ import {Paginator} from "../../n1-main/m1-ui/common/Paginator/Paginator";
 import SuperButton from "../../n1-main/m1-ui/common/SuperButton/SuperButton";
 import {Modal} from '../../n1-main/m1-ui/common/Modal/Modal'
 import { AddItemForm } from '../../n1-main/m1-ui/common/AddItemForm/AddItemForm'
+import {PATH} from "../../n1-main/m1-ui/routes/Routes";
+import {AddCardForm, valueType} from "../../n1-main/m1-ui/common/AddCardForm/AddCardForm";
 
 export const Cards = () => {
     const [activeAddCardModal, setActiveAddCardModal] = useState<boolean>(false) 
@@ -40,15 +42,18 @@ export const Cards = () => {
         }
     }, [token])
 
-    const addCard = () => {
-        dispatch(addCardTC(token))
+    const addCard = (value:valueType) => {
+        dispatch(addCardTC(token,value))
         setActiveAddCardModal(false)}
 
     const onPageChanged = (newNumber: number) => {
         dispatch(setCurrentPageAC(newNumber))
         dispatch(getCardTC())
     }
+    if (!isLoggedIn) {
+        return <Redirect to={PATH.LOGIN}/>
 
+    }
 
     return (
 
@@ -58,7 +63,7 @@ export const Cards = () => {
                 <Paginator currentPage={page} pageSize={pageSize} totalItemsCount={totalItemsCount} portionSize={3}
                            onPageChanged={onPageChanged}/>
             </div>
-            {isLoggedIn ? <div className={s.tableString}>
+            {token ? <div className={s.tableString}>
 
                 <div>question</div>
                 <div>answer</div>
@@ -68,15 +73,15 @@ export const Cards = () => {
                     <SuperButton onClick={()=>{setActiveAddCardModal(true)}}  disabled={!isMyPack} name={"add"}/>
                 </div>
 
-            </div> : <div>"you are not authorized"</div>}
+            </div> : <div>"Необходимо выбрать колоду"</div>}
 
             {cards.map(card =>
                 <Card card={card}/>
             )}
 
             <Modal activeModal={activeAddCardModal} setActiveModal={setActiveAddCardModal} >
-                <AddItemForm addItem={addCard} buttonName={"add"} />
-            </Modal>   
+                <AddCardForm cardsPack_id={token} addCard={addCard} />
+            </Modal>
         </div>
     )
 }

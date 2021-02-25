@@ -15,7 +15,7 @@ let initialState = {
             max: 0,//количество карточек в колоде
             sortPacks: "0updated",// сортировка
             page: 1, //номер страницы
-            pageCount: 5,//кол-во элем на странице
+            pageCount: 3,//кол-во элем на странице
             user_id: "",
 
         },

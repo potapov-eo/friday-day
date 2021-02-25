@@ -11,6 +11,8 @@ import {Paginator} from "../../n1-main/m1-ui/common/Paginator/Paginator";
 import {getCardPacksDataType} from "../../n1-main/m3-dal/instance";
 import {Modal} from '../../n1-main/m1-ui/common/Modal/Modal'
 import { AddItemForm } from '../../n1-main/m1-ui/common/AddItemForm/AddItemForm'
+import {Redirect} from "react-router-dom";
+import {PATH} from "../../n1-main/m1-ui/routes/Routes";
 
 
 export const Packs = (props:{activeModal:boolean, setActiveModal:(activeModal:boolean)=> void}) => {
@@ -80,12 +82,16 @@ export const Packs = (props:{activeModal:boolean, setActiveModal:(activeModal:bo
         dispatch(setPaginationAC({page: pageNumber}))
         dispatch(getCardPacksTC())
     }
+    if (!isLoggedIn) {
+        return <Redirect to={PATH.LOGIN}/>
+
+    }
 
     return (
 
         <div className={s.table}>
             <h1>Packs</h1>
-            <div> my Pack <input type={"checkbox"} onChange={change}/></div>
+            <div> my Pack <input  type={"checkbox"} onChange={change}/></div>
             <div>
                 <Paginator currentPage={page} pageSize={pageSize} totalItemsCount={totalItemsCount} portionSize={10}
                            onPageChanged={onPageChanged}/>
@@ -108,7 +114,9 @@ export const Packs = (props:{activeModal:boolean, setActiveModal:(activeModal:bo
                     <h2> Updated</h2>
                 </div>
                 <div><SuperButton onClick={()=>{setActiveAddPackModal(true)}} name={"add"} /></div>
-                <h2>Cards</h2>
+                <div className={s.tableColumnTitle}></div>
+                <div className={s.tableColumnTitle}><h2> Cards</h2></div>
+                <div className={s.tableColumnTitle}><h2> Learn</h2></div>
 
             </div> : <div>"you are not authorized"</div>}
 

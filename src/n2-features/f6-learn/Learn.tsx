@@ -5,6 +5,7 @@ import {AppRootStateType} from "../../n1-main/m2-bll/store";
 import {RequestStatusType} from "../../n1-main/m2-bll/app-reduser";
 import {CardType, getCardTC, gradeCardTC, setCurrentIdAC} from "../f6-cards/Cards-reducer";
 import SuperButton from "../../n1-main/m1-ui/common/SuperButton/SuperButton";
+import s from "../f5-packs/Packs.module.css";
 
 
 type LearnPropsType = {}
@@ -64,7 +65,7 @@ debugger
     }
 
     return (
-        <div>
+        <div >
             LearnPage
 
             {token ? <div>
