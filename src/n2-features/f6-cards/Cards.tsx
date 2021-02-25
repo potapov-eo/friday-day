@@ -2,7 +2,7 @@ import React, {useEffect, useState} from 'react'
 import {useDispatch, useSelector} from "react-redux";
 import {AppRootStateType} from "../../n1-main/m2-bll/store";
 import {RequestStatusType} from "../../n1-main/m2-bll/app-reduser";
-import {Redirect, useParams} from "react-router-dom";
+import {NavLink, Redirect, useParams} from "react-router-dom";
 import s from "../f5-packs/Packs.module.css";
 import {addCardTC, CardType, getCardTC, setCurrentIdAC, setCurrentPageAC} from "./Cards-reducer";
 import {Card} from "./card/Card";
@@ -57,6 +57,7 @@ export const Cards = () => {
 
         <div className={s.table}>
             <h1>Cards</h1>
+            {token && <h2><NavLink to={`${PATH.LEARN}/${token}`} activeClassName={s.activeLink}>Learn</NavLink></h2>}
             <div>
                 <Paginator currentPage={page} pageSize={pageSize} totalItemsCount={totalItemsCount} portionSize={3}
                            onPageChanged={onPageChanged}/>
@@ -73,11 +74,12 @@ export const Cards = () => {
                     }} disabled={!isMyPack} name={"add"}/>
                 </div>
 
+
             </div> : <div>"Необходимо выбрать колоду"</div>}
 
-            {cards.map(card =>
+            {token ?cards.map(card =>
                 <Card card={card}/>
-            )}
+            ):<div></div>}
 
             <Modal activeModal={activeAddCardModal} setActiveModal={setActiveAddCardModal}>
                 <AddCardForm  addCard={addCard} text={"Enter question and answer of new card"}/>

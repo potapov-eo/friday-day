@@ -1,8 +1,8 @@
-import React, {useEffect, useState} from 'react'
+import React, {useState} from 'react'
 import s from '../../f5-packs/Packs.module.css'
 import {useDispatch, useSelector} from "react-redux";
 import {AppRootStateType} from "../../../n1-main/m2-bll/store";
-import {CardType, getCardTC, removeCardTC, setCardAC, updateCardTC} from "../Cards-reducer";
+import {CardType, removeCardTC, updateCardTC} from "../Cards-reducer";
 import {RequestStatusType} from "../../../n1-main/m2-bll/app-reduser";
 import SuperButton from "../../../n1-main/m1-ui/common/SuperButton/SuperButton";
 import {Modal} from "../../../n1-main/m1-ui/common/Modal/Modal";
@@ -41,15 +41,16 @@ export const Card = (props: cardPropsType) => {
                 }} name={"del"}/></div>
 
                 <div>
-                    <SuperButton disabled={!isMyPack} onClick={() =>setActiveAddCardModal(true)} name={"update"}/>
+                    <SuperButton disabled={!isMyPack} onClick={() => setActiveAddCardModal(true)} name={"update"}/>
                 </div>
 
             </div>
             <Modal activeModal={activeDelPackModal} setActiveModal={setActiveDelPackModal}>
-                <BooleanForm question={`you want to remove the card with the question: "${card.question}"`} push={removeCard}/>
+                <BooleanForm question={`you want to remove the card with the question: "${card.question}"`}
+                             push={removeCard}/>
             </Modal>
             <Modal activeModal={activeAddCardModal} setActiveModal={setActiveAddCardModal}>
-                <AddCardForm  addCard={updatedCard} text={"Enter new question and new answer"}/>
+                <AddCardForm addCard={updatedCard} text={"Enter new question and new answer"}/>
             </Modal>
         </div>
     )

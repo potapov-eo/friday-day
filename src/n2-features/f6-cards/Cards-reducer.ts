@@ -111,11 +111,11 @@ export const removeCardTC = (cardsPack_id: string, cardId: string) =>
             dispatch(setAppErrorAC(error))
         }
     }
-export const updateCardTC = ( cardId: string, value: valueType) =>
+export const updateCardTC = (cardId: string, value: valueType) =>
     async (dispatch: Dispatch, getState: () => AppRootStateType) => {
         try {
             dispatch(setAppStatusAC('loading'))
-            const removeResponse = <AxiosResponse<any>>await CardsAPI.updateCard(cardId,value.question,value.answer)
+            const removeResponse = <AxiosResponse<any>>await CardsAPI.updateCard(cardId, value.question, value.answer)
 
             const paginationData = getState().cards.paginationCards
             const response = <AxiosResponse<GetCardsResponseType>>await CardsAPI.getCards(paginationData)

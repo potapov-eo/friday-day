@@ -58,15 +58,18 @@ export const CardsAPI = {
         return instance.get(`cards/card/`, {params: paginationCardsData})
     },
     createCard(cardsPack_id: string, values: { question: string, answer: string }) {
-        return instance.post(`cards/card`, {card:
-                {cardsPack_id: cardsPack_id,
+        return instance.post(`cards/card`, {
+            card:
+                {
+                    cardsPack_id: cardsPack_id,
                     ...values
-            }})
+                }
+        })
     },
     deleteCard(idCarsPack: string) {
         return instance.delete(`cards/card/?id=${idCarsPack}`)
     },
-    updateCard(cardId: string, question:string, answer:string ) {
+    updateCard(cardId: string, question: string, answer: string) {
         return instance.put(`cards/card`, {
             card: {
                 _id: cardId,
@@ -78,9 +81,9 @@ export const CardsAPI = {
     },
     gradeCard(grade: number, card_id: string) {
         return instance.put(`cards/grade`,
-             {
-                    grade: grade,
-                    card_id: card_id
+            {
+                grade: grade,
+                card_id: card_id
 
             }
         )
