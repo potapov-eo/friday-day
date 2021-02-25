@@ -32,7 +32,7 @@ export const packsReducer = (state: InitialStateType = initialState, action: Act
             return {...state, pagination: {...state.pagination, ...action.property}}
 
         case "SET-TOTAL-PACKS-COUNT":
-            return {...state,  totalPacksCount: action.packsCount}
+            return {...state, totalPacksCount: action.packsCount}
 
         case "SET-CURRENT-PAGE":
             return {...state, pagination: {...state.pagination, page: action.currentPage}}

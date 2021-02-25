@@ -1,5 +1,4 @@
 import React, {ChangeEvent, KeyboardEvent, useState} from 'react'
-import {isPropertySignature} from 'typescript'
 import SuperButton from '../SuperButton/SuperButton'
 import SuperInput from '../SuperInput/SuperInput'
 

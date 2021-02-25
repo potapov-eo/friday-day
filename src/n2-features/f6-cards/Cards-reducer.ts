@@ -1,4 +1,4 @@
-import {CardsAPI, getCardPacksDataType, getCardsDataType} from "../../n1-main/m3-dal/instance";
+import {CardsAPI} from "../../n1-main/m3-dal/instance";
 import {Dispatch} from "redux";
 import {setAppErrorAC, setAppStatusAC} from "../../n1-main/m2-bll/app-reduser";
 import {AxiosResponse} from "axios";
@@ -69,12 +69,12 @@ export const getCardTC = () =>
             dispatch(setAppErrorAC(error))
         }
     }
-export const addCardTC = (cardsPack_id: string, values:{ question: string, answer:string}) =>
-    async (dispatch: Dispatch , getState: () => AppRootStateType) => {
+export const addCardTC = (cardsPack_id: string, values: { question: string, answer: string }) =>
+    async (dispatch: Dispatch, getState: () => AppRootStateType) => {
         try {
             dispatch(setAppStatusAC('loading'))
 
-            const addResponse = <AxiosResponse<any>>await CardsAPI.createCard(cardsPack_id,values)
+            const addResponse = <AxiosResponse<any>>await CardsAPI.createCard(cardsPack_id, values)
             const paginationData = getState().cards.paginationCards
             const response = <AxiosResponse<GetCardsResponseType>>await CardsAPI.getCards(paginationData)
             const cards = response.data.cards
@@ -135,9 +135,12 @@ export const gradeCardTC = (grade: number, card_id: string) =>
     async (dispatch: Dispatch, getState: () => AppRootStateType) => {
         try {
             dispatch(setAppStatusAC('loading'))
-            const Response = <AxiosResponse<any>>await CardsAPI.gradeCard(grade,card_id)
+            const Response = <AxiosResponse<any>>await CardsAPI.gradeCard(grade, card_id)
 
-            const newCards =< CardType[]> getState().cards.cards.map((card)=>card._id===card_id? {...card, grade:grade}:card)
+            const newCards = <CardType[]>getState().cards.cards.map((card) => card._id === card_id ? {
+                ...card,
+                grade: grade
+            } : card)
             dispatch(setCardAC(newCards))
             dispatch(setAppStatusAC('succeeded'))
             dispatch(setAppErrorAC(null))

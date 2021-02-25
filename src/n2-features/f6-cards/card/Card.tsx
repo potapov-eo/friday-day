@@ -1,10 +1,12 @@
-import React, {useEffect} from 'react'
+import React, {useEffect, useState} from 'react'
 import s from '../../f5-packs/Packs.module.css'
 import {useDispatch, useSelector} from "react-redux";
 import {AppRootStateType} from "../../../n1-main/m2-bll/store";
 import {CardType, getCardTC, removeCardTC, setCardAC, updateCardTC} from "../Cards-reducer";
 import {RequestStatusType} from "../../../n1-main/m2-bll/app-reduser";
 import SuperButton from "../../../n1-main/m1-ui/common/SuperButton/SuperButton";
+import {Modal} from "../../../n1-main/m1-ui/common/Modal/Modal";
+import {BooleanForm} from "../../../n1-main/m1-ui/common/BooleanModal/BooleanForm";
 
 type cardPropsType = {
     card: CardType
@@ -12,24 +14,37 @@ type cardPropsType = {
 export const Card = (props: cardPropsType) => {
     const card = props.card
     const dispatch = useDispatch()
+    const [activeDelPackModal, setActiveDelPackModal] = useState<boolean>(false)
     const registerUserId = useSelector<AppRootStateType, string>(state => state.app.UserData ? state.app.UserData._id : "")
     const status = useSelector<AppRootStateType, RequestStatusType>(state => state.app.status)
     const isMyPack = (card.user_id === registerUserId) && !(status === 'loading')
-    const removeCard = () => dispatch(removeCardTC(card.cardsPack_id, card._id))
+    const removeCard = (isDel:boolean) => {
+        setActiveDelPackModal(false)
+        isDel && dispatch(removeCardTC(card.cardsPack_id, card._id))
+    }
     const updatedCard = () => dispatch(updateCardTC(card.cardsPack_id, card._id))
-    return (
 
+    return (
+        <div>
         <div className={s.tableString} key={card._id}>
             <div>{card.question}</div>
             <div>{card.answer}</div>
             <div>{card.grade}</div>
             <div>{card.updated}</div>
-            <div>
-                <SuperButton disabled={!isMyPack} onClick={removeCard} name={"del"}/>
-            </div>
+
+                {/*<SuperButton disabled={!isMyPack} onClick={removeCard} name={"del"}/>*/}
+            <div><SuperButton disabled={!isMyPack} onClick={() => {
+                setActiveDelPackModal(true)
+            }} name={"del"}/></div>
+
             <div>
                 <SuperButton disabled={!isMyPack} onClick={updatedCard} name={"update"}/>
             </div>
+
+        </div>
+    <Modal activeModal={activeDelPackModal} setActiveModal={setActiveDelPackModal}>
+        <BooleanForm question={"Are you sure"} push={removeCard}/>
+    </Modal>
         </div>
     )
 }

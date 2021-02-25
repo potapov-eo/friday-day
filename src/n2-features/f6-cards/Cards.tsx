@@ -10,12 +10,11 @@ import {PackType} from "../f5-packs/Packs-reduser";
 import {Paginator} from "../../n1-main/m1-ui/common/Paginator/Paginator";
 import SuperButton from "../../n1-main/m1-ui/common/SuperButton/SuperButton";
 import {Modal} from '../../n1-main/m1-ui/common/Modal/Modal'
-import { AddItemForm } from '../../n1-main/m1-ui/common/AddItemForm/AddItemForm'
 import {PATH} from "../../n1-main/m1-ui/routes/Routes";
 import {AddCardForm, valueType} from "../../n1-main/m1-ui/common/AddCardForm/AddCardForm";
 
 export const Cards = () => {
-    const [activeAddCardModal, setActiveAddCardModal] = useState<boolean>(false) 
+    const [activeAddCardModal, setActiveAddCardModal] = useState<boolean>(false)
     const dispatch = useDispatch()
     const {token} = useParams<{ token: string }>()
     const status = useSelector<AppRootStateType, RequestStatusType>(state => state.app.status)
@@ -26,8 +25,6 @@ export const Cards = () => {
     const page = useSelector<AppRootStateType, number>(state => state.cards.paginationCards.page)
     const pageSize = useSelector<AppRootStateType, number>(state => state.cards.paginationCards.pageCount)
     const totalItemsCount = useSelector<AppRootStateType, number>(state => state.cards.totalCardsCount)
-
-
 
 
     const pack = packs.find(p => p._id === token)
@@ -42,9 +39,10 @@ export const Cards = () => {
         }
     }, [token])
 
-    const addCard = (value:valueType) => {
-        dispatch(addCardTC(token,value))
-        setActiveAddCardModal(false)}
+    const addCard = (value: valueType) => {
+        dispatch(addCardTC(token, value))
+        setActiveAddCardModal(false)
+    }
 
     const onPageChanged = (newNumber: number) => {
         dispatch(setCurrentPageAC(newNumber))
@@ -70,7 +68,9 @@ export const Cards = () => {
                 <div>grade</div>
                 <div>updated</div>
                 <div>
-                    <SuperButton onClick={()=>{setActiveAddCardModal(true)}}  disabled={!isMyPack} name={"add"}/>
+                    <SuperButton onClick={() => {
+                        setActiveAddCardModal(true)
+                    }} disabled={!isMyPack} name={"add"}/>
                 </div>
 
             </div> : <div>"Необходимо выбрать колоду"</div>}
@@ -79,8 +79,8 @@ export const Cards = () => {
                 <Card card={card}/>
             )}
 
-            <Modal activeModal={activeAddCardModal} setActiveModal={setActiveAddCardModal} >
-                <AddCardForm cardsPack_id={token} addCard={addCard} />
+            <Modal activeModal={activeAddCardModal} setActiveModal={setActiveAddCardModal}>
+                <AddCardForm cardsPack_id={token} addCard={addCard}/>
             </Modal>
         </div>
     )

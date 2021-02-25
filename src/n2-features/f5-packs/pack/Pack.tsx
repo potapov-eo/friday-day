@@ -5,10 +5,11 @@ import {useDispatch, useSelector} from "react-redux";
 import {AppRootStateType} from "../../../n1-main/m2-bll/store";
 import {NavLink} from "react-router-dom";
 import {PATH} from "../../../n1-main/m1-ui/routes/Routes";
-import { removePackTC, updateTC} from "../Packs-reduser";
+import {removePackTC, updateTC} from "../Packs-reduser";
 import {RequestStatusType} from "../../../n1-main/m2-bll/app-reduser";
 import {Modal} from '../../..//n1-main/m1-ui/common/Modal/Modal'
-import { AddItemForm } from '../../../n1-main/m1-ui/common/AddItemForm/AddItemForm'
+import {AddItemForm} from '../../../n1-main/m1-ui/common/AddItemForm/AddItemForm'
+import {BooleanForm} from "../../../n1-main/m1-ui/common/BooleanModal/BooleanForm";
 
 
 type packPropsType = {
@@ -17,8 +18,8 @@ type packPropsType = {
     updated?: string
     pack_id: string
     userId: string
-    activeModal:boolean
-    setActiveModal:(activeModal:boolean)=> void
+    activeModal: boolean
+    setActiveModal: (activeModal: boolean) => void
 }
 export const Pack = (props: packPropsType) => {
     const [activeUpdatePackModal, setActiveUpdatePackModal] = useState<boolean>(false)
@@ -26,8 +27,10 @@ export const Pack = (props: packPropsType) => {
     const status = useSelector<AppRootStateType, RequestStatusType>(state => state.app.status)
     const registerUserId = useSelector<AppRootStateType, string>(state => state.app.UserData ? state.app.UserData._id : "")
     const isMyPack = (props.userId === registerUserId) && !(status === 'loading')
-    const del = () => {
-        dispatch(removePackTC(props.pack_id))
+    const [activeDelPackModal, setActiveDelPackModal] = useState<boolean>(false)
+    const del = (isDel: boolean) => {
+        setActiveDelPackModal(false)
+        isDel && dispatch(removePackTC(props.pack_id))
     }
 
     const updatePack = (newNamePack: string) => {
@@ -41,17 +44,23 @@ export const Pack = (props: packPropsType) => {
                 <div>{props.name}</div>
                 <div>{props.cardsCount}</div>
                 <div>{props.updated}</div>
-                <div><SuperButton disabled={!isMyPack} name={"del"} onClick={del} /></div>
-                <div><SuperButton disabled={!isMyPack} name={"update"} onClick={() => { setActiveUpdatePackModal(true) }} /></div>
+                <div><SuperButton disabled={!isMyPack} onClick={() => {
+                    setActiveDelPackModal(true)
+                }} name={"del"}/></div>
+                <div><SuperButton disabled={!isMyPack} name={"update"} onClick={() => {
+                    setActiveUpdatePackModal(true)
+                }}/></div>
                 <div><NavLink to={`${PATH.CARDS}/${props.pack_id}`} activeClassName={s.activeLink}>CARDS</NavLink></div>
                 <div><NavLink to={`${PATH.LEARN}/${props.pack_id}`} activeClassName={s.activeLink}>Learn</NavLink></div>
             </div>
 
-            <Modal activeModal={activeUpdatePackModal} setActiveModal={setActiveUpdatePackModal} >
+            <Modal activeModal={activeUpdatePackModal} setActiveModal={setActiveUpdatePackModal}>
                 <AddItemForm addItem={updatePack} buttonName={"update"}/>
             </Modal>
+            <Modal activeModal={activeDelPackModal} setActiveModal={setActiveDelPackModal}>
+                <BooleanForm question={"Are you sure"} push={del}/>
+            </Modal>
         </div>
-
 
 
     )

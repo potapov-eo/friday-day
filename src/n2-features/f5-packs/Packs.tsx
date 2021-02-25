@@ -1,21 +1,20 @@
 import React, {ChangeEvent, useCallback, useEffect, useState} from 'react'
 import {useDispatch, useSelector} from 'react-redux'
 import {AppRootStateType} from '../../../src/n1-main/m2-bll/store'
-import {addCardPacksTC, getCardPacksTC, PackType, setPaginationAC, updateTC} from './/Packs-reduser'
+import {addCardPacksTC, getCardPacksTC, PackType, setPaginationAC} from './/Packs-reduser'
 import s from './Packs.module.css'
 import SuperButton from "../../n1-main/m1-ui/common/SuperButton/SuperButton";
 import {Pack} from "./pack/Pack";
 import {RequestStatusType} from "../../n1-main/m2-bll/app-reduser";
 import {SortButtons} from '../../n1-main/m1-ui/common/SortButtons/SortButtons'
 import {Paginator} from "../../n1-main/m1-ui/common/Paginator/Paginator";
-import {getCardPacksDataType} from "../../n1-main/m3-dal/instance";
 import {Modal} from '../../n1-main/m1-ui/common/Modal/Modal'
-import { AddItemForm } from '../../n1-main/m1-ui/common/AddItemForm/AddItemForm'
+import {AddItemForm} from '../../n1-main/m1-ui/common/AddItemForm/AddItemForm'
 import {Redirect} from "react-router-dom";
 import {PATH} from "../../n1-main/m1-ui/routes/Routes";
 
 
-export const Packs = (props:{activeModal:boolean, setActiveModal:(activeModal:boolean)=> void}) => {
+export const Packs = (props: { activeModal: boolean, setActiveModal: (activeModal: boolean) => void }) => {
     const isLoggedIn = useSelector<AppRootStateType, boolean>(state => state.app.isLoggedIn)
     const userId = useSelector<AppRootStateType, string>(state => state.app.UserData ? state.app.UserData._id : "")
     const cardPacks = useSelector<AppRootStateType, Array<PackType>>(state => state.packs.cardPacks)
@@ -26,7 +25,7 @@ export const Packs = (props:{activeModal:boolean, setActiveModal:(activeModal:bo
     const [isChange, setIsChange] = useState<boolean>(false)
     const [idTimeout, setIdTimeout] = useState<number>(0)
     const [searchName, setSearchName] = useState<string>("")
-    const [activeAddPackModal, setActiveAddPackModal] = useState<boolean>(false)    
+    const [activeAddPackModal, setActiveAddPackModal] = useState<boolean>(false)
     const isLoading = status === 'loading'
 
     const setChange = useCallback(() => {
@@ -91,7 +90,7 @@ export const Packs = (props:{activeModal:boolean, setActiveModal:(activeModal:bo
 
         <div className={s.table}>
             <h1>Packs</h1>
-            <div> my Pack <input  type={"checkbox"} onChange={change}/></div>
+            <div> my Pack <input type={"checkbox"} onChange={change}/></div>
             <div>
                 <Paginator currentPage={page} pageSize={pageSize} totalItemsCount={totalItemsCount} portionSize={10}
                            onPageChanged={onPageChanged}/>
@@ -113,16 +112,18 @@ export const Packs = (props:{activeModal:boolean, setActiveModal:(activeModal:bo
                     <SortButtons param="updated"/>
                     <h2> Updated</h2>
                 </div>
-                <div><SuperButton onClick={()=>{setActiveAddPackModal(true)}} name={"add"} /></div>
+                <div><SuperButton onClick={() => {
+                    setActiveAddPackModal(true)
+                }} name={"add"}/></div>
                 <div className={s.tableColumnTitle}></div>
                 <div className={s.tableColumnTitle}><h2> Cards</h2></div>
                 <div className={s.tableColumnTitle}><h2> Learn</h2></div>
 
             </div> : <div>"you are not authorized"</div>}
 
-            <Modal activeModal={activeAddPackModal} setActiveModal={setActiveAddPackModal} >
+            <Modal activeModal={activeAddPackModal} setActiveModal={setActiveAddPackModal}>
                 <AddItemForm addItem={addPack} buttonName={"add"}/>
-            </Modal>                        
+            </Modal>
 
             {cardPacks.map(packs =>
                 <Pack name={packs.name} cardsCount={packs.cardsCount} updated={packs.updated} pack_id={packs._id}
