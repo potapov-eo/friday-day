@@ -8,7 +8,7 @@ import Preloader from "./common/Preloder/Preloader";
 import {Routes} from "./routes/Routes";
 import {ErrorSnackBar} from "./common/ErrorSnackBar/ErrorSnackBar";
 import {Header} from "./header/Header";
-import {getMe} from "../../n2-features/f1-auth/a1-login/login-reducer";
+import {getMe, setIsLoggedIn} from "../../n2-features/f1-auth/a1-login/login-reducer";
 
 
 function App() {
@@ -16,8 +16,10 @@ function App() {
     const status = useSelector<AppRootStateType, RequestStatusType>(state => state.app.status)
     const error = useSelector<AppRootStateType, string | null>(state => state.app.error)
     let [firstRendering, setFirstRendering] = useState<boolean>(true)
+
     useEffect(() => {
         if (firstRendering) {
+            dispatch(setIsLoggedIn(false))
             dispatch(getMe())
             setFirstRendering(false)
         }

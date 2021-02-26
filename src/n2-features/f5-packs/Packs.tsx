@@ -82,10 +82,10 @@ export const Packs = (props: { activeModal: boolean, setActiveModal: (activeModa
         dispatch(setPaginationAC({page: pageNumber}))
         dispatch(getCardPacksTC())
     }
-    if (!isLoggedIn) {
+    /*if (!isLoggedIn) {
         return <Redirect to={PATH.LOGIN}/>
 
-    }
+    }*/
 
     return (
 

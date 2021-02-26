@@ -21,7 +21,7 @@ export const Login = () => {
         initialValues: {
             email: "Potapov.eo@mail.ru",
             password: "jekajeka",
-            rememberMe: false
+            rememberMe: true
         },
         validate: (values) => {
             const errors: FormikErrorType = {};
@@ -43,8 +43,7 @@ export const Login = () => {
     })
 
     if (isLoggedIn) {
-        /* dispatch(setAppErrorAC("you are already logged in"))*/
-        return <Redirect to={PATH.PROFILE}/>
+          return <Redirect to={PATH.PROFILE}/>
     }
 
     return (

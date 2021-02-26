@@ -2,7 +2,7 @@ import React, {useEffect, useState} from 'react'
 import {useDispatch, useSelector} from "react-redux";
 import {AppRootStateType} from "../../n1-main/m2-bll/store";
 import {RequestStatusType} from "../../n1-main/m2-bll/app-reduser";
-import {Redirect, useParams} from "react-router-dom";
+import {NavLink, useParams} from "react-router-dom";
 import s from "../f5-packs/Packs.module.css";
 import {addCardTC, CardType, getCardTC, setCurrentIdAC, setCurrentPageAC} from "./Cards-reducer";
 import {Card} from "./card/Card";
@@ -25,19 +25,34 @@ export const Cards = () => {
     const page = useSelector<AppRootStateType, number>(state => state.cards.paginationCards.page)
     const pageSize = useSelector<AppRootStateType, number>(state => state.cards.paginationCards.pageCount)
     const totalItemsCount = useSelector<AppRootStateType, number>(state => state.cards.totalCardsCount)
-
-
+    const [redirect, setRedirect] = useState<boolean>(false);
+    const [firstRendering, setFirstRendering] = useState<boolean>(true);
     const pack = packs.find(p => p._id === token)
     const createdUserId = pack ? pack.user_id : registerUserId
     const isMyPack = (createdUserId === registerUserId) && !(status === 'loading')
 
 
+    /* useEffect(() => {
+         if( firstRendering) {debugger
+             if (!(status === "loading") && isLoggedIn && token) {
+                 dispatch(setCurrentIdAC(token))
+                 dispatch(getCardTC())
+             } else if (!(status === "loading") && !isLoggedIn) { debugger
+                 setTimeout(() => setRedirect(true), 1500)
+             }
+         }
+         setFirstRendering (false)
+     }, [token, status, isLoggedIn])*/
     useEffect(() => {
-        if (token) {
+
+        if (isLoggedIn && token) {
             dispatch(setCurrentIdAC(token))
             dispatch(getCardTC())
         }
-    }, [token])
+    }, [isLoggedIn])
+
+    /*if (redirect && !isLoggedIn) return <Redirect to={PATH.LOGIN}/>
+    if (redirect && !token) return <Redirect to={PATH.PACK}/>*/
 
     const addCard = (value: valueType) => {
         dispatch(addCardTC(token, value))
@@ -48,15 +63,13 @@ export const Cards = () => {
         dispatch(setCurrentPageAC(newNumber))
         dispatch(getCardTC())
     }
-    if (!isLoggedIn) {
-        return <Redirect to={PATH.LOGIN}/>
-
-    }
 
     return (
 
         <div className={s.table}>
             <h1>Cards</h1>
+            {token && (cards.length > 0) &&
+            <h2><NavLink to={`${PATH.LEARN}/${token}`} activeClassName={s.activeLink}>Learn</NavLink></h2>}
             <div>
                 <Paginator currentPage={page} pageSize={pageSize} totalItemsCount={totalItemsCount} portionSize={3}
                            onPageChanged={onPageChanged}/>
@@ -73,17 +86,19 @@ export const Cards = () => {
                     }} disabled={!isMyPack} name={"add"}/>
                 </div>
 
+
             </div> : <div>"Необходимо выбрать колоду"</div>}
 
-            {cards.map(card =>
+            {token ? cards.map(card =>
                 <Card card={card}/>
-            )}
+            ) : <div></div>}
 
             <Modal activeModal={activeAddCardModal} setActiveModal={setActiveAddCardModal}>
-                <AddCardForm  addCard={addCard} text={"Enter question and answer of new card"}/>
+                <AddCardForm addCard={addCard} text={"Enter question and answer of new card"}/>
             </Modal>
         </div>
     )
 }
+
 
 
