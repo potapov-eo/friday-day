@@ -41,6 +41,7 @@ export const Cards = () => {
 
     const addCard = (value: valueType) => {
         dispatch(addCardTC(token, value))
+        dispatch(getCardTC())
         setActiveAddCardModal(false)
     }
 
@@ -50,7 +51,6 @@ export const Cards = () => {
     }
     if (!isLoggedIn) {
         return <Redirect to={PATH.LOGIN}/>
-
     }
 
     return (

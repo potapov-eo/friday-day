@@ -128,7 +128,7 @@ export const Packs = (props: { activeModal: boolean, setActiveModal: (activeModa
             </Modal>
 
             {cardPacks.map(packs =>
-                <Pack name={packs.name} cardsCount={packs.cardsCount} updated={packs.updated} pack_id={packs._id}
+                <Pack name={packs.name} cardsCount={packs.cardsCount} updated={packs.updated?.slice(0,10)} pack_id={packs._id}
                       userId={packs.user_id} activeModal={props.activeModal} setActiveModal={props.setActiveModal}/>
             )}
 

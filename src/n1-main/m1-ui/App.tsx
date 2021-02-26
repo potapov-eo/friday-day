@@ -16,6 +16,7 @@ function App() {
     const status = useSelector<AppRootStateType, RequestStatusType>(state => state.app.status)
     const error = useSelector<AppRootStateType, string | null>(state => state.app.error)
     let [firstRendering, setFirstRendering] = useState<boolean>(true)
+
     useEffect(() => {
         if (firstRendering) {
             dispatch(getMe())
@@ -31,7 +32,6 @@ function App() {
                 <Routes/>
                 {error && <ErrorSnackBar errorMessage={error}/>}
             </HashRouter>
-
         </div>
     );
 }
