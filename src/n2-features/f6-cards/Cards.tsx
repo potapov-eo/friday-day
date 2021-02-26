@@ -38,14 +38,13 @@ export const Cards = () => {
             dispatch(setCurrentIdAC(token))
             dispatch(getCardTC())
         }
-    }, [isLoggedIn])
+    }, [isLoggedIn,token])
 
     /*if (redirect && !isLoggedIn) return <Redirect to={PATH.LOGIN}/>
     if (redirect && !token) return <Redirect to={PATH.PACK}/>*/
 
     const addCard = (value: valueType) => {
         dispatch(addCardTC(token, value))
-        dispatch(getCardTC())
         setActiveAddCardModal(false)
     }
 
