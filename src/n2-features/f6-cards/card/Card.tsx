@@ -35,7 +35,7 @@ export const Card = (props: cardPropsType) => {
                 <div>{card.question}</div>
                 <div>{card.answer}</div>
                 <div>{card.grade}</div>
-                <div>{card.updated}</div>
+                <div>{card.updated.slice(0,10)}</div>
                 <div><SuperButton disabled={!isMyPack} onClick={() => {
                     setActiveDelPackModal(true)
                 }} name={"del"}/></div>

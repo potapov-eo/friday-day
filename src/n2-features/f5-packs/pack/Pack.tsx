@@ -42,7 +42,7 @@ export const Pack = (props: packPropsType) => {
     return (
         <div>
             <div className={s.tableString} key={props.pack_id}>
-                <div>{props.name}</div>
+                <div>{props.name} </div>
                 <div>{props.cardsCount}</div>
                 <div>{props.updated}</div>
                 <div><SuperButton disabled={!isMyPack} onClick={() => {

@@ -33,7 +33,6 @@ function App() {
                 <Routes/>
                 {error && <ErrorSnackBar errorMessage={error}/>}
             </HashRouter>
-
         </div>
     );
 }
