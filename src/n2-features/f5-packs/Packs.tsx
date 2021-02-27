@@ -9,8 +9,6 @@ import {RequestStatusType} from "../../n1-main/m2-bll/app-reduser";
 import {SortButtons} from '../../n1-main/m1-ui/common/SortButtons/SortButtons'
 import {Paginator} from "../../n1-main/m1-ui/common/Paginator/Paginator";
 import {Modal} from '../../n1-main/m1-ui/common/Modal/Modal'
-import {Redirect} from "react-router-dom";
-import {PATH} from "../../n1-main/m1-ui/routes/Routes";
 import {AddForm} from "../../n1-main/m1-ui/common/AddForm/AddForm";
 
 
@@ -20,12 +18,14 @@ export const Packs = (props: { activeModal: boolean, setActiveModal: (activeModa
     const cardPacks = useSelector<AppRootStateType, Array<PackType>>(state => state.packs.cardPacks)
     const status = useSelector<AppRootStateType, RequestStatusType>(state => state.app.status)
     const page = useSelector<AppRootStateType, number>(state => state.packs.pagination.page)
+    const paginationUserId = useSelector<AppRootStateType, string>(state => state.packs.pagination.user_id)
 
     const dispatch = useDispatch()
     const [isChange, setIsChange] = useState<boolean>(false)
     const [idTimeout, setIdTimeout] = useState<number>(0)
     const [searchName, setSearchName] = useState<string>("")
     const [activeAddPackModal, setActiveAddPackModal] = useState<boolean>(false)
+    const [isMyPackChecked, setIsMyPackChecked] = useState<boolean>(false)
     const isLoading = status === 'loading'
 
     const setChange = useCallback(() => {
@@ -43,6 +43,9 @@ export const Packs = (props: { activeModal: boolean, setActiveModal: (activeModa
             dispatch(getCardPacksTC())
             setIsChange(false)
         }
+        if (paginationUserId) {
+            setIsMyPackChecked(true)
+        }
     }, [setChange, isChange, setIsChange, setPaginationAC, isLoading])
 
 
@@ -54,11 +57,14 @@ export const Packs = (props: { activeModal: boolean, setActiveModal: (activeModa
     }, [isLoggedIn])
 
     const change = (e: ChangeEvent<HTMLInputElement>) => {
+        debugger
         if (e.currentTarget.checked) {
+            setIsMyPackChecked(true)
             dispatch(setPaginationAC({user_id: userId}))
             dispatch(getCardPacksTC())
 
         } else {
+            setIsMyPackChecked(false)
             dispatch(setPaginationAC({user_id: ""}))
             dispatch(getCardPacksTC())
         }
@@ -90,7 +96,7 @@ export const Packs = (props: { activeModal: boolean, setActiveModal: (activeModa
 
         <div className={s.table}>
             <h1>Packs</h1>
-            <div> my Pack <input type={"checkbox"} onChange={change}/></div>
+            <div> my Pack <input checked={isMyPackChecked} type={"checkbox"} onChange={change}/></div>
             <div>
                 <Paginator currentPage={page} pageSize={pageSize} totalItemsCount={totalItemsCount} portionSize={10}
                            onPageChanged={onPageChanged}/>
@@ -101,16 +107,16 @@ export const Packs = (props: { activeModal: boolean, setActiveModal: (activeModa
 
 
                 <div className={s.tableColumnTitle}>
-                    <SortButtons param="name"/>
                     <h2> Name</h2>
+                    <SortButtons param="name"/>
                 </div>
                 <div className={s.tableColumnTitle}>
-                    <SortButtons param="cardsCount"/>
                     <h2> CardsCount</h2>
+                    <SortButtons param="cardsCount"/>
                 </div>
                 <div className={s.tableColumnTitle}>
-                    <SortButtons param="updated"/>
                     <h2> Updated</h2>
+                    <SortButtons param="updated"/>
                 </div>
                 <div><SuperButton onClick={() => {
                     setActiveAddPackModal(true)
@@ -128,7 +134,8 @@ export const Packs = (props: { activeModal: boolean, setActiveModal: (activeModa
             </Modal>
 
             {cardPacks.map(packs =>
-                <Pack name={packs.name} cardsCount={packs.cardsCount} updated={packs.updated?.slice(0,10)} pack_id={packs._id}
+                <Pack name={packs.name} cardsCount={packs.cardsCount} updated={packs.updated?.slice(0, 10)}
+                      pack_id={packs._id}
                       userId={packs.user_id} activeModal={props.activeModal} setActiveModal={props.setActiveModal}/>
             )}
 

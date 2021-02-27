@@ -3,7 +3,7 @@ import './App.css';
 import {HashRouter} from "react-router-dom";
 import {useDispatch, useSelector} from 'react-redux';
 import {AppRootStateType} from "../m2-bll/store";
-import {RequestStatusType} from "../m2-bll/app-reduser";
+import {RequestStatusType, setAppErrorAC} from "../m2-bll/app-reduser";
 import Preloader from "./common/Preloder/Preloader";
 import {Routes} from "./routes/Routes";
 import {ErrorSnackBar} from "./common/ErrorSnackBar/ErrorSnackBar";
@@ -21,7 +21,7 @@ function App() {
         if (firstRendering) {
             dispatch(setIsLoggedIn(false))
             dispatch(getMe())
-            setFirstRendering(false)
+
         }
     }, [])
 

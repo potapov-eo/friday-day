@@ -51,6 +51,15 @@ export const appReducer = (state: AppInitialStateType = initialState, action: Ac
             return {...state, error: action.error}
         case "SET_USER_DATA":
             return {...state, UserData: action.userData}
+        case "SET_CAEDS_PACK_TOTAL_COUNT":
+           if(state.UserData) {
+               return {
+                   ...state,
+                   UserData: {
+                       ...state.UserData, publicCardPacksCount: action.publicCardPacksCount
+                   }
+               }
+           }else return state
         case "SET_ISLOGGEDIN":
             return {...state, isLoggedIn: action.value}
         case "SET-RECEIVED-RESPONSE":
@@ -64,7 +73,6 @@ export const appReducer = (state: AppInitialStateType = initialState, action: Ac
         case 'SET-DEV_VERSION':
             return {...state, devVersion: action.devVersion}
 
-
         default:
             return state
     }
@@ -77,6 +85,8 @@ export const setAppErrorAC = (error: string | null) =>
     ({type: 'APP/SET-ERROR', error} as const)
 export const receivedResponseAC = (userData: UserDataType, status: RequestStatusType, error: string | null, isLoggedIn: boolean) =>
     ({type: 'SET-RECEIVED-RESPONSE', userData, status, error, isLoggedIn} as const)
+export const setPublicCardPacksCountAC = (publicCardPacksCount: number  | null) =>
+    ({type: 'SET_CAEDS_PACK_TOTAL_COUNT', publicCardPacksCount} as const)
 
 
 export type setAppStatusACType = ReturnType<typeof setAppStatusAC>
@@ -90,6 +100,7 @@ type ActionsType =
     | setAppErrorACType
     | ReturnType<typeof setUserData>
     | ReturnType<typeof setIsLoggedIn>
+    | ReturnType<typeof setPublicCardPacksCountAC>
     | receivedResponseACType
     | setDevVersionACType
 

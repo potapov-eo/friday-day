@@ -1,6 +1,6 @@
 import {CardsAPI, getCardPacksDataType} from '../../../src/n1-main/m3-dal/instance'
 import {Dispatch} from 'redux'
-import {setAppErrorAC, setAppStatusAC} from "../../n1-main/m2-bll/app-reduser";
+import {setAppErrorAC, setAppStatusAC, setPublicCardPacksCountAC} from "../../n1-main/m2-bll/app-reduser";
 import {AxiosResponse} from "axios";
 import {AppRootStateType} from "../../n1-main/m2-bll/store";
 import {setIsLoggedIn} from "../f1-auth/a1-login/login-reducer";
@@ -46,11 +46,8 @@ export const setCardPacksAC = (cardPacks: Array<PackType>) => ({type: 'CARDS/SET
 export const removePackAC = (packId: string) => ({type: 'CARDS/REMOVE-PACK', packId} as const)
 export const addPackAC = (pack: PackType) => ({type: 'CARDS/ADD-PACK', pack} as const)
 export const updatePackAC = (packId: string, pack: PackType) => ({type: 'CARDS/UPDATE-PACK', packId, pack} as const)
-
 export const setPaginationAC = (property: setPaginationType) => ({type: 'SET-PAGINATION-PROPERTY', property} as const)
-
 export const setTotalPacksCountAC = (packsCount: number) => ({type: "SET-TOTAL-PACKS-COUNT", packsCount} as const)
-
 export const setCurrentPageAC = (currentPage: number) => ({type: 'SET-CURRENT-PAGE', currentPage} as const)
 
 //TC
@@ -92,6 +89,8 @@ export const addCardPacksTC = (newPackName: string) =>
             const paginationData = getState().packs.pagination
             const getResponse = <AxiosResponse<getCardPacksResponseType>>await CardsAPI.getCardPacks(paginationData)
             const packs = getResponse.data.cardPacks
+            dispatch(setPublicCardPacksCountAC(getResponse.data.cardPacksTotalCount))
+            dispatch( setTotalPacksCountAC(getResponse.data.cardPacksTotalCount))
             dispatch(setCardPacksAC(packs))
             dispatch(setAppStatusAC('succeeded'))
             dispatch(setAppErrorAC(null))
@@ -112,7 +111,9 @@ export const removePackTC = (idCarsPack: string) =>
             const deleteResponse = await CardsAPI.deleteCardsPack(idCarsPack)
             const paginationData = getState().packs.pagination
             const getResponse = <AxiosResponse<getCardPacksResponseType>>await CardsAPI.getCardPacks(paginationData)
+            dispatch( setTotalPacksCountAC(getResponse.data.cardPacksTotalCount))
             const packs = getResponse.data.cardPacks
+            dispatch(setPublicCardPacksCountAC(getResponse.data.cardPacksTotalCount))
             dispatch(setCardPacksAC(packs))
             dispatch(setAppStatusAC('succeeded'))
             dispatch(setAppErrorAC(null))
@@ -133,6 +134,7 @@ export const updateTC = (id: string, newNamePack: string, getData: getCardPacksD
             const paginationData = getState().packs.pagination
             const getResponse = <AxiosResponse<getCardPacksResponseType>>await CardsAPI.getCardPacks(paginationData)
             const packs = getResponse.data.cardPacks
+
             dispatch(setCardPacksAC(packs))
             dispatch(setAppStatusAC('succeeded'))
             dispatch(setAppErrorAC(null))

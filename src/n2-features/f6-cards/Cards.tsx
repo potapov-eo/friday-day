@@ -2,7 +2,7 @@ import React, {useEffect, useState} from 'react'
 import {useDispatch, useSelector} from "react-redux";
 import {AppRootStateType} from "../../n1-main/m2-bll/store";
 import {RequestStatusType} from "../../n1-main/m2-bll/app-reduser";
-import {NavLink, Redirect, useParams} from "react-router-dom";
+import {NavLink, useParams} from "react-router-dom";
 import s from "../f5-packs/Packs.module.css";
 import {addCardTC, CardType, getCardTC, setCurrentIdAC, setCurrentPageAC} from "./Cards-reducer";
 import {Card} from "./card/Card";
@@ -33,7 +33,6 @@ export const Cards = () => {
 
 
     useEffect(() => {
-
         if (isLoggedIn && token) {
             dispatch(setCurrentIdAC(token))
             dispatch(getCardTC())
@@ -52,9 +51,9 @@ export const Cards = () => {
         dispatch(setCurrentPageAC(newNumber))
         dispatch(getCardTC())
     }
-    if (!isLoggedIn) {
+    /*if (!isLoggedIn) {
         return <Redirect to={PATH.LOGIN}/>
-    }
+    }*/
 
     return (
 

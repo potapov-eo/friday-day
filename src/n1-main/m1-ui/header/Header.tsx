@@ -32,13 +32,13 @@ export const Header = () => {
 
 
             <div className={s.burger}>
-                <a href="" className={s.a}>
+                {/*<a href="" className={s.a}>
                     <span className={s.burgerToggle}>
                         <span className={s.nk1}></span>
                         <span className={s.nk2}></span>
                         <span className={s.nk3}></span>
                     </span>
-                </a>
+                </a>*/}
             </div>
             {isLoggedIn && < SuperButton onClick={logoutOnClick} name="logout"/>}
             {isLoggedIn &&

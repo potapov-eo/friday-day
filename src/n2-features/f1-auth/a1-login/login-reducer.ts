@@ -45,7 +45,8 @@ export const getMe = () => async (dispatch: Dispatch) => {
         const error = e.response
             ? e.response.data.error
             : (e.message + ', more details in the console')
-        dispatch(setAppErrorAC(error))
+        /*dispatch(setAppErrorAC(error))*/
+        console.log(error)
         dispatch( setIsLoggedIn(false))
               }
 }

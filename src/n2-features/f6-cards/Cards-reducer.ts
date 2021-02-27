@@ -52,7 +52,7 @@ export const getCardTC = () =>
     async (dispatch: Dispatch, getState: () => AppRootStateType) => {
         try {
             dispatch(setAppStatusAC('loading'))
-debugger
+
             const paginationData = getState().cards.paginationCards
             const response = <AxiosResponse<GetCardsResponseType>>await CardsAPI.getCards(paginationData)
             const cards = response.data.cards
@@ -61,7 +61,7 @@ debugger
             dispatch(setCardAC(cards))
             dispatch(setAppStatusAC('succeeded'))
             dispatch(setAppErrorAC(null))
-        } catch (e) { debugger
+        } catch (e) {
             dispatch(setAppStatusAC('failed'))
             const error = e.response
                 ? e.response.data.error
@@ -74,7 +74,7 @@ export const addCardTC = (cardsPack_id: string, values: { question: string, answ
     async (dispatch: Dispatch, getState: () => AppRootStateType) => {
         try {
             dispatch(setAppStatusAC('loading'))
-debugger
+
             const addResponse = <AxiosResponse<any>>await CardsAPI.createCard(cardsPack_id, values)
             const paginationData = getState().cards.paginationCards
             const response = <AxiosResponse<GetCardsResponseType>>await CardsAPI.getCards(paginationData)
@@ -83,8 +83,8 @@ debugger
             dispatch(setCardAC(cards))
             dispatch(setAppStatusAC('succeeded'))
             dispatch(setAppErrorAC(null))
-            debugger
-        } catch (e) {debugger
+
+        } catch (e) {
             dispatch(setAppStatusAC('failed'))
             const error = e.response
                 ? e.response.data.error
