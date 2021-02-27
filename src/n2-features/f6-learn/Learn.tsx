@@ -83,7 +83,7 @@ debugger
                 <div>
                     <SuperButton name={"check"} onClick={() => setIsChecked(true)}/>
                 </div>
-            </div> : <div>"НЕОБХОДИМО ВЫБРАТЬ КОЛОДУ"</div>}
+            </div> : <h3>"НЕОБХОДИМО ВЫБРАТЬ КОЛОДУ"</h3>}
 
             {isChecked && (
                 <>

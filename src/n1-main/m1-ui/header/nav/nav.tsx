@@ -6,7 +6,7 @@ import {useSelector} from "react-redux";
 import {AppRootStateType} from "../../../m2-bll/store";
 
 export const Nav = () => {
-    const isLoggedIn = useSelector<AppRootStateType, boolean>(state => state.app.isLoggedIn)
+    const isLoggedIn = useSelector<AppRootStateType, boolean>(state => state.auth.isLoggedIn)
     return (
 
         <div className={s.nav}>
@@ -25,9 +25,9 @@ export const Nav = () => {
                 <span>
                 <NavLink to={PATH.RECOVERY_PASSWORD} activeClassName={s.activeLink}>RECOVERY_PASSWORD</NavLink>
             </span>
-                <span>
+                {/*<span>
                 <NavLink to={PATH.NEW_PASSWORD} activeClassName={s.activeLink}>NEW_PASSWORD</NavLink>
-            </span>
+            </span>*/}
             </>}
             {isLoggedIn && <> <span>
                 <NavLink to={PATH.PROFILE} activeClassName={s.activeLink}>PROFILE</NavLink>

@@ -1,19 +1,13 @@
-import {applyMiddleware, combineReducers, compose, createStore} from 'redux'
+import {applyMiddleware, combineReducers, createStore} from 'redux'
 import thunkMiddleware from 'redux-thunk'
-import {loginReducer} from "../../n2-features/f1-auth/a1-login/login-reducer";
-import {registerReducer} from "../../n2-features/f1-auth/a2-register/register-reducer";
-import {recoveryPasswordReducer} from "../../n2-features/f1-auth/a3-recoveryPassword/recoveryPassword-reducer";
-import {newPasswordReducer} from "../../n2-features/f1-auth/a4-newPassword/newPassword-reducer";
 import {packsReducer} from "../../n2-features/f5-packs/Packs-reduser";
 import {appReducer} from "./app-reduser";
 import {cardsReducer} from "../../n2-features/f6-cards/Cards-reducer";
+import {authReducer} from "../../n2-features/f1-auth/auth-reducer";
 
 
 const rootReducer = combineReducers({
-    login:loginReducer,
-    register:registerReducer,
-    recoveryPassword:recoveryPasswordReducer,
-    newPassword:newPasswordReducer,
+    auth:authReducer,
     app:appReducer,
     packs:packsReducer,
     cards: cardsReducer

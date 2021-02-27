@@ -4,6 +4,7 @@ import {setAppErrorAC, setAppStatusAC} from "../../n1-main/m2-bll/app-reduser";
 import {AxiosResponse} from "axios";
 import {AppRootStateType} from "../../n1-main/m2-bll/store";
 import {valueType} from "../../n1-main/m1-ui/common/AddCardForm/AddCardForm";
+import {getResponseError} from "../../n1-main/m2-bll/common/HelperFunctions";
 
 
 const initialState = {
@@ -63,10 +64,7 @@ export const getCardTC = () =>
             dispatch(setAppErrorAC(null))
         } catch (e) {
             dispatch(setAppStatusAC('failed'))
-            const error = e.response
-                ? e.response.data.error
-                : (e.message + ', more details in the console')
-
+            const error =getResponseError(e)
             dispatch(setAppErrorAC(error))
         }
     }
@@ -86,10 +84,7 @@ export const addCardTC = (cardsPack_id: string, values: { question: string, answ
 
         } catch (e) {
             dispatch(setAppStatusAC('failed'))
-            const error = e.response
-                ? e.response.data.error
-                : (e.message + ', more details in the console')
-
+            const error =getResponseError(e)
             dispatch(setAppErrorAC(error))
         }
     }
@@ -107,10 +102,7 @@ export const removeCardTC = (cardsPack_id: string, cardId: string) =>
             dispatch(setAppErrorAC(null))
         } catch (e) {
             dispatch(setAppStatusAC('failed'))
-            const error = e.response
-                ? e.response.data.error
-                : (e.message + ', more details in the console')
-
+            const error =getResponseError(e)
             dispatch(setAppErrorAC(error))
         }
     }
@@ -128,10 +120,7 @@ export const updateCardTC = (cardId: string, value: valueType) =>
             dispatch(setAppErrorAC(null))
         } catch (e) {
             dispatch(setAppStatusAC('failed'))
-            const error = e.response
-                ? e.response.data.error
-                : (e.message + ', more details in the console')
-
+            const error =getResponseError(e)
             dispatch(setAppErrorAC(error))
         }
     }
@@ -150,10 +139,7 @@ export const gradeCardTC = (grade: number, card_id: string) =>
             dispatch(setAppErrorAC(null))
         } catch (e) {
             dispatch(setAppStatusAC('failed'))
-            const error = e.response
-                ? e.response.data.error
-                : (e.message + ', more details in the console')
-
+            const error =getResponseError(e)
             dispatch(setAppErrorAC(error))
         }
     }

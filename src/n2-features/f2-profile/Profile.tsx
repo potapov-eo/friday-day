@@ -9,7 +9,7 @@ import s from "./Profile.module.css";
 
 export const Profile = () => {
 
-    const isLoggedIn = useSelector<AppRootStateType, boolean>(state => state.app.isLoggedIn)
+    const isLoggedIn = useSelector<AppRootStateType, boolean>(state => state.auth.isLoggedIn)
     const userData = useSelector<AppRootStateType, UserDataType>(state => state.app.UserData)
     let {name, email, publicCardPacksCount} = userData ? userData : {name: "", email: "", publicCardPacksCount: ""}
 

@@ -2,9 +2,9 @@ import React, {DetailedHTMLProps, HTMLAttributes, useEffect, useState} from "rea
 import {useDispatch, useSelector} from "react-redux";
 import {Redirect} from "react-router-dom";
 import {AppRootStateType} from "../../../m2-bll/store";
-import {getMe} from "../../../../n2-features/f1-auth/a1-login/login-reducer";
 import {setAppErrorAC} from "../../../m2-bll/app-reduser";
 import {PATH} from "../../routes/Routes";
+import {getMe} from "../../../../n2-features/f1-auth/auth-reducer";
 
 
 type DivPropsType = DetailedHTMLProps<HTMLAttributes<HTMLDivElement>, HTMLDivElement>;
@@ -18,7 +18,7 @@ const AuthRedirectPage: React.FC<AuthRedirectPagePropsType> = React.memo((
     }
 ) => {
     const {UserData, error} = useSelector((store: AppRootStateType) => store.app);
-    const isLoggedIn = useSelector<AppRootStateType, boolean>(state => state.app.isLoggedIn)
+    const isLoggedIn = useSelector<AppRootStateType, boolean>(state => state.auth.isLoggedIn)
     const [firstRendering, setFirstRendering] = useState<boolean>(true);
     const [redirect, setRedirect] = useState<boolean>(false);
     const [spin, setSpin] = useState<boolean>(!UserData); // !!! add request /auth/me

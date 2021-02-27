@@ -2,17 +2,17 @@ import React from 'react'
 import SuperInput from '../../../n1-main/m1-ui/common/SuperInput/SuperInput';
 import SuperButton from '../../../n1-main/m1-ui/common/SuperButton/SuperButton';
 import {useDispatch, useSelector} from 'react-redux';
-import {login} from './login-reducer';
 import {Redirect} from 'react-router-dom';
 import {useFormik} from 'formik';
 import {AppRootStateType} from '../../../../src/n1-main/m2-bll/store'
 import {PATH} from "../../../n1-main/m1-ui/routes/Routes";
 import {RequestStatusType} from "../../../n1-main/m2-bll/app-reduser";
+import {login} from "../auth-reducer";
 
 
 export const Login = () => {
     const status = useSelector<AppRootStateType, RequestStatusType>(state => state.app.status)
-    const isLoggedIn = useSelector<AppRootStateType, boolean>(state => state.app.isLoggedIn)
+    const isLoggedIn = useSelector<AppRootStateType, boolean>(state => state.auth.isLoggedIn)
     const dispatch = useDispatch()
 
     const disable = status === 'loading'

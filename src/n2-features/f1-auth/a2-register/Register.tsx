@@ -1,19 +1,19 @@
 import React from 'react'
 import {useFormik} from "formik";
 import {useDispatch, useSelector} from "react-redux";
-import {RegisterTC} from "./register-reducer";
 import {Redirect} from "react-router-dom";
 import {AppRootStateType} from "../../../n1-main/m2-bll/store";
 import {PATH} from "../../../n1-main/m1-ui/routes/Routes";
-import {RequestStatusType, setAppErrorAC} from "../../../n1-main/m2-bll/app-reduser";
+import {RequestStatusType} from "../../../n1-main/m2-bll/app-reduser";
 import SuperButton from "../../../n1-main/m1-ui/common/SuperButton/SuperButton";
 import SuperInput from "../../../n1-main/m1-ui/common/SuperInput/SuperInput";
+import {RegisterTC} from "../auth-reducer";
 
 export const Register = () => {
     const dispatch = useDispatch()
     const status = useSelector<AppRootStateType, RequestStatusType>(state => state.app.status)
-    const isLoggedIn = useSelector<AppRootStateType, boolean>(state => state.app.isLoggedIn)
-    const isRegister = useSelector<AppRootStateType, boolean>(state => state.register.isRegister)
+    const isLoggedIn = useSelector<AppRootStateType, boolean>(state => state.auth.isLoggedIn)
+    const isRegister = useSelector<AppRootStateType, boolean>(state => state.auth.isRegister)
     type FormikErrorType = {
         email?: string
         password?: string
@@ -44,26 +44,22 @@ export const Register = () => {
 
 
         onSubmit: values => {
-
-            /*dispatch(RegisterTC(values))*/
             dispatch(RegisterTC({email: values.email, password: values.password}))
             formik.resetForm()
         },
     })
 
     if (isLoggedIn) {
-     /*   dispatch(setAppErrorAC("you are already logged in"))*/
         return <Redirect to={PATH.PROFILE}/>
     }
     if (isRegister) {
-
         return <Redirect to={PATH.LOGIN}/>
     }
 
     return <div className="App">
 
         <form onSubmit={formik.handleSubmit}>
-           <h1>REGISTRATION</h1> 
+            <h1>REGISTRATION</h1>
             <div>
                 <SuperInput
                     placeholder={"email"}

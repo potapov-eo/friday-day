@@ -3,12 +3,13 @@ import './App.css';
 import {HashRouter} from "react-router-dom";
 import {useDispatch, useSelector} from 'react-redux';
 import {AppRootStateType} from "../m2-bll/store";
-import {RequestStatusType, setAppErrorAC} from "../m2-bll/app-reduser";
+import {RequestStatusType} from "../m2-bll/app-reduser";
 import Preloader from "./common/Preloder/Preloader";
 import {Routes} from "./routes/Routes";
 import {ErrorSnackBar} from "./common/ErrorSnackBar/ErrorSnackBar";
 import {Header} from "./header/Header";
-import {getMe, setIsLoggedIn} from "../../n2-features/f1-auth/a1-login/login-reducer";
+
+import {getMe, setIsLoggedIn} from "../../n2-features/f1-auth/auth-reducer";
 
 
 function App() {

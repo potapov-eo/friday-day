@@ -3,7 +3,8 @@ import {Dispatch} from 'redux'
 import {setAppErrorAC, setAppStatusAC, setPublicCardPacksCountAC} from "../../n1-main/m2-bll/app-reduser";
 import {AxiosResponse} from "axios";
 import {AppRootStateType} from "../../n1-main/m2-bll/store";
-import {setIsLoggedIn} from "../f1-auth/a1-login/login-reducer";
+import {getResponseError} from "../../n1-main/m2-bll/common/HelperFunctions";
+import {setIsLoggedIn} from "../f1-auth/auth-reducer";
 
 
 let initialState = {
@@ -74,10 +75,7 @@ export const getCardPacksTC = (getData: getCardPacksDataType = {}) =>
 
         } catch (e) {
             dispatch(setAppStatusAC('failed'))
-            const error = e.response
-                ? e.response.data.error
-                : (e.message + ', more details in the console')
-
+            const error =getResponseError(e)
             dispatch(setAppErrorAC(error))
         }
     }
@@ -97,10 +95,7 @@ export const addCardPacksTC = (newPackName: string) =>
         } catch (e) {
             debugger
             dispatch(setAppStatusAC('failed'))
-            const error = e.response
-                ? e.response.data.error
-                : (e.message + ', more details in the console')
-
+            const error =getResponseError(e)
             dispatch(setAppErrorAC(error))
         }
     }
@@ -119,10 +114,7 @@ export const removePackTC = (idCarsPack: string) =>
             dispatch(setAppErrorAC(null))
         } catch (e) {
             dispatch(setAppStatusAC('failed'))
-            const error = e.response
-                ? e.response.data.error
-                : (e.message + ', more details in the console')
-
+            const error =getResponseError(e)
             dispatch(setAppErrorAC(error))
         }
     }
@@ -140,10 +132,7 @@ export const updateTC = (id: string, newNamePack: string, getData: getCardPacksD
             dispatch(setAppErrorAC(null))
         } catch (e) {
             dispatch(setAppStatusAC('failed'))
-            const error = e.response
-                ? e.response.data.error
-                : (e.message + ', more details in the console')
-
+            const error =getResponseError(e)
             dispatch(setAppErrorAC(error))
         }
     }

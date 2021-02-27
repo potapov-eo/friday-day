@@ -15,7 +15,7 @@ import {PATH} from "../../n1-main/m1-ui/routes/Routes";
 
 
 export const Packs = (props: { activeModal: boolean, setActiveModal: (activeModal: boolean) => void }) => {
-    const isLoggedIn = useSelector<AppRootStateType, boolean>(state => state.app.isLoggedIn)
+    const isLoggedIn = useSelector<AppRootStateType, boolean>(state => state.auth.isLoggedIn)
     const userId = useSelector<AppRootStateType, string>(state => state.app.UserData ? state.app.UserData._id : "")
     const cardPacks = useSelector<AppRootStateType, Array<PackType>>(state => state.packs.cardPacks)
     const status = useSelector<AppRootStateType, RequestStatusType>(state => state.app.status)
@@ -113,8 +113,11 @@ export const Packs = (props: { activeModal: boolean, setActiveModal: (activeModa
                     <SortButtons param="name"/>
                 </div>
                 <div className={s.tableColumnTitle}>
+
                     <h2> CardsCount</h2>
                     <SortButtons param="cardsCount"/>
+
+
                 </div>
                 <div className={s.tableColumnTitle}>
                     <h2> Updated</h2>

@@ -1,19 +1,18 @@
 import React from 'react'
 import {useFormik} from "formik";
 import {useDispatch, useSelector} from "react-redux";
-import {useParams} from "react-router-dom";
 import {AppRootStateType} from "../../../n1-main/m2-bll/store";
 import SuperButton from "../../../n1-main/m1-ui/common/SuperButton/SuperButton";
 import SuperInput from "../../../n1-main/m1-ui/common/SuperInput/SuperInput";
-import {verificationEmailTC} from "./recoveryPassword-reducer";
 import {RequestStatusType} from "../../../n1-main/m2-bll/app-reduser";
 import {DEV_VERSION} from "../../../config";
+import {recoveryEmailAC, verificationEmailTC} from "../auth-reducer";
 
 
 export const RecoveryPassword = () => {
     const dispatch = useDispatch()
     const status = useSelector<AppRootStateType, RequestStatusType>(state => state.app.status)
-    const registeredEmail = useSelector<AppRootStateType, boolean>(state => state.recoveryPassword.registeredEmail)
+    const registeredEmail = useSelector<AppRootStateType, boolean>(state => state.auth.recoveryEmail)
 
     const from = "test-front-admin <ai73a@yandex.by>"
     const message = !DEV_VERSION
@@ -21,7 +20,6 @@ export const RecoveryPassword = () => {
         " href='http://localhost:3000/#/new-password/$token$'>link</a></div>"
         : "<div>password recovery link:<a" +
         " href='https://potapov-eo.github.io/friday-day/#/new-password/$token$'>link</a></div>"
-
 
     type FormikErrorType = {
         email?: string
@@ -45,20 +43,20 @@ export const RecoveryPassword = () => {
         },
 
         onSubmit: values => {
-
             dispatch(verificationEmailTC({email: values.email, from, message}))
             formik.resetForm()
         },
     })
-
-    const {token} = useParams<{ token: string }>()
-
+    const TryAgain = () => dispatch(recoveryEmailAC(false))
     if (registeredEmail) {
         return (
-            <div>
-                <div>Success!</div>
-                <div>Click the link in the message in your email</div>
+            <div className="App">
+                <h1>Recovery Password</h1>
+                <h2>Success!</h2>
+                <h3>Click the link in the message in your email</h3>
+                <SuperButton onClick={TryAgain} name={"Try again"}/>
             </div>
+
         )
     }
 
@@ -66,7 +64,8 @@ export const RecoveryPassword = () => {
     return <div className="App">
 
         <form onSubmit={formik.handleSubmit}>
-            RecoveryPassword
+
+            <h1>Recovery Password</h1>
             <div>
                 <SuperInput
                     placeholder={"email"}

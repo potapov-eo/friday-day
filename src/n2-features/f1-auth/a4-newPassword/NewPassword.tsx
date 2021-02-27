@@ -6,22 +6,19 @@ import {AppRootStateType} from "../../../n1-main/m2-bll/store";
 import {RequestStatusType} from "../../../n1-main/m2-bll/app-reduser";
 import SuperButton from "../../../n1-main/m1-ui/common/SuperButton/SuperButton";
 import SuperInput from "../../../n1-main/m1-ui/common/SuperInput/SuperInput";
-import {setPasswordTC} from "./newPassword-reducer";
 import {PATH} from "../../../n1-main/m1-ui/routes/Routes";
+import {setPasswordTC} from "../auth-reducer";
 
 export const NewPassword = () => {
     const dispatch = useDispatch()
     const status = useSelector<AppRootStateType, RequestStatusType>(state => state.app.status)
-    const newPassword = useSelector<AppRootStateType, string>(state => state.newPassword.newPassword)
+    const newPassword = useSelector<AppRootStateType, boolean>(state => state.auth.newPassword)
     type FormikErrorType = {
         password?: string
         resetPasswordToken?: string
     }
 
-
-
     let {token} = useParams<{token:string}>()
-    console.log(token)
 
     const disable = status === 'loading'
 
