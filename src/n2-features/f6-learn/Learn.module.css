@@ -1,0 +1,17 @@
+.page {
+    text-align: center;
+  height: 100vh;
+}
+.cardQuestion {
+    color: #43a8c6;
+    font-size: 30px
+}
+.cardAnswer {
+    color: #98f58b;
+    font-size: 30px
+}
+.card {
+    background-color: #292828;
+}
+
+

@@ -5,11 +5,13 @@ import {addCardPacksTC, getCardPacksTC, PackType, setPaginationAC} from './/Pack
 import s from './Packs.module.css'
 import SuperButton from "../../n1-main/m1-ui/common/SuperButton/SuperButton";
 import {Pack} from "./pack/Pack";
-import {RequestStatusType} from "../../n1-main/m2-bll/app-reduser";
+import {RequestStatusType, UserDataType} from "../../n1-main/m2-bll/app-reduser";
 import {SortButtons} from '../../n1-main/m1-ui/common/SortButtons/SortButtons'
 import {Paginator} from "../../n1-main/m1-ui/common/Paginator/Paginator";
 import {Modal} from '../../n1-main/m1-ui/common/Modal/Modal'
 import {AddForm} from "../../n1-main/m1-ui/common/AddForm/AddForm";
+import {Redirect} from "react-router-dom";
+import {PATH} from "../../n1-main/m1-ui/routes/Routes";
 
 
 export const Packs = (props: { activeModal: boolean, setActiveModal: (activeModal: boolean) => void }) => {
@@ -19,7 +21,7 @@ export const Packs = (props: { activeModal: boolean, setActiveModal: (activeModa
     const status = useSelector<AppRootStateType, RequestStatusType>(state => state.app.status)
     const page = useSelector<AppRootStateType, number>(state => state.packs.pagination.page)
     const paginationUserId = useSelector<AppRootStateType, string>(state => state.packs.pagination.user_id)
-
+    const UserData = useSelector<AppRootStateType, UserDataType|null>(state => state.app.UserData)
     const dispatch = useDispatch()
     const [isChange, setIsChange] = useState<boolean>(false)
     const [idTimeout, setIdTimeout] = useState<number>(0)
@@ -87,10 +89,10 @@ export const Packs = (props: { activeModal: boolean, setActiveModal: (activeModa
         dispatch(setPaginationAC({page: pageNumber}))
         dispatch(getCardPacksTC())
     }
-    /*if (!isLoggedIn) {
+   if (!UserData) {
         return <Redirect to={PATH.LOGIN}/>
 
-    }*/
+    }
 
     return (
 
@@ -121,7 +123,7 @@ export const Packs = (props: { activeModal: boolean, setActiveModal: (activeModa
                 <div><SuperButton onClick={() => {
                     setActiveAddPackModal(true)
                 }} name={"add"}/></div>
-                <div className={s.tableColumnTitle}></div>
+                <div className={s.tableColumnTitle}><h2>Update</h2></div>
                 <div className={s.tableColumnTitle}><h2> Cards</h2></div>
                 <div className={s.tableColumnTitle}><h2> Learn</h2></div>
 

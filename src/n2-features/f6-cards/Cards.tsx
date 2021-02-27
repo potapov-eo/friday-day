@@ -1,8 +1,8 @@
 import React, {useEffect, useState} from 'react'
 import {useDispatch, useSelector} from "react-redux";
 import {AppRootStateType} from "../../n1-main/m2-bll/store";
-import {RequestStatusType} from "../../n1-main/m2-bll/app-reduser";
-import {NavLink, useParams} from "react-router-dom";
+import {RequestStatusType, UserDataType} from "../../n1-main/m2-bll/app-reduser";
+import {NavLink, Redirect, useParams} from "react-router-dom";
 import s from "../f5-packs/Packs.module.css";
 import {addCardTC, CardType, getCardTC, setCurrentIdAC, setCurrentPageAC} from "./Cards-reducer";
 import {Card} from "./card/Card";
@@ -30,7 +30,7 @@ export const Cards = () => {
     const pack = packs.find(p => p._id === token)
     const createdUserId = pack ? pack.user_id : registerUserId
     const isMyPack = (createdUserId === registerUserId) && !(status === 'loading')
-
+    const UserData = useSelector<AppRootStateType, UserDataType|null>(state => state.app.UserData)
 
     useEffect(() => {
         if (isLoggedIn && token) {
@@ -51,9 +51,9 @@ export const Cards = () => {
         dispatch(setCurrentPageAC(newNumber))
         dispatch(getCardTC())
     }
-    /*if (!isLoggedIn) {
+    if (!UserData) {
         return <Redirect to={PATH.LOGIN}/>
-    }*/
+    }
 
     return (
 

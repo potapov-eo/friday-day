@@ -1,11 +1,12 @@
 import React, {useEffect, useState} from 'react'
 import {useDispatch, useSelector} from "react-redux";
-import {useParams} from "react-router-dom";
+import {Redirect, useParams} from "react-router-dom";
 import {AppRootStateType} from "../../n1-main/m2-bll/store";
-import {RequestStatusType} from "../../n1-main/m2-bll/app-reduser";
+import {RequestStatusType, UserDataType} from "../../n1-main/m2-bll/app-reduser";
 import {CardType, getCardTC, gradeCardTC, setCurrentIdAC} from "../f6-cards/Cards-reducer";
 import SuperButton from "../../n1-main/m1-ui/common/SuperButton/SuperButton";
-import s from "../f5-packs/Packs.module.css";
+import s from './Learn.module.css'
+import {PATH} from "../../n1-main/m1-ui/routes/Routes";
 
 
 type LearnPropsType = {}
@@ -17,6 +18,7 @@ export const Learn = (props: LearnPropsType) => {
     const [isChecked, setIsChecked] = useState<boolean>(false)
     const [first, setFirst] = useState<boolean>(true)
     const [card, setCard] = useState<CardType | null>(null)
+    const UserData = useSelector<AppRootStateType, UserDataType|null>(state => state.app.UserData)
 
     const getCard = (cards: CardType[]) => {
         const sum = cards.reduce((acc, card) => acc + (6 - card.grade) * (6 - card.grade), 0);
@@ -64,12 +66,20 @@ debugger
 
     }
 
+    if (!UserData) {
+        return <Redirect to={PATH.LOGIN}/>
+    }                                            // при logOut с этой страницы перебрасывает на стр. Логин
+
     return (
-        <div >
-            LearnPage
+        <div className={s.page} >
+            <h1>LearnPage</h1>
+
 
             {token ? <div>
-                <div>QUESTION: {card ? card.question : ""}</div>
+                <div className={s.card}>
+                    <h2>QUESTION:</h2>
+                    <div className={s.cardQuestion}>  {card ? card.question : ""}     </div>
+                </div>
                 <div>
                     <SuperButton name={"check"} onClick={() => setIsChecked(true)}/>
                 </div>
@@ -77,7 +87,10 @@ debugger
 
             {isChecked && (
                 <>
-                    <div> ANSWER: {card ? card.answer : ""}</div>
+                    <div className={s.card}>
+                        <h2>ANSWER:</h2>
+                        <div className={s.cardAnswer}>  {card ? card.answer : ""}</div>
+                    </div>
 
                     {grades.map((g, i) => (
                         <SuperButton name={g} key={'grade-' + i} onClick={() => setGrade(i)}/>
