@@ -15,7 +15,7 @@ const initialState: AppInitialStateType = {
         verified: false, // подтвердил ли почту
         rememberMe: false,
     }
-   }
+}
 
 export const appReducer = (state: AppInitialStateType = initialState, action: ActionsType): AppInitialStateType => {
     switch (action.type) {
@@ -26,14 +26,13 @@ export const appReducer = (state: AppInitialStateType = initialState, action: Ac
         case "SET_USER_DATA":
             return {...state, UserData: action.userData}
         case "SET_CARDS_PACK_TOTAL_COUNT":
-           if(state.UserData) {
-               return {
-                   ...state,
-                   UserData: {
-                       ...state.UserData, publicCardPacksCount: action.publicCardPacksCount
-                   }
-               }
-           }else return state
+            if (state.UserData) {
+                return {
+                    ...state, UserData: {
+                        ...state.UserData, publicCardPacksCount: action.publicCardPacksCount
+                    }
+                }
+            } else return state
 
         case "SET-RECEIVED-RESPONSE":
             return {
@@ -41,8 +40,8 @@ export const appReducer = (state: AppInitialStateType = initialState, action: Ac
                 status: action.status,
                 error: action.error,
                 UserData: action.userData,
-                  }
-               default:
+            }
+        default:
             return state
     }
 }
@@ -53,17 +52,16 @@ export const setAppErrorAC = (error: string | null) =>
     ({type: 'APP/SET-ERROR', error} as const)
 export const receivedResponseAC = (userData: UserDataType, status: RequestStatusType, error: string | null) =>
     ({type: 'SET-RECEIVED-RESPONSE', userData, status, error} as const)
-export const setPublicCardPacksCountAC = (publicCardPacksCount: number  | null) =>
+export const setPublicCardPacksCountAC = (publicCardPacksCount: number | null) =>
     ({type: 'SET_CARDS_PACK_TOTAL_COUNT', publicCardPacksCount} as const)
-export const setUserDataAC = (userData: UserDataType) =>({type: 'SET_USER_DATA', userData} as const)
+export const setUserDataAC = (userData: UserDataType) => ({type: 'SET_USER_DATA', userData} as const)
+
 
 export type setAppStatusACType = ReturnType<typeof setAppStatusAC>
 export type setAppErrorACType = ReturnType<typeof setAppErrorAC>
 export type receivedResponseACType = ReturnType<typeof receivedResponseAC>
 export type setUserDataACType = ReturnType<typeof setUserDataAC>
 export type setPublicCardPacksCountACType = ReturnType<typeof setPublicCardPacksCountAC>
-
-
 
 export type UserDataType = {
     _id: string

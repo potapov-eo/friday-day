@@ -75,7 +75,7 @@ export const getCardPacksTC = (getData: getCardPacksDataType = {}) =>
 
         } catch (e) {
             dispatch(setAppStatusAC('failed'))
-            const error =getResponseError(e)
+            const error = getResponseError(e)
             dispatch(setAppErrorAC(error))
         }
     }
@@ -88,14 +88,14 @@ export const addCardPacksTC = (newPackName: string) =>
             const getResponse = <AxiosResponse<getCardPacksResponseType>>await CardsAPI.getCardPacks(paginationData)
             const packs = getResponse.data.cardPacks
             dispatch(setPublicCardPacksCountAC(getResponse.data.cardPacksTotalCount))
-            dispatch( setTotalPacksCountAC(getResponse.data.cardPacksTotalCount))
+            dispatch(setTotalPacksCountAC(getResponse.data.cardPacksTotalCount))
             dispatch(setCardPacksAC(packs))
             dispatch(setAppStatusAC('succeeded'))
             dispatch(setAppErrorAC(null))
         } catch (e) {
             debugger
             dispatch(setAppStatusAC('failed'))
-            const error =getResponseError(e)
+            const error = getResponseError(e)
             dispatch(setAppErrorAC(error))
         }
     }
@@ -106,7 +106,7 @@ export const removePackTC = (idCarsPack: string) =>
             const deleteResponse = await CardsAPI.deleteCardsPack(idCarsPack)
             const paginationData = getState().packs.pagination
             const getResponse = <AxiosResponse<getCardPacksResponseType>>await CardsAPI.getCardPacks(paginationData)
-            dispatch( setTotalPacksCountAC(getResponse.data.cardPacksTotalCount))
+            dispatch(setTotalPacksCountAC(getResponse.data.cardPacksTotalCount))
             const packs = getResponse.data.cardPacks
             dispatch(setPublicCardPacksCountAC(getResponse.data.cardPacksTotalCount))
             dispatch(setCardPacksAC(packs))
@@ -114,7 +114,7 @@ export const removePackTC = (idCarsPack: string) =>
             dispatch(setAppErrorAC(null))
         } catch (e) {
             dispatch(setAppStatusAC('failed'))
-            const error =getResponseError(e)
+            const error = getResponseError(e)
             dispatch(setAppErrorAC(error))
         }
     }
@@ -132,7 +132,7 @@ export const updateTC = (id: string, newNamePack: string, getData: getCardPacksD
             dispatch(setAppErrorAC(null))
         } catch (e) {
             dispatch(setAppStatusAC('failed'))
-            const error =getResponseError(e)
+            const error = getResponseError(e)
             dispatch(setAppErrorAC(error))
         }
     }
@@ -184,3 +184,13 @@ export type setPaginationType =
     | { pageCount: number }
     | { user_id: string }
 
+export type paginationType = {
+    packName: string
+    min: number,
+    max: number
+    sortPacks: string
+    page: number
+    pageCount: number
+    user_id: string
+
+}

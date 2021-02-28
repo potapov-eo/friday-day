@@ -34,7 +34,7 @@ export const AddItemForm = React.memo(({addItem, buttonName}: AddItemPropsType) 
         <div>
             <SuperInput value={title} onChange={onChangeHandler} onKeyPress={onKeyPressHandler}/>
             {error && <div>Введите текст</div>}
-            <SuperButton disabled={error} onClick={addItemTitle} name={buttonName}/>
+            <SuperButton type="submit" disabled={error} onClick={addItemTitle} name={buttonName}/>
         </div>
 
     )

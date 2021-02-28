@@ -1,28 +1,28 @@
 import React, {ChangeEvent, useCallback, useEffect, useState} from 'react'
 import {useDispatch, useSelector} from 'react-redux'
 import {AppRootStateType} from '../../../src/n1-main/m2-bll/store'
-import {addCardPacksTC, getCardPacksTC, PackType, setPaginationAC} from './/Packs-reduser'
+import {addCardPacksTC, getCardPacksTC, PackType, paginationType, setPaginationAC} from './/Packs-reduser'
 import s from './Packs.module.css'
-import SuperButton from "../../n1-main/m1-ui/common/SuperButton/SuperButton";
 import {Pack} from "./pack/Pack";
 import {RequestStatusType, UserDataType} from "../../n1-main/m2-bll/app-reduser";
-import {SortButtons} from '../../n1-main/m1-ui/common/SortButtons/SortButtons'
 import {Paginator} from "../../n1-main/m1-ui/common/Paginator/Paginator";
 import {Modal} from '../../n1-main/m1-ui/common/Modal/Modal'
 import {AddForm} from "../../n1-main/m1-ui/common/AddForm/AddForm";
 import {Redirect} from "react-router-dom";
 import {PATH} from "../../n1-main/m1-ui/routes/Routes";
-
+import {Headings} from "./pack/headings/Headings";
 
 export const Packs = (props: { activeModal: boolean, setActiveModal: (activeModal: boolean) => void }) => {
+    const dispatch = useDispatch()
+
     const isLoggedIn = useSelector<AppRootStateType, boolean>(state => state.auth.isLoggedIn)
     const userId = useSelector<AppRootStateType, string>(state => state.app.UserData ? state.app.UserData._id : "")
-    const cardPacks = useSelector<AppRootStateType, Array<PackType>>(state => state.packs.cardPacks)
-    const status = useSelector<AppRootStateType, RequestStatusType>(state => state.app.status)
-    const page = useSelector<AppRootStateType, number>(state => state.packs.pagination.page)
-    const paginationUserId = useSelector<AppRootStateType, string>(state => state.packs.pagination.user_id)
-    const UserData = useSelector<AppRootStateType, UserDataType|null>(state => state.app.UserData)
-    const dispatch = useDispatch()
+    const {status, UserData} = useSelector<AppRootStateType, { status: RequestStatusType, UserData: UserDataType }>
+    (state => state.app)
+    const {cardPacks, pagination, totalPacksCount} = useSelector<AppRootStateType,
+        { cardPacks: Array<PackType>, pagination: paginationType, totalPacksCount: number }>(state => state.packs)
+    const {page, user_id, pageCount} = pagination
+
     const [isChange, setIsChange] = useState<boolean>(false)
     const [idTimeout, setIdTimeout] = useState<number>(0)
     const [searchName, setSearchName] = useState<string>("")
@@ -37,7 +37,7 @@ export const Packs = (props: { activeModal: boolean, setActiveModal: (activeModa
             setIdTimeout(0)
         }, 1500)
         setIdTimeout(id)
-    }, [idTimeout])
+    }, [idTimeout])                                                                   // задержка при поиске
 
     useEffect(() => {
         if (isChange && !isLoading) {
@@ -45,21 +45,24 @@ export const Packs = (props: { activeModal: boolean, setActiveModal: (activeModa
             dispatch(getCardPacksTC())
             setIsChange(false)
         }
-        if (paginationUserId) {
+        if (user_id) {
             setIsMyPackChecked(true)
         }
-    }, [setChange, isChange, setIsChange, setPaginationAC, isLoading])
+    }, [setChange, isChange, setIsChange, setPaginationAC, isLoading])                    //  поиск по имени
+
+    const onChangeCallback = (e: ChangeEvent<HTMLInputElement>) => {
+        setSearchName(e.currentTarget.value)
+        setChange()
+    }                                                                   // колбек для изменения текста инпута поиска
 
 
     useEffect(() => {
-
         if (isLoggedIn) {
             dispatch(getCardPacksTC())
         }
     }, [isLoggedIn])
 
-    const change = (e: ChangeEvent<HTMLInputElement>) => {
-        debugger
+    const change = (e: ChangeEvent<HTMLInputElement>) => {              // колбек для изменения чек-бокса мои колоды
         if (e.currentTarget.checked) {
             setIsMyPackChecked(true)
             dispatch(setPaginationAC({user_id: userId}))
@@ -77,19 +80,12 @@ export const Packs = (props: { activeModal: boolean, setActiveModal: (activeModa
         setActiveAddPackModal(false)
     }
 
-    const onChangeCallback = (e: ChangeEvent<HTMLInputElement>) => {
-        setSearchName(e.currentTarget.value)
-        setChange()
-    }
-
-    const pageSize = useSelector<AppRootStateType, number>(state => state.packs.pagination.pageCount)
-    const totalItemsCount = useSelector<AppRootStateType, number>(state => state.packs.totalPacksCount)
-
-    const onPageChanged = (pageNumber: number) => {
+    const onPageChanged = (pageNumber: number) => {                           // изменение номера страницы пагинатора
         dispatch(setPaginationAC({page: pageNumber}))
         dispatch(getCardPacksTC())
     }
-   if (!UserData) {
+
+    if (!UserData) {
         return <Redirect to={PATH.LOGIN}/>
 
     }
@@ -100,52 +96,30 @@ export const Packs = (props: { activeModal: boolean, setActiveModal: (activeModa
             <h1>Packs</h1>
             <div> my Pack <input checked={isMyPackChecked} type={"checkbox"} onChange={change}/></div>
             <div>
-                <Paginator currentPage={page} pageSize={pageSize} totalItemsCount={totalItemsCount} portionSize={10}
+                <Paginator currentPage={page} pageSize={pageCount} totalItemsCount={totalPacksCount}
+                           portionSize={10}  // пагинатор
                            onPageChanged={onPageChanged}/>
             </div>
 
             <div> Pack name search: <input value={searchName} onChange={onChangeCallback}/></div>
             {isLoggedIn ? <div className={s.tableString}>
 
-
-                <div className={s.tableColumnTitle}>
-                    <h2> Name</h2>
-                    <SortButtons param="name"/>
-                </div>
-                <div className={s.tableColumnTitle}>
-
-                    <h2> CardsCount</h2>
-                    <SortButtons param="cardsCount"/>
-
-
-                </div>
-                <div className={s.tableColumnTitle}>
-                    <h2> Updated</h2>
-                    <SortButtons param="updated"/>
-                </div>
-                <div><SuperButton onClick={() => {
-                    setActiveAddPackModal(true)
-                }} name={"add"}/></div>
-                <div className={s.tableColumnTitle}><h2>Update</h2></div>
-                <div className={s.tableColumnTitle}><h2> Cards</h2></div>
-                <div className={s.tableColumnTitle}><h2> Learn</h2></div>
+                < Headings setActiveAddPackModal={setActiveAddPackModal}/>
 
             </div> : <div>"you are not authorized"</div>}
 
+            {cardPacks.map(pack =>
+                <Pack key={pack._id} pack={pack}
+                      activeModal={props.activeModal} setActiveModal={props.setActiveModal}/>
+            )}
+
+            <Paginator currentPage={page} pageSize={pageCount} totalItemsCount={totalPacksCount} portionSize={10}
+                       onPageChanged={onPageChanged}/>
+
             <Modal activeModal={activeAddPackModal} setActiveModal={setActiveAddPackModal}>
-                {/* <AddItemForm addItem={addPack} buttonName={"add"}/>*/}
                 <AddForm addItem={addPack} buttonName={"ADD PACK"} itemName={"pack name"}
                          text={"enter the name of the new pack"}/>
             </Modal>
-
-            {cardPacks.map(packs =>
-                <Pack name={packs.name} cardsCount={packs.cardsCount} updated={packs.updated?.slice(0, 10)}
-                      pack_id={packs._id}
-                      userId={packs.user_id} activeModal={props.activeModal} setActiveModal={props.setActiveModal}/>
-            )}
-
-            <Paginator currentPage={page} pageSize={pageSize} totalItemsCount={totalItemsCount} portionSize={10}
-                       onPageChanged={onPageChanged}/>
 
         </div>
     )

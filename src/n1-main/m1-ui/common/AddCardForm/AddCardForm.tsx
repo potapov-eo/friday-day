@@ -7,7 +7,7 @@ export type valueType = { question: string, answer: string }
 type AddCardFormPropsType = {
 
     addCard: (value: valueType) => void
-    text?:string
+    text?: string
 }
 export const AddCardForm = React.memo((props: AddCardFormPropsType
 ) => {
@@ -47,13 +47,12 @@ export const AddCardForm = React.memo((props: AddCardFormPropsType
                 {formik.touched.answer && formik.errors.answer ?
                     <div style={{color: "red"}}> {formik.errors.answer} </div> : null}
 
-                <div><SuperButton name="ADD"/></div>
+                <div><SuperButton type="submit" name="ADD"/></div>
             </form>
         </div>
     )
 })
 
-//types
 type FormikErrorType = {
     question?: string
     answer?: string

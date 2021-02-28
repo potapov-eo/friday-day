@@ -77,7 +77,7 @@ export const Cards = () => {
             </div> :  <h3>"НЕОБХОДИМО ВЫБРАТЬ КОЛОДУ"</h3>}
 
             {token ? cards.map(card =>
-                <Card card={card}/>
+                <Card key={card._id} card={card}/>
             ) : <div></div>}
 
             <Modal activeModal={activeAddCardModal} setActiveModal={setActiveAddCardModal}>
