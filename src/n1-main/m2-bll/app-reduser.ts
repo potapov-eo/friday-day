@@ -50,11 +50,12 @@ export const setAppStatusAC = (status: RequestStatusType) =>
     ({type: 'APP/SET-STATUS', status} as const)
 export const setAppErrorAC = (error: string | null) =>
     ({type: 'APP/SET-ERROR', error} as const)
+export const setUserDataAC = (userData: UserDataType) => ({type: 'SET_USER_DATA', userData} as const)
 export const receivedResponseAC = (userData: UserDataType, status: RequestStatusType, error: string | null) =>
     ({type: 'SET-RECEIVED-RESPONSE', userData, status, error} as const)
 export const setPublicCardPacksCountAC = (publicCardPacksCount: number | null) =>
     ({type: 'SET_CARDS_PACK_TOTAL_COUNT', publicCardPacksCount} as const)
-export const setUserDataAC = (userData: UserDataType) => ({type: 'SET_USER_DATA', userData} as const)
+
 
 
 export type setAppStatusACType = ReturnType<typeof setAppStatusAC>

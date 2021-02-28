@@ -3,7 +3,7 @@ import {Dispatch} from 'redux'
 import {setAppErrorAC, setAppStatusAC, setPublicCardPacksCountAC} from "../../n1-main/m2-bll/app-reduser";
 import {AxiosResponse} from "axios";
 import {AppRootStateType} from "../../n1-main/m2-bll/store";
-import {getResponseError} from "../../n1-main/m2-bll/common/HelperFunctions";
+import {handleResponseError, setSuccessfulResponseData} from "../../n1-main/m2-bll/common/HelperFunctions";
 import {setIsLoggedIn} from "../f1-auth/auth-reducer";
 
 
@@ -32,9 +32,6 @@ export const packsReducer = (state: InitialStateType = initialState, action: Act
         case 'SET-PAGINATION-PROPERTY':
             return {...state, pagination: {...state.pagination, ...action.property}}
 
-        case "SET-TOTAL-PACKS-COUNT":
-            return {...state, totalPacksCount: action.packsCount}
-
         case "SET-CURRENT-PAGE":
             return {...state, pagination: {...state.pagination, page: action.currentPage}}
         default:
@@ -48,7 +45,6 @@ export const removePackAC = (packId: string) => ({type: 'CARDS/REMOVE-PACK', pac
 export const addPackAC = (pack: PackType) => ({type: 'CARDS/ADD-PACK', pack} as const)
 export const updatePackAC = (packId: string, pack: PackType) => ({type: 'CARDS/UPDATE-PACK', packId, pack} as const)
 export const setPaginationAC = (property: setPaginationType) => ({type: 'SET-PAGINATION-PROPERTY', property} as const)
-export const setTotalPacksCountAC = (packsCount: number) => ({type: "SET-TOTAL-PACKS-COUNT", packsCount} as const)
 export const setCurrentPageAC = (currentPage: number) => ({type: 'SET-CURRENT-PAGE', currentPage} as const)
 
 //TC
@@ -60,62 +56,47 @@ export const getCardPacksTC = (getData: getCardPacksDataType = {}) =>
             dispatch(setAppStatusAC('loading'))
             const paginationData = getState().packs.pagination
             const response = <AxiosResponse<getCardPacksResponseType>>await CardsAPI.getCardPacks(paginationData)
-            const packs = response.data.cardPacks
-
-            const cardPacksTotalCount = response.data.cardPacksTotalCount
-
+            dispatch(setCardPacksAC(response.data.cardPacks))
             const currentPage = getData.page
-
             currentPage && dispatch(setCurrentPageAC(currentPage))
-            dispatch(setTotalPacksCountAC(cardPacksTotalCount))
-            dispatch(setCardPacksAC(packs))
-            dispatch(setAppStatusAC('succeeded'))
-            dispatch(setAppErrorAC(null))
+
+
+            setSuccessfulResponseData(dispatch)
             dispatch(setIsLoggedIn(true))
 
         } catch (e) {
-            dispatch(setAppStatusAC('failed'))
-            const error = getResponseError(e)
-            dispatch(setAppErrorAC(error))
+            handleResponseError(e, dispatch)
         }
     }
 export const addCardPacksTC = (newPackName: string) =>
     async (dispatch: Dispatch, getState: () => AppRootStateType) => {
         try {
             dispatch(setAppStatusAC('loading'))
-            const createResponse = await CardsAPI.createCardsPack(newPackName)
+            await CardsAPI.createCardsPack(newPackName)
             const paginationData = getState().packs.pagination
             const getResponse = <AxiosResponse<getCardPacksResponseType>>await CardsAPI.getCardPacks(paginationData)
-            const packs = getResponse.data.cardPacks
+            dispatch(setCardPacksAC(getResponse.data.cardPacks))
+
             dispatch(setPublicCardPacksCountAC(getResponse.data.cardPacksTotalCount))
-            dispatch(setTotalPacksCountAC(getResponse.data.cardPacksTotalCount))
-            dispatch(setCardPacksAC(packs))
-            dispatch(setAppStatusAC('succeeded'))
-            dispatch(setAppErrorAC(null))
+             setSuccessfulResponseData(dispatch)
         } catch (e) {
-            debugger
-            dispatch(setAppStatusAC('failed'))
-            const error = getResponseError(e)
-            dispatch(setAppErrorAC(error))
+            handleResponseError(e, dispatch)
         }
     }
 export const removePackTC = (idCarsPack: string) =>
     async (dispatch: Dispatch, getState: () => AppRootStateType) => {
         try {
             dispatch(setAppStatusAC('loading'))
-            const deleteResponse = await CardsAPI.deleteCardsPack(idCarsPack)
+             await CardsAPI.deleteCardsPack(idCarsPack)
             const paginationData = getState().packs.pagination
             const getResponse = <AxiosResponse<getCardPacksResponseType>>await CardsAPI.getCardPacks(paginationData)
-            dispatch(setTotalPacksCountAC(getResponse.data.cardPacksTotalCount))
-            const packs = getResponse.data.cardPacks
+
+            dispatch(setCardPacksAC(getResponse.data.cardPacks))
             dispatch(setPublicCardPacksCountAC(getResponse.data.cardPacksTotalCount))
-            dispatch(setCardPacksAC(packs))
-            dispatch(setAppStatusAC('succeeded'))
-            dispatch(setAppErrorAC(null))
+
+            setSuccessfulResponseData(dispatch)
         } catch (e) {
-            dispatch(setAppStatusAC('failed'))
-            const error = getResponseError(e)
-            dispatch(setAppErrorAC(error))
+            handleResponseError(e, dispatch)
         }
     }
 export const updateTC = (id: string, newNamePack: string, getData: getCardPacksDataType = {}) =>
@@ -128,12 +109,9 @@ export const updateTC = (id: string, newNamePack: string, getData: getCardPacksD
             const packs = getResponse.data.cardPacks
 
             dispatch(setCardPacksAC(packs))
-            dispatch(setAppStatusAC('succeeded'))
-            dispatch(setAppErrorAC(null))
+            setSuccessfulResponseData(dispatch)
         } catch (e) {
-            dispatch(setAppStatusAC('failed'))
-            const error = getResponseError(e)
-            dispatch(setAppErrorAC(error))
+            handleResponseError(e, dispatch)
         }
     }
 
@@ -145,7 +123,6 @@ type ActionsType =
     | ReturnType<typeof addPackAC>
     | ReturnType<typeof updatePackAC>
     | ReturnType<typeof setPaginationAC>
-    | ReturnType<typeof setTotalPacksCountAC>
     | ReturnType<typeof setCurrentPageAC>
 
 export type PackType = {

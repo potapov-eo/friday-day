@@ -7,7 +7,7 @@ import {Pack} from "./pack/Pack";
 import {RequestStatusType, UserDataType} from "../../n1-main/m2-bll/app-reduser";
 import {Paginator} from "../../n1-main/m1-ui/common/Paginator/Paginator";
 import {Modal} from '../../n1-main/m1-ui/common/Modal/Modal'
-import {AddForm} from "../../n1-main/m1-ui/common/AddForm/AddForm";
+import {AddForm} from "../../n1-main/m1-ui/common/Modal/AddForm/AddForm";
 import {Redirect} from "react-router-dom";
 import {PATH} from "../../n1-main/m1-ui/routes/Routes";
 import {Headings} from "./pack/headings/Headings";

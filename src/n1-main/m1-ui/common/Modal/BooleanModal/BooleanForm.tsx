@@ -1,5 +1,5 @@
 import React from 'react'
-import SuperButton from '../SuperButton/SuperButton'
+import SuperButton from '../../SuperButton/SuperButton'
 
 export type BooleanFormPropsType = {
     question?: string

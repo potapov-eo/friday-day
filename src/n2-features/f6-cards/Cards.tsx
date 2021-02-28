@@ -10,7 +10,7 @@ import {PackType} from "../f5-packs/Packs-reduser";
 import {Paginator} from "../../n1-main/m1-ui/common/Paginator/Paginator";
 import {Modal} from '../../n1-main/m1-ui/common/Modal/Modal'
 import {PATH} from "../../n1-main/m1-ui/routes/Routes";
-import {AddCardForm, valueType} from "../../n1-main/m1-ui/common/AddCardForm/AddCardForm";
+import {AddCardForm, valueType} from "../../n1-main/m1-ui/common/Modal/AddCardForm/AddCardForm";
 import {CardsHeadings} from "./cardsHeading/CardsHeadings";
 
 

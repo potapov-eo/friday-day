@@ -1,7 +1,7 @@
 import React from 'react'
 import {useFormik} from 'formik'
-import SuperInput from "../SuperInput/SuperInput";
-import SuperButton from "../SuperButton/SuperButton";
+import SuperInput from "../../SuperInput/SuperInput";
+import SuperButton from "../../SuperButton/SuperButton";
 
 export type valueType = { question: string, answer: string }
 type AddCardFormPropsType = {

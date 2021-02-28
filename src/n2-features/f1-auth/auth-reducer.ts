@@ -1,15 +1,20 @@
 import {Dispatch} from "redux";
 import {
-    receivedResponseAC,
-    setAppErrorAC,
+     setAppErrorAC,
     setAppErrorACType,
     setAppStatusAC,
-    setAppStatusACType
+    setAppStatusACType, UserDataType
 } from "../../n1-main/m2-bll/app-reduser";
 import {AuthAPI, recoveryPasswordAPI, RegisterAPI} from "../../n1-main/m3-dal/instance";
-import {getResponseError} from "../../n1-main/m2-bll/common/HelperFunctions";
+import {
+    getResponseError,
+    handleResponseError,
+    setResponseData,
+    setSuccessfulResponseData
+} from "../../n1-main/m2-bll/common/HelperFunctions";
 import {setCardPacksAC} from "../f5-packs/Packs-reduser";
 import {setCardAC} from "../f6-cards/Cards-reducer";
+import {AxiosResponse} from "axios";
 
 
 const initialState = {
@@ -29,7 +34,7 @@ export const authReducer = (state: InitialStateType = initialState, action: Acti
         case "APP_SET_PASSWORD":
             return {...state, newPassword: action.newPassword}
         case "SET_IS_LOGGED_IN":
-            return {...state, isLoggedIn: action.value}
+            return {...state, isLoggedIn: action.isLoggedIn}
         default:
             return state
     }
@@ -37,37 +42,29 @@ export const authReducer = (state: InitialStateType = initialState, action: Acti
 export const recoveryEmailAC = (value: boolean) => ({type: 'RECOVERY_EMAIL', value} as const)
 export const setIsRegister = (value: boolean) => ({type: 'SET_IS_REGISTER', value} as const)
 export const setPasswordAC = (newPassword: boolean) => ({type: "APP_SET_PASSWORD", newPassword} as const)
-export const setIsLoggedIn = (value: boolean) => ({type: 'SET_IS_LOGGED_IN', value} as const)
+export const setIsLoggedIn = (isLoggedIn: boolean) => ({type: 'SET_IS_LOGGED_IN', isLoggedIn} as const)
 
 
-export const verificationEmailTC = (data: registeredEmailType) => {
-    return (dispatch: Dispatch) => {
+export const verificationEmailTC = (data: registeredEmailType) => async (dispatch: Dispatch) => {
+    try {
         dispatch(setAppStatusAC('loading'))
-        return recoveryPasswordAPI.registeredEmail(data).then(res => {
-            if (res.data.success) {
-                dispatch(recoveryEmailAC(true))
-            }
-            dispatch(setAppStatusAC('succeeded'))
-        })
-
-            .catch((e) => {
-                dispatch(setAppStatusAC('failed'))
-                const error =getResponseError(e)
-                dispatch(setAppErrorAC(error))
-            })
+        await recoveryPasswordAPI.registeredEmail(data)
+        dispatch(recoveryEmailAC(true))
+        dispatch(setAppErrorAC(null))
+        dispatch(setAppStatusAC('succeeded'))
+    } catch (e) {
+        handleResponseError(e, dispatch)
     }
 }
-export const RegisterTC = (data: RegisterParamsType) => async (dispatch: Dispatch<ActionsType>) => {
+
+export const RegisterTC = (data: RegisterParamsType) => async (dispatch: Dispatch) => {
     try {
         dispatch(setAppStatusAC('loading'))
         await RegisterAPI.register(data)
         dispatch(setIsRegister(true))
-        dispatch(setAppStatusAC('succeeded'))
-        dispatch(setAppErrorAC(null))
+        setSuccessfulResponseData(dispatch)
     } catch (e) {
-        dispatch(setAppStatusAC('failed'))
-        const error = getResponseError(e)
-        dispatch(setAppErrorAC(error))
+        handleResponseError(e, dispatch)
     }
 }
 export const setPasswordTC = (data: SetPasswordType) =>
@@ -76,21 +73,17 @@ export const setPasswordTC = (data: SetPasswordType) =>
             dispatch(setAppStatusAC('loading'))
             await recoveryPasswordAPI.setPassword(data)
             dispatch(setPasswordAC(true))
-            dispatch(setAppStatusAC('succeeded'))
+            setSuccessfulResponseData(dispatch)
 
         } catch (e) {
-            dispatch(setAppStatusAC('failed'))
-            const error = getResponseError(e)
-            dispatch(setAppErrorAC(error))
+            handleResponseError(e, dispatch)
         }
     }
 export const getMe = () => async (dispatch: Dispatch) => {
     try {
         dispatch(setAppStatusAC('loading'))
-        let response = await AuthAPI.getAuthMe()
-        let userData = response.data
-        dispatch(receivedResponseAC(userData, 'succeeded', null))
-        dispatch( setIsLoggedIn(true))
+        let response = <AxiosResponse<UserDataType>>await AuthAPI.getAuthMe()
+        setResponseData(dispatch, response.data,  true)
     } catch (e) {
         dispatch(setAppStatusAC('failed'))
         const error = getResponseError(e)
@@ -102,14 +95,10 @@ export const login = (mail: string, password: string, remember_Me: boolean) =>
     async (dispatch: any) => {
         try {
             dispatch(setAppStatusAC('loading'))
-            let response = await AuthAPI.login(mail, password, remember_Me)
-            let userData = response.data
-            dispatch(receivedResponseAC(userData, 'succeeded', null))
-            dispatch( setIsLoggedIn(true))
+            let response = <AxiosResponse<UserDataType>>await AuthAPI.login(mail, password, remember_Me)
+            setResponseData(dispatch, response.data,  true)
         } catch (e) {
-            dispatch(setAppStatusAC('failed'))
-            const error = getResponseError(e)
-            dispatch(setAppErrorAC(error))
+            handleResponseError(e, dispatch)
         }
     }
 
@@ -118,13 +107,11 @@ export const logout = () =>
         try {
             dispatch(setAppStatusAC('loading'))
             await AuthAPI.logout()
-            dispatch(receivedResponseAC(null, 'succeeded', null))
-            dispatch( setIsLoggedIn(false))
+            setResponseData(dispatch, null,  false)
             dispatch(setCardPacksAC([]))
             dispatch(setCardAC([]))
         } catch (e) {
-            const error = getResponseError(e)
-            dispatch(setAppErrorAC(error))
+            handleResponseError(e, dispatch)
         }
 
     }

@@ -1,6 +1,6 @@
 import React, {ChangeEvent, KeyboardEvent, useState} from 'react'
-import SuperButton from '../SuperButton/SuperButton'
-import SuperInput from '../SuperInput/SuperInput'
+import SuperButton from '../../SuperButton/SuperButton'
+import SuperInput from '../../SuperInput/SuperInput'
 
 export type AddItemPropsType = {
     addItem: (title: string) => void

@@ -6,8 +6,8 @@ import {CardType, removeCardTC, updateCardTC} from "../Cards-reducer";
 import {RequestStatusType} from "../../../n1-main/m2-bll/app-reduser";
 import SuperButton from "../../../n1-main/m1-ui/common/SuperButton/SuperButton";
 import {Modal} from "../../../n1-main/m1-ui/common/Modal/Modal";
-import {BooleanForm} from "../../../n1-main/m1-ui/common/BooleanModal/BooleanForm";
-import {AddCardForm, valueType} from "../../../n1-main/m1-ui/common/AddCardForm/AddCardForm";
+import {BooleanForm} from "../../../n1-main/m1-ui/common/Modal/BooleanModal/BooleanForm";
+import {AddCardForm, valueType} from "../../../n1-main/m1-ui/common/Modal/AddCardForm/AddCardForm";
 
 type cardPropsType = {
     card: CardType

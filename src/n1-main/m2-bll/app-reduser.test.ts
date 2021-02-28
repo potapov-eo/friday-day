@@ -1,5 +1,5 @@
-import {appReducer, AppInitialStateType, setAppErrorAC, setAppStatusAC} from "./app-reduser";
-import {setIsLoggedIn, setUserData} from "../../n2-features/f1-auth/a1-login/login-reducer";
+import {AppInitialStateType, appReducer, setAppErrorAC, setAppStatusAC, setUserDataAC} from "./app-reduser";
+
 
 let startState:AppInitialStateType
 beforeEach(() => {
@@ -7,8 +7,7 @@ beforeEach(() => {
         status: 'succeeded',
         error:null,
         UserData: null,
-        isLoggedIn: false
-            }
+                 }
 
 });
 
@@ -50,7 +49,7 @@ test('correct User Data should be added', () => {
             verified: false, // подтвердил ли почту
             rememberMe: false,
     }
-    const action =setUserData(UserData )
+    const action =setUserDataAC(UserData )
 
     const endState = appReducer(startState, action)
 
@@ -70,17 +69,5 @@ test('correct User Data should be added', () => {
             rememberMe: false,
         },
         isLoggedIn: false
-    });
-})
-test('correct isLoggedIn should be added', () => {
-    const action = setIsLoggedIn(true);
-
-    const endState = appReducer(startState, action)
-
-    expect(endState).toEqual({
-        status: 'succeeded',
-        error: null,
-        UserData: null,
-        isLoggedIn: true
     });
 })
