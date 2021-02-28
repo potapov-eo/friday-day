@@ -4,14 +4,15 @@ import {AppRootStateType} from "../../n1-main/m2-bll/store";
 import {RequestStatusType, UserDataType} from "../../n1-main/m2-bll/app-reduser";
 import {NavLink, Redirect, useParams} from "react-router-dom";
 import s from "../f5-packs/Packs.module.css";
-import {addCardTC, CardType, getCardTC, setCurrentIdAC, setCurrentPageAC} from "./Cards-reducer";
+import {addCardTC, CardType, getCardTC, setPaginationCardAC} from "./Cards-reducer";
 import {Card} from "./card/Card";
 import {PackType} from "../f5-packs/Packs-reduser";
 import {Paginator} from "../../n1-main/m1-ui/common/Paginator/Paginator";
-import SuperButton from "../../n1-main/m1-ui/common/SuperButton/SuperButton";
 import {Modal} from '../../n1-main/m1-ui/common/Modal/Modal'
 import {PATH} from "../../n1-main/m1-ui/routes/Routes";
 import {AddCardForm, valueType} from "../../n1-main/m1-ui/common/AddCardForm/AddCardForm";
+import {CardsHeadings} from "./cardsHeading/CardsHeadings";
+
 
 export const Cards = () => {
     const [activeAddCardModal, setActiveAddCardModal] = useState<boolean>(false)
@@ -28,14 +29,14 @@ export const Cards = () => {
     const pack = packs.find(p => p._id === token)
     const createdUserId = pack ? pack.user_id : registerUserId
     const isMyPack = (createdUserId === registerUserId) && !(status === 'loading')
-    const UserData = useSelector<AppRootStateType, UserDataType|null>(state => state.app.UserData)
+    const UserData = useSelector<AppRootStateType, UserDataType | null>(state => state.app.UserData)
 
     useEffect(() => {
         if (isLoggedIn && token) {
-            dispatch(setCurrentIdAC(token))
+            dispatch(setPaginationCardAC({cardsPack_id: token}))
             dispatch(getCardTC())
         }
-    }, [isLoggedIn,token])
+    }, [isLoggedIn, token])
 
     const addCard = (value: valueType) => {
         dispatch(addCardTC(token, value))
@@ -43,7 +44,7 @@ export const Cards = () => {
     }
 
     const onPageChanged = (newNumber: number) => {
-        dispatch(setCurrentPageAC(newNumber))
+        dispatch(setPaginationCardAC({page: newNumber}))
         dispatch(getCardTC())
     }
     if (!UserData) {
@@ -62,19 +63,10 @@ export const Cards = () => {
                            onPageChanged={onPageChanged}/>}
             </div>
             {token ? <div className={s.tableString}>
+                <CardsHeadings setActiveAddCardModal={setActiveAddCardModal}
+                               isMyPack={isMyPack}/>
 
-                <div>question</div>
-                <div>answer</div>
-                <div>grade</div>
-                <div>updated</div>
-                <div>
-                    <SuperButton onClick={() => {
-                        setActiveAddCardModal(true)
-                    }} disabled={!isMyPack} name={"add"}/>
-                </div>
-
-
-            </div> :  <h3>"НЕОБХОДИМО ВЫБРАТЬ КОЛОДУ"</h3>}
+            </div> : <h3>"НЕОБХОДИМО ВЫБРАТЬ КОЛОДУ"</h3>}
 
             {token ? cards.map(card =>
                 <Card key={card._id} card={card}/>

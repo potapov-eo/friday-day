@@ -3,7 +3,7 @@ import {useDispatch, useSelector} from "react-redux";
 import {Redirect, useParams} from "react-router-dom";
 import {AppRootStateType} from "../../n1-main/m2-bll/store";
 import {RequestStatusType, UserDataType} from "../../n1-main/m2-bll/app-reduser";
-import {CardType, getCardTC, gradeCardTC, setCurrentIdAC} from "../f6-cards/Cards-reducer";
+import {CardType, getCardTC, gradeCardTC, setPaginationCardAC} from "../f6-cards/Cards-reducer";
 import SuperButton from "../../n1-main/m1-ui/common/SuperButton/SuperButton";
 import s from './Learn.module.css'
 import {PATH} from "../../n1-main/m1-ui/routes/Routes";
@@ -36,7 +36,7 @@ export const Learn = (props: LearnPropsType) => {
 
     useEffect(() => {
         if (first && token) {
-            dispatch(setCurrentIdAC(token))
+            dispatch(setPaginationCardAC({cardsPack_id: token}))
             dispatch(getCardTC())
             setFirst(false);
         }

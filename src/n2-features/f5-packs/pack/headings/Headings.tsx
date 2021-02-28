@@ -1,5 +1,5 @@
 import React from 'react'
-import {SortButtons} from "../../../../n1-main/m1-ui/common/SortButtons/SortButtons";
+import { SortPackButton } from '../../../../n1-main/m1-ui/common/SortButtons/SortPackButton';
 import SuperButton from "../../../../n1-main/m1-ui/common/SuperButton/SuperButton";
 import s from '../../Packs.module.css'
 
@@ -12,16 +12,16 @@ export const Headings = (props: HeadingsPropsType) => {
         < >
             <div className={s.tableColumnTitle}>
                 <h2> Name</h2>
-                <SortButtons param="name"/>
+                <SortPackButton param="name"/>
             </div>
             <div className={s.tableColumnTitle}>
 
                 <h2> CardsCount</h2>
-                <SortButtons param="cardsCount"/>
+                <SortPackButton param="cardsCount"/>
             </div>
             <div className={s.tableColumnTitle}>
                 <h2> Updated</h2>
-                <SortButtons param="updated"/>
+                <SortPackButton param="updated"/>
             </div>
             <div><SuperButton onClick={() => {
                 props.setActiveAddPackModal(true)

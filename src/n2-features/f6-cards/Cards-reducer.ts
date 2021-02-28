@@ -16,7 +16,7 @@ const initialState = {
         cardQuestion: '',
         cardsPack_id: '',
         min: 0,
-        max: 0,
+        max: 5,
         sortCards: ''
     },
     totalCardsCount: 0
@@ -26,25 +26,24 @@ export type InitialStateType = typeof initialState
 
 export const cardsReducer = (state: InitialStateType = initialState, action: ActionsType): InitialStateType => {
     switch (action.type) {
-        case 'SET-CARDS':
+        case 'SET_CARDS':
             return {...state, cards: action.cards}
-        case "SET-TOTAL-CADRS-COUNT":
+        case "SET_TOTAL_CARDS_COUNT":
             return {...state, totalCardsCount: action.packsCount}
-        case "SET-CURRENT-PAGE":
-            return {...state, paginationCards: {...state.paginationCards, page: action.currentPage}}
-        case "SET-ID":
-            return {...state, paginationCards: {...state.paginationCards, cardsPack_id: action.id}}
+        case 'SET_PAGINATION_CARD_PROPERTY':
+            return {...state, paginationCards: {...state.paginationCards, ...action.property}}
         default:
             return state
     }
 }
 
 //AC
-
-export const setCardAC = (cards: Array<CardType>) => ({type: 'SET-CARDS', cards} as const)
-export const setTotalCardsCountAC = (packsCount: number) => ({type: "SET-TOTAL-CADRS-COUNT", packsCount} as const)
-export const setCurrentPageAC = (currentPage: number) => ({type: 'SET-CURRENT-PAGE', currentPage} as const)
-export const setCurrentIdAC = (id: string) => ({type: 'SET-ID', id} as const)
+export const setPaginationCardAC = (property: setPaginationCardType) => ({
+    type: 'SET_PAGINATION_CARD_PROPERTY',
+    property
+} as const)
+export const setCardAC = (cards: Array<CardType>) => ({type: 'SET_CARDS', cards} as const)
+export const setTotalCardsCountAC = (packsCount: number) => ({type: "SET_TOTAL_CARDS_COUNT", packsCount} as const)
 
 //TC
 
@@ -64,7 +63,7 @@ export const getCardTC = () =>
             dispatch(setAppErrorAC(null))
         } catch (e) {
             dispatch(setAppStatusAC('failed'))
-            const error =getResponseError(e)
+            const error = getResponseError(e)
             dispatch(setAppErrorAC(error))
         }
     }
@@ -84,7 +83,7 @@ export const addCardTC = (cardsPack_id: string, values: { question: string, answ
 
         } catch (e) {
             dispatch(setAppStatusAC('failed'))
-            const error =getResponseError(e)
+            const error = getResponseError(e)
             dispatch(setAppErrorAC(error))
         }
     }
@@ -102,7 +101,7 @@ export const removeCardTC = (cardsPack_id: string, cardId: string) =>
             dispatch(setAppErrorAC(null))
         } catch (e) {
             dispatch(setAppStatusAC('failed'))
-            const error =getResponseError(e)
+            const error = getResponseError(e)
             dispatch(setAppErrorAC(error))
         }
     }
@@ -120,7 +119,7 @@ export const updateCardTC = (cardId: string, value: valueType) =>
             dispatch(setAppErrorAC(null))
         } catch (e) {
             dispatch(setAppStatusAC('failed'))
-            const error =getResponseError(e)
+            const error = getResponseError(e)
             dispatch(setAppErrorAC(error))
         }
     }
@@ -139,14 +138,15 @@ export const gradeCardTC = (grade: number, card_id: string) =>
             dispatch(setAppErrorAC(null))
         } catch (e) {
             dispatch(setAppStatusAC('failed'))
-            const error =getResponseError(e)
+            const error = getResponseError(e)
             dispatch(setAppErrorAC(error))
         }
     }
+
+
 type ActionsType = ReturnType<typeof setCardAC>
     | ReturnType<typeof setTotalCardsCountAC>
-    | ReturnType<typeof setCurrentPageAC>
-    | ReturnType<typeof setCurrentIdAC>
+    | ReturnType<typeof setPaginationCardAC>
 
 export type GetCardsResponseType = {
     cards: Array<CardType>
@@ -177,3 +177,12 @@ export type CardType = {
     questionImg: string
     questionVideo: string
 }
+export type setPaginationCardType =
+    { page: number }
+    | { pageCount: number }
+    | { cardAnswer: string }
+    | { cardQuestion: string }
+    | { cardsPack_id: string }
+    | { min: number }
+    | { max: number }
+    | { sortCards: string }
