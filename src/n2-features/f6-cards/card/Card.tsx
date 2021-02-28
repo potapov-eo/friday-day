@@ -15,11 +15,14 @@ type cardPropsType = {
 export const Card = (props: cardPropsType) => {
     const card = props.card
     const dispatch = useDispatch()
-    const [activeAddCardModal, setActiveAddCardModal] = useState<boolean>(false)
-    const [activeDelPackModal, setActiveDelPackModal] = useState<boolean>(false)
     const registerUserId = useSelector<AppRootStateType, string>(state => state.app.UserData ? state.app.UserData._id : "")
     const status = useSelector<AppRootStateType, RequestStatusType>(state => state.app.status)
+
+    const [activeAddCardModal, setActiveAddCardModal] = useState<boolean>(false)
+    const [activeDelPackModal, setActiveDelPackModal] = useState<boolean>(false)
+
     const isMyPack = (card.user_id === registerUserId) && !(status === 'loading')
+
     const removeCard = (isDel: boolean) => {
         setActiveDelPackModal(false)
         isDel && dispatch(removeCardTC(card.cardsPack_id, card._id))
@@ -35,7 +38,7 @@ export const Card = (props: cardPropsType) => {
                 <div>{card.question}</div>
                 <div>{card.answer}</div>
                 <div>{card.grade}</div>
-                <div>{card.updated.slice(0,10)}</div>
+                <div>{card.updated.slice(0, 10)}</div>
                 <div><SuperButton disabled={!isMyPack} onClick={() => {
                     setActiveDelPackModal(true)
                 }} name={"del"}/></div>

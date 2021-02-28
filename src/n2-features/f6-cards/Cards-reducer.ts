@@ -131,7 +131,7 @@ export const gradeCardTC = (grade: number, card_id: string) =>
 
             const newCards = <CardType[]>getState().cards.cards.map((card) => card._id === card_id ? {
                 ...card,
-                grade: grade
+                grade: Response.data.updatedGrade.grade
             } : card)
             dispatch(setCardAC(newCards))
             dispatch(setAppStatusAC('succeeded'))
@@ -186,3 +186,13 @@ export type setPaginationCardType =
     | { min: number }
     | { max: number }
     | { sortCards: string }
+export type paginationCardsType= {
+    page: number
+        pageCount: number,
+        cardAnswer: string,
+        cardQuestion: string,
+        cardsPack_id: string,
+        min: number,
+        max: number,
+        sortCards: string
+}

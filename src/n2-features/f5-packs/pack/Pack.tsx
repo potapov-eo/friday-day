@@ -13,7 +13,7 @@ import {AddForm} from "../../../n1-main/m1-ui/common/AddForm/AddForm";
 
 
 type packPropsType = {
-    pack:PackType
+    pack: PackType
     activeModal: boolean
     setActiveModal: (activeModal: boolean) => void
 }
@@ -23,7 +23,7 @@ export const Pack = (props: packPropsType) => {
     const registerUserId = useSelector<AppRootStateType, string>(state => state.app.UserData ? state.app.UserData._id : "")
     const [activeDelPackModal, setActiveDelPackModal] = useState<boolean>(false)
     const [activeUpdatePackModal, setActiveUpdatePackModal] = useState<boolean>(false)
-    const {user_id,_id,name,cardsCount,updated}=props.pack
+    const {user_id, _id, name, cardsCount, updated} = props.pack
 
 
     const isMyPack = (user_id === registerUserId) && !(status === 'loading')

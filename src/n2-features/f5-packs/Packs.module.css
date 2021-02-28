@@ -1,19 +1,22 @@
 .table {
     text-align: center;
-  height: 100vh;
+    height: 100vh;
 }
+
 .tableString {
     display: flex;
     align-items: center;
-    }
-.tableString>div{
+}
+
+.tableString > div {
     height: 80px;
-   min-width: 140px;
+    min-width: 140px;
     border-bottom: 2px solid #404040;
-    }
+}
+
 .tableColumnTitle {
-  display: flex;
-  justify-content: space-evenly;
+    display: flex;
+    justify-content: space-evenly;
     min-width: 140px;
 }
 

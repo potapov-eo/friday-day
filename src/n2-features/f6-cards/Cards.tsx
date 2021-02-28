@@ -4,7 +4,7 @@ import {AppRootStateType} from "../../n1-main/m2-bll/store";
 import {RequestStatusType, UserDataType} from "../../n1-main/m2-bll/app-reduser";
 import {NavLink, Redirect, useParams} from "react-router-dom";
 import s from "../f5-packs/Packs.module.css";
-import {addCardTC, CardType, getCardTC, setPaginationCardAC} from "./Cards-reducer";
+import {addCardTC, CardType, getCardTC, paginationCardsType, setPaginationCardAC} from "./Cards-reducer";
 import {Card} from "./card/Card";
 import {PackType} from "../f5-packs/Packs-reduser";
 import {Paginator} from "../../n1-main/m1-ui/common/Paginator/Paginator";
@@ -15,21 +15,26 @@ import {CardsHeadings} from "./cardsHeading/CardsHeadings";
 
 
 export const Cards = () => {
-    const [activeAddCardModal, setActiveAddCardModal] = useState<boolean>(false)
+
     const dispatch = useDispatch()
-    const {token} = useParams<{ token: string }>()
+
+    const UserData = useSelector<AppRootStateType, UserDataType | null>(state => state.app.UserData)
     const status = useSelector<AppRootStateType, RequestStatusType>(state => state.app.status)
     const registerUserId = useSelector<AppRootStateType, string>(state => state.app.UserData ? state.app.UserData._id : "")
     const isLoggedIn = useSelector<AppRootStateType, boolean>(state => state.auth.isLoggedIn)
-    const cards = useSelector<AppRootStateType, Array<CardType>>(state => state.cards.cards)
     const packs = useSelector<AppRootStateType, Array<PackType>>(state => state.packs.cardPacks)
-    const page = useSelector<AppRootStateType, number>(state => state.cards.paginationCards.page)
-    const pageSize = useSelector<AppRootStateType, number>(state => state.cards.paginationCards.pageCount)
-    const totalItemsCount = useSelector<AppRootStateType, number>(state => state.cards.totalCardsCount)
+    const {paginationCards, totalCardsCount, cards} = useSelector<AppRootStateType,
+        { paginationCards: paginationCardsType, totalCardsCount: number, cards: Array<CardType> }>(state => state.cards)
+    const {page, pageCount} = paginationCards
+
+    const [activeAddCardModal, setActiveAddCardModal] = useState<boolean>(false)
+
+    const {token} = useParams<{ token: string }>()
+
     const pack = packs.find(p => p._id === token)
     const createdUserId = pack ? pack.user_id : registerUserId
     const isMyPack = (createdUserId === registerUserId) && !(status === 'loading')
-    const UserData = useSelector<AppRootStateType, UserDataType | null>(state => state.app.UserData)
+
 
     useEffect(() => {
         if (isLoggedIn && token) {
@@ -59,7 +64,7 @@ export const Cards = () => {
             <h2><NavLink to={`${PATH.LEARN}/${token}`} activeClassName={s.activeLink}>Learn</NavLink></h2>}
             <div>
                 {token && (cards.length > 0) &&
-                <Paginator currentPage={page} pageSize={pageSize} totalItemsCount={totalItemsCount} portionSize={3}
+                <Paginator currentPage={page} pageSize={pageCount} totalItemsCount={totalCardsCount} portionSize={3}
                            onPageChanged={onPageChanged}/>}
             </div>
             {token ? <div className={s.tableString}>
