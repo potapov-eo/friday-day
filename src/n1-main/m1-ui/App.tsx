@@ -8,7 +8,8 @@ import Preloader from "./common/Preloder/Preloader";
 import {Routes} from "./routes/Routes";
 import {ErrorSnackBar} from "./common/ErrorSnackBar/ErrorSnackBar";
 import {Header} from "./header/Header";
-import {getMe, setIsLoggedIn} from "../../n2-features/f1-auth/a1-login/login-reducer";
+
+import {getMe, setIsLoggedIn} from "../../n2-features/f1-auth/auth-reducer";
 
 
 function App() {
@@ -21,7 +22,7 @@ function App() {
         if (firstRendering) {
             dispatch(setIsLoggedIn(false))
             dispatch(getMe())
-            setFirstRendering(false)
+
         }
     }, [])
 

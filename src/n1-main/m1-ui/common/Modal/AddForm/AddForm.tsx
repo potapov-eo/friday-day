@@ -1,14 +1,14 @@
 import React from 'react'
 import {useFormik} from 'formik'
-import SuperInput from "../SuperInput/SuperInput";
-import SuperButton from "../SuperButton/SuperButton";
+import SuperInput from "../../SuperInput/SuperInput";
+import SuperButton from "../../SuperButton/SuperButton";
 
 export type valueType = { question: string, answer: string }
 type AddCardFormPropsType = {
     addItem: (title: string) => void
     buttonName: string
     itemName: string
-    text?:string
+    text?: string
 }
 export const AddForm = React.memo((props: AddCardFormPropsType
 ) => {
@@ -40,7 +40,7 @@ export const AddForm = React.memo((props: AddCardFormPropsType
                                  value={formik.values.values} placeholder={props.itemName}/></div>
                 {formik.touched.values && formik.errors.values ?
                     <div style={{color: "red"}}> {formik.errors.values} </div> : null}
-                <div><SuperButton name={props.buttonName}/></div>
+                <div><SuperButton type="submit" name={props.buttonName}/></div>
             </form>
         </div>
     )

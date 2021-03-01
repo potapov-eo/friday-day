@@ -1,47 +1,47 @@
 import React, {useEffect, useState} from 'react'
 import {useDispatch, useSelector} from "react-redux";
 import {AppRootStateType} from "../../n1-main/m2-bll/store";
-import {RequestStatusType} from "../../n1-main/m2-bll/app-reduser";
+import {RequestStatusType, UserDataType} from "../../n1-main/m2-bll/app-reduser";
 import {NavLink, Redirect, useParams} from "react-router-dom";
 import s from "../f5-packs/Packs.module.css";
-import {addCardTC, CardType, getCardTC, setCurrentIdAC, setCurrentPageAC} from "./Cards-reducer";
+import {addCardTC, CardType, getCardTC, paginationCardsType, setPaginationCardAC} from "./Cards-reducer";
 import {Card} from "./card/Card";
 import {PackType} from "../f5-packs/Packs-reduser";
 import {Paginator} from "../../n1-main/m1-ui/common/Paginator/Paginator";
-import SuperButton from "../../n1-main/m1-ui/common/SuperButton/SuperButton";
 import {Modal} from '../../n1-main/m1-ui/common/Modal/Modal'
 import {PATH} from "../../n1-main/m1-ui/routes/Routes";
-import {AddCardForm, valueType} from "../../n1-main/m1-ui/common/AddCardForm/AddCardForm";
+import {AddCardForm, valueType} from "../../n1-main/m1-ui/common/Modal/AddCardForm/AddCardForm";
+import {CardsHeadings} from "./cardsHeading/CardsHeadings";
+
 
 export const Cards = () => {
-    const [activeAddCardModal, setActiveAddCardModal] = useState<boolean>(false)
+
     const dispatch = useDispatch()
-    const {token} = useParams<{ token: string }>()
+
+    const UserData = useSelector<AppRootStateType, UserDataType | null>(state => state.app.UserData)
     const status = useSelector<AppRootStateType, RequestStatusType>(state => state.app.status)
     const registerUserId = useSelector<AppRootStateType, string>(state => state.app.UserData ? state.app.UserData._id : "")
-    const isLoggedIn = useSelector<AppRootStateType, boolean>(state => state.app.isLoggedIn)
-    const cards = useSelector<AppRootStateType, Array<CardType>>(state => state.cards.cards)
+    const isLoggedIn = useSelector<AppRootStateType, boolean>(state => state.auth.isLoggedIn)
     const packs = useSelector<AppRootStateType, Array<PackType>>(state => state.packs.cardPacks)
-    const page = useSelector<AppRootStateType, number>(state => state.cards.paginationCards.page)
-    const pageSize = useSelector<AppRootStateType, number>(state => state.cards.paginationCards.pageCount)
-    const totalItemsCount = useSelector<AppRootStateType, number>(state => state.cards.totalCardsCount)
-    const [redirect, setRedirect] = useState<boolean>(false);
-    const [firstRendering, setFirstRendering] = useState<boolean>(true);
+    const {paginationCards, totalCardsCount, cards} = useSelector<AppRootStateType,
+        { paginationCards: paginationCardsType, totalCardsCount: number, cards: Array<CardType> }>(state => state.cards)
+    const {page, pageCount} = paginationCards
+
+    const [activeAddCardModal, setActiveAddCardModal] = useState<boolean>(false)
+
+    const {token} = useParams<{ token: string }>()
+
     const pack = packs.find(p => p._id === token)
     const createdUserId = pack ? pack.user_id : registerUserId
     const isMyPack = (createdUserId === registerUserId) && !(status === 'loading')
 
 
     useEffect(() => {
-
         if (isLoggedIn && token) {
-            dispatch(setCurrentIdAC(token))
+            dispatch(setPaginationCardAC({cardsPack_id: token}))
             dispatch(getCardTC())
         }
-    }, [isLoggedIn,token])
-
-    /*if (redirect && !isLoggedIn) return <Redirect to={PATH.LOGIN}/>
-    if (redirect && !token) return <Redirect to={PATH.PACK}/>*/
+    }, [isLoggedIn, token])
 
     const addCard = (value: valueType) => {
         dispatch(addCardTC(token, value))
@@ -49,10 +49,10 @@ export const Cards = () => {
     }
 
     const onPageChanged = (newNumber: number) => {
-        dispatch(setCurrentPageAC(newNumber))
+        dispatch(setPaginationCardAC({page: newNumber}))
         dispatch(getCardTC())
     }
-    if (!isLoggedIn) {
+    if (!UserData) {
         return <Redirect to={PATH.LOGIN}/>
     }
 
@@ -63,26 +63,18 @@ export const Cards = () => {
             {token && (cards.length > 0) &&
             <h2><NavLink to={`${PATH.LEARN}/${token}`} activeClassName={s.activeLink}>Learn</NavLink></h2>}
             <div>
-                <Paginator currentPage={page} pageSize={pageSize} totalItemsCount={totalItemsCount} portionSize={3}
-                           onPageChanged={onPageChanged}/>
+                {token && (cards.length > 0) &&
+                <Paginator currentPage={page} pageSize={pageCount} totalItemsCount={totalCardsCount} portionSize={3}
+                           onPageChanged={onPageChanged}/>}
             </div>
             {token ? <div className={s.tableString}>
+                <CardsHeadings setActiveAddCardModal={setActiveAddCardModal}
+                               isMyPack={isMyPack}/>
 
-                <div>question</div>
-                <div>answer</div>
-                <div>grade</div>
-                <div>updated</div>
-                <div>
-                    <SuperButton onClick={() => {
-                        setActiveAddCardModal(true)
-                    }} disabled={!isMyPack} name={"add"}/>
-                </div>
-
-
-            </div> : <div>"Необходимо выбрать колоду"</div>}
+            </div> : <h3>"НЕОБХОДИМО ВЫБРАТЬ КОЛОДУ"</h3>}
 
             {token ? cards.map(card =>
-                <Card card={card}/>
+                <Card key={card._id} card={card}/>
             ) : <div></div>}
 
             <Modal activeModal={activeAddCardModal} setActiveModal={setActiveAddCardModal}>

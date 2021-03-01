@@ -3,7 +3,8 @@ import {Dispatch} from "redux";
 import {setAppErrorAC, setAppStatusAC} from "../../n1-main/m2-bll/app-reduser";
 import {AxiosResponse} from "axios";
 import {AppRootStateType} from "../../n1-main/m2-bll/store";
-import {valueType} from "../../n1-main/m1-ui/common/AddCardForm/AddCardForm";
+import {valueType} from "../../n1-main/m1-ui/common/Modal/AddCardForm/AddCardForm";
+import {getCards, handleResponseError} from "../../n1-main/m2-bll/common/HelperFunctions";
 
 
 const initialState = {
@@ -15,24 +16,29 @@ const initialState = {
         cardQuestion: '',
         cardsPack_id: '',
         min: 0,
-        max: 0,
+        max: 6,
         sortCards: ''
     },
     totalCardsCount: 0
 }
 
-export type InitialStateType = typeof initialState
+export type cardsReducerInitialStateType = typeof initialState
 
-export const cardsReducer = (state: InitialStateType = initialState, action: ActionsType): InitialStateType => {
+export const cardsReducer = (state: cardsReducerInitialStateType = initialState, action: ActionsType): cardsReducerInitialStateType => {
     switch (action.type) {
-        case 'SET-CARDS':
+        case 'SET_CARDS':
             return {...state, cards: action.cards}
-        case "SET-TOTAL-CADRS-COUNT":
+        case "SET_TOTAL_CARDS_COUNT":
             return {...state, totalCardsCount: action.packsCount}
-        case "SET-CURRENT-PAGE":
-            return {...state, paginationCards: {...state.paginationCards, page: action.currentPage}}
-        case "SET-ID":
-            return {...state, paginationCards: {...state.paginationCards, cardsPack_id: action.id}}
+        case 'SET_PAGINATION_CARD_PROPERTY':
+            return {...state, paginationCards: {...state.paginationCards, ...action.property}}
+        case 'SET_CARD_GRADE':
+            const newCards = state.cards.map((card) => card._id === action.card_id ? {
+                ...card,
+                grade: action.grade
+            } : card)
+            return {...state, cards: newCards}
+
         default:
             return state
     }
@@ -40,11 +46,11 @@ export const cardsReducer = (state: InitialStateType = initialState, action: Act
 
 //AC
 
-export const setCardAC = (cards: Array<CardType>) => ({type: 'SET-CARDS', cards} as const)
-export const setTotalCardsCountAC = (packsCount: number) => ({type: "SET-TOTAL-CADRS-COUNT", packsCount} as const)
-export const setCurrentPageAC = (currentPage: number) => ({type: 'SET-CURRENT-PAGE', currentPage} as const)
-export const setCurrentIdAC = (id: string) => ({type: 'SET-ID', id} as const)
-
+export const setCardsAC = (cards: Array<CardType>) => ({type: 'SET_CARDS', cards} as const)
+export const setTotalCardsCountAC = (packsCount: number) => ({type: "SET_TOTAL_CARDS_COUNT", packsCount} as const)
+export const setPaginationCardAC = (property: setPaginationCardType) =>
+    ({type: 'SET_PAGINATION_CARD_PROPERTY', property} as const)
+export const setCardGradeAC = (card_id: string, grade: number) => ({type: "SET_CARD_GRADE", card_id, grade} as const)
 //TC
 
 
@@ -52,115 +58,61 @@ export const getCardTC = () =>
     async (dispatch: Dispatch, getState: () => AppRootStateType) => {
         try {
             dispatch(setAppStatusAC('loading'))
-debugger
-            const paginationData = getState().cards.paginationCards
-            const response = <AxiosResponse<GetCardsResponseType>>await CardsAPI.getCards(paginationData)
-            const cards = response.data.cards
-
-            dispatch(setTotalCardsCountAC(response.data.cardsTotalCount))
-            dispatch(setCardAC(cards))
-            dispatch(setAppStatusAC('succeeded'))
-            dispatch(setAppErrorAC(null))
-        } catch (e) { debugger
-            dispatch(setAppStatusAC('failed'))
-            const error = e.response
-                ? e.response.data.error
-                : (e.message + ', more details in the console')
-
-            dispatch(setAppErrorAC(error))
+            await getCards(getState, dispatch)
+        } catch (e) {
+            handleResponseError(e, dispatch)
         }
     }
 export const addCardTC = (cardsPack_id: string, values: { question: string, answer: string }) =>
     async (dispatch: Dispatch, getState: () => AppRootStateType) => {
         try {
             dispatch(setAppStatusAC('loading'))
-debugger
-            const addResponse = <AxiosResponse<any>>await CardsAPI.createCard(cardsPack_id, values)
-            const paginationData = getState().cards.paginationCards
-            const response = <AxiosResponse<GetCardsResponseType>>await CardsAPI.getCards(paginationData)
-            const cards = response.data.cards
-            dispatch(setTotalCardsCountAC(response.data.cardsTotalCount))
-            dispatch(setCardAC(cards))
-            dispatch(setAppStatusAC('succeeded'))
-            dispatch(setAppErrorAC(null))
-            debugger
-        } catch (e) {debugger
-            dispatch(setAppStatusAC('failed'))
-            const error = e.response
-                ? e.response.data.error
-                : (e.message + ', more details in the console')
+           await CardsAPI.createCard(cardsPack_id, values)
+            await getCards(getState, dispatch)
 
-            dispatch(setAppErrorAC(error))
+        } catch (e) {
+            handleResponseError(e, dispatch)
         }
     }
 export const removeCardTC = (cardsPack_id: string, cardId: string) =>
     async (dispatch: Dispatch, getState: () => AppRootStateType) => {
         try {
             dispatch(setAppStatusAC('loading'))
-            const removeResponse = <AxiosResponse<any>>await CardsAPI.deleteCard(cardId)
-            const paginationData = getState().cards.paginationCards
-            const response = <AxiosResponse<GetCardsResponseType>>await CardsAPI.getCards(paginationData)
-            const cards = response.data.cards
-            dispatch(setTotalCardsCountAC(response.data.cardsTotalCount))
-            dispatch(setCardAC(cards))
-            dispatch(setAppStatusAC('succeeded'))
-            dispatch(setAppErrorAC(null))
+            await CardsAPI.deleteCard(cardId)
+            await getCards(getState, dispatch)
         } catch (e) {
-            dispatch(setAppStatusAC('failed'))
-            const error = e.response
-                ? e.response.data.error
-                : (e.message + ', more details in the console')
-
-            dispatch(setAppErrorAC(error))
+            handleResponseError(e, dispatch)
         }
     }
 export const updateCardTC = (cardId: string, value: valueType) =>
     async (dispatch: Dispatch, getState: () => AppRootStateType) => {
         try {
             dispatch(setAppStatusAC('loading'))
-            const removeResponse = <AxiosResponse<any>>await CardsAPI.updateCard(cardId, value.question, value.answer)
-
-            const paginationData = getState().cards.paginationCards
-            const response = <AxiosResponse<GetCardsResponseType>>await CardsAPI.getCards(paginationData)
-            const cards = response.data.cards
-            dispatch(setCardAC(cards))
-            dispatch(setAppStatusAC('succeeded'))
-            dispatch(setAppErrorAC(null))
+            await CardsAPI.updateCard(cardId, value.question, value.answer)
+            await getCards(getState, dispatch)
         } catch (e) {
-            dispatch(setAppStatusAC('failed'))
-            const error = e.response
-                ? e.response.data.error
-                : (e.message + ', more details in the console')
-
-            dispatch(setAppErrorAC(error))
+            handleResponseError(e, dispatch)
         }
     }
 export const gradeCardTC = (grade: number, card_id: string) =>
-    async (dispatch: Dispatch, getState: () => AppRootStateType) => {
+    async (dispatch: Dispatch) => {
         try {
             dispatch(setAppStatusAC('loading'))
             const Response = <AxiosResponse<any>>await CardsAPI.gradeCard(grade, card_id)
-
-            const newCards = <CardType[]>getState().cards.cards.map((card) => card._id === card_id ? {
-                ...card,
-                grade: grade
-            } : card)
-            dispatch(setCardAC(newCards))
+            const newGrade = Response.data.updatedGrade.grade
+            dispatch(setCardGradeAC(card_id, newGrade))
             dispatch(setAppStatusAC('succeeded'))
             dispatch(setAppErrorAC(null))
         } catch (e) {
-            dispatch(setAppStatusAC('failed'))
-            const error = e.response
-                ? e.response.data.error
-                : (e.message + ', more details in the console')
-
-            dispatch(setAppErrorAC(error))
+            handleResponseError(e, dispatch)
         }
     }
-type ActionsType = ReturnType<typeof setCardAC>
+
+
+type ActionsType = ReturnType<typeof setCardsAC>
     | ReturnType<typeof setTotalCardsCountAC>
-    | ReturnType<typeof setCurrentPageAC>
-    | ReturnType<typeof setCurrentIdAC>
+    | ReturnType<typeof setPaginationCardAC>
+    | ReturnType<typeof setCardGradeAC>
 
 export type GetCardsResponseType = {
     cards: Array<CardType>
@@ -190,4 +142,23 @@ export type CardType = {
     answerImg: string
     questionImg: string
     questionVideo: string
+}
+export type setPaginationCardType =
+    { page: number }
+    | { pageCount: number }
+    | { cardAnswer: string }
+    | { cardQuestion: string }
+    | { cardsPack_id: string }
+    | { min: number }
+    | { max: number }
+    | { sortCards: string }
+export type paginationCardsType = {
+    page: number
+    pageCount: number,
+    cardAnswer: string,
+    cardQuestion: string,
+    cardsPack_id: string,
+    min: number,
+    max: number,
+    sortCards: string
 }

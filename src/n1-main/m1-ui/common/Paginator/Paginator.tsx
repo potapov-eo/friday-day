@@ -36,7 +36,7 @@ export const Paginator = (props: PropsType) => {
                 pages
                     .filter(p => p >= leftPortionPageNumber && p <= rightPortionPageNumber)
                     .map(p => {
-                        return <span
+                        return <span key={p}
                             className={props.currentPage === p ? `${styles.coursor && styles.selectedPage}` : `'' ${styles.coursor} `}
                             onClick={() => {
                                 props.onPageChanged(p)

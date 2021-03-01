@@ -5,7 +5,7 @@ import {faSortDown, faSortUp} from '@fortawesome/free-solid-svg-icons'
 import {getCardPacksTC, setPaginationAC} from '../../../../n2-features/f5-packs/Packs-reduser'
 import {useDispatch} from 'react-redux'
 
-export const SortButtons = (props: { param: string }) => {
+export const SortPackButton = (props: { param: string }) => {
     const dispatch = useDispatch()
 
     const sortUp = (param: string) => {
