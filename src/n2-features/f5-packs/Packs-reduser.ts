@@ -92,6 +92,7 @@ export const addCardPacksTC = (newPackName: string) =>
             const paginationData = getState().packs.pagination
             const getResponse = <AxiosResponse<getCardPacksResponseType>>await CardsAPI.getCardPacks(paginationData)
             const packs = getResponse.data.cardPacks
+
             dispatch(setCardPacksAC(packs))
             dispatch(setAppStatusAC('succeeded'))
             dispatch(setAppErrorAC(null))
