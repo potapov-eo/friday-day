@@ -1,10 +1,5 @@
 import {Dispatch} from "redux";
-import {
-     setAppErrorAC,
-    setAppErrorACType,
-    setAppStatusAC,
-    setAppStatusACType, UserDataType
-} from "../../n1-main/m2-bll/app-reduser";
+import {setAppErrorACType, setAppStatusAC, setAppStatusACType, UserDataType} from "../../n1-main/m2-bll/app-reduser";
 import {AuthAPI, recoveryPasswordAPI, RegisterAPI} from "../../n1-main/m3-dal/instance";
 import {
     getResponseError,
@@ -23,9 +18,9 @@ const initialState = {
     newPassword: false,   // если true  новый пароль введен успешно
     isLoggedIn: false,    // если true  в данный момент залогинены
 }
-type InitialStateType = typeof initialState
+export type AuthInitialStateType = typeof initialState
 
-export const authReducer = (state: InitialStateType = initialState, action: ActionsType): InitialStateType => {
+export const authReducer = (state: AuthInitialStateType = initialState, action: ActionsType): AuthInitialStateType => {
     switch (action.type) {
         case "RECOVERY_EMAIL":
             return {...state, recoveryEmail: action.value}
@@ -50,8 +45,7 @@ export const verificationEmailTC = (data: registeredEmailType) => async (dispatc
         dispatch(setAppStatusAC('loading'))
         await recoveryPasswordAPI.registeredEmail(data)
         dispatch(recoveryEmailAC(true))
-        dispatch(setAppErrorAC(null))
-        dispatch(setAppStatusAC('succeeded'))
+        setSuccessfulResponseData(dispatch)
     } catch (e) {
         handleResponseError(e, dispatch)
     }
@@ -83,7 +77,7 @@ export const getMe = () => async (dispatch: Dispatch) => {
     try {
         dispatch(setAppStatusAC('loading'))
         let response = <AxiosResponse<UserDataType>>await AuthAPI.getAuthMe()
-        setResponseData(dispatch, response.data,  true)
+        setResponseData(dispatch, response.data, true)
     } catch (e) {
         dispatch(setAppStatusAC('failed'))
         const error = getResponseError(e)
@@ -96,7 +90,7 @@ export const login = (mail: string, password: string, remember_Me: boolean) =>
         try {
             dispatch(setAppStatusAC('loading'))
             let response = <AxiosResponse<UserDataType>>await AuthAPI.login(mail, password, remember_Me)
-            setResponseData(dispatch, response.data,  true)
+            setResponseData(dispatch, response.data, true)
         } catch (e) {
             handleResponseError(e, dispatch)
         }
@@ -107,7 +101,7 @@ export const logout = () =>
         try {
             dispatch(setAppStatusAC('loading'))
             await AuthAPI.logout()
-            setResponseData(dispatch, null,  false)
+            setResponseData(dispatch, null, false)
             dispatch(setCardPacksAC([]))
             dispatch(setCardAC([]))
         } catch (e) {

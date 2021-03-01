@@ -22,9 +22,9 @@ const initialState = {
     totalCardsCount: 0
 }
 
-export type InitialStateType = typeof initialState
+export type cardsReducerInitialStateType = typeof initialState
 
-export const cardsReducer = (state: InitialStateType = initialState, action: ActionsType): InitialStateType => {
+export const cardsReducer = (state: cardsReducerInitialStateType = initialState, action: ActionsType): cardsReducerInitialStateType => {
     switch (action.type) {
         case 'SET_CARDS':
             return {...state, cards: action.cards}
@@ -45,10 +45,11 @@ export const cardsReducer = (state: InitialStateType = initialState, action: Act
 }
 
 //AC
+
+export const setCardsAC = (cards: Array<CardType>) => ({type: 'SET_CARDS', cards} as const)
+export const setTotalCardsCountAC = (packsCount: number) => ({type: "SET_TOTAL_CARDS_COUNT", packsCount} as const)
 export const setPaginationCardAC = (property: setPaginationCardType) =>
     ({type: 'SET_PAGINATION_CARD_PROPERTY', property} as const)
-export const setCardAC = (cards: Array<CardType>) => ({type: 'SET_CARDS', cards} as const)
-export const setTotalCardsCountAC = (packsCount: number) => ({type: "SET_TOTAL_CARDS_COUNT", packsCount} as const)
 export const setCardGradeAC = (card_id: string, grade: number) => ({type: "SET_CARD_GRADE", card_id, grade} as const)
 //TC
 
@@ -66,7 +67,7 @@ export const addCardTC = (cardsPack_id: string, values: { question: string, answ
     async (dispatch: Dispatch, getState: () => AppRootStateType) => {
         try {
             dispatch(setAppStatusAC('loading'))
-            const addResponse = <AxiosResponse<any>>await CardsAPI.createCard(cardsPack_id, values)
+           await CardsAPI.createCard(cardsPack_id, values)
             await getCards(getState, dispatch)
 
         } catch (e) {
@@ -77,7 +78,7 @@ export const removeCardTC = (cardsPack_id: string, cardId: string) =>
     async (dispatch: Dispatch, getState: () => AppRootStateType) => {
         try {
             dispatch(setAppStatusAC('loading'))
-            const removeResponse = <AxiosResponse<any>>await CardsAPI.deleteCard(cardId)
+            await CardsAPI.deleteCard(cardId)
             await getCards(getState, dispatch)
         } catch (e) {
             handleResponseError(e, dispatch)
@@ -108,7 +109,7 @@ export const gradeCardTC = (grade: number, card_id: string) =>
     }
 
 
-type ActionsType = ReturnType<typeof setCardAC>
+type ActionsType = ReturnType<typeof setCardsAC>
     | ReturnType<typeof setTotalCardsCountAC>
     | ReturnType<typeof setPaginationCardAC>
     | ReturnType<typeof setCardGradeAC>

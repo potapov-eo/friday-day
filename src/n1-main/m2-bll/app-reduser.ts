@@ -19,9 +19,9 @@ const initialState: AppInitialStateType = {
 
 export const appReducer = (state: AppInitialStateType = initialState, action: ActionsType): AppInitialStateType => {
     switch (action.type) {
-        case 'APP/SET-STATUS':
+        case 'SET_APP_STATUS':
             return {...state, status: action.status}
-        case 'APP/SET-ERROR':
+        case 'SET_APP_ERROR':
             return {...state, error: action.error}
         case "SET_USER_DATA":
             return {...state, UserData: action.userData}
@@ -34,25 +34,17 @@ export const appReducer = (state: AppInitialStateType = initialState, action: Ac
                 }
             } else return state
 
-        case "SET-RECEIVED-RESPONSE":
-            return {
-                ...state,
-                status: action.status,
-                error: action.error,
-                UserData: action.userData,
-            }
+
         default:
             return state
     }
 }
 
 export const setAppStatusAC = (status: RequestStatusType) =>
-    ({type: 'APP/SET-STATUS', status} as const)
+    ({type: 'SET_APP_STATUS', status} as const)
 export const setAppErrorAC = (error: string | null) =>
-    ({type: 'APP/SET-ERROR', error} as const)
+    ({type: 'SET_APP_ERROR', error} as const)
 export const setUserDataAC = (userData: UserDataType) => ({type: 'SET_USER_DATA', userData} as const)
-export const receivedResponseAC = (userData: UserDataType, status: RequestStatusType, error: string | null) =>
-    ({type: 'SET-RECEIVED-RESPONSE', userData, status, error} as const)
 export const setPublicCardPacksCountAC = (publicCardPacksCount: number | null) =>
     ({type: 'SET_CARDS_PACK_TOTAL_COUNT', publicCardPacksCount} as const)
 
@@ -60,7 +52,6 @@ export const setPublicCardPacksCountAC = (publicCardPacksCount: number | null) =
 
 export type setAppStatusACType = ReturnType<typeof setAppStatusAC>
 export type setAppErrorACType = ReturnType<typeof setAppErrorAC>
-export type receivedResponseACType = ReturnType<typeof receivedResponseAC>
 export type setUserDataACType = ReturnType<typeof setUserDataAC>
 export type setPublicCardPacksCountACType = ReturnType<typeof setPublicCardPacksCountAC>
 
@@ -89,7 +80,7 @@ type ActionsType =
     | setAppErrorACType
     | setUserDataACType
     | setPublicCardPacksCountACType
-    | receivedResponseACType
+
 
 
 
