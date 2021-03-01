@@ -8,7 +8,7 @@ import {
     setSuccessfulResponseData
 } from "../../n1-main/m2-bll/common/HelperFunctions";
 import {setCardPacksAC} from "../f5-packs/Packs-reduser";
-import {setCardAC} from "../f6-cards/Cards-reducer";
+import {setCardsAC} from "../f6-cards/Cards-reducer";
 import {AxiosResponse} from "axios";
 
 
@@ -103,7 +103,7 @@ export const logout = () =>
             await AuthAPI.logout()
             setResponseData(dispatch, null, false)
             dispatch(setCardPacksAC([]))
-            dispatch(setCardAC([]))
+            dispatch(setCardsAC([]))
         } catch (e) {
             handleResponseError(e, dispatch)
         }

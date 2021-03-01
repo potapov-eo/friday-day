@@ -17,7 +17,7 @@ export const Profile = () => {
         return <Redirect to={PATH.LOGIN}/>
     }
 
-    const avatar = "https://www.gravatar.com/avatar/c37e0453882ec1e1d40bb4387e27b1dc?s=200&r=g&d=mm"
+    const avatar = "https://www.meme-arsenal.com/memes/86d4e6cb230346eedca4b6c0d8970fef.jpg"
     return (
 
         <div className={s.profile}>
