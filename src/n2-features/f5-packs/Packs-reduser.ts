@@ -1,13 +1,14 @@
 import {CardsAPI, getCardPacksDataType} from '../../../src/n1-main/m3-dal/instance'
 import {Dispatch} from 'redux'
-import {setAppStatusAC, setPublicCardPacksCountAC} from "../../n1-main/m2-bll/app-reduser";
 import {AppRootStateType} from "../../n1-main/m2-bll/store";
+import {setAppStatusAC, setPublicCardPacksCountAC} from "../../n1-main/m2-bll/app-reduser";
 import {
     getCardPacks,
     handleResponseError,
     setSuccessfulResponseData
 } from "../../n1-main/m2-bll/common/HelperFunctions";
 import {setIsLoggedIn} from "../f1-auth/auth-reducer";
+
 
 
 let initialState = {
