@@ -41,7 +41,7 @@ export const Pack = (props: packPropsType) => {
     return (
         <div>
             <div className={s.tableString} key={_id}>
-                <div>{name} </div>
+                <div className={s.sss}>{name} </div>
                 <div>{cardsCount}</div>
                 <div>{updated?updated.slice(0, 10):""}</div>
                 <div><SuperButton disabled={!isMyPack} onClick={() => {

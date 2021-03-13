@@ -7,6 +7,7 @@ import {AppRootStateType} from "../../m2-bll/store";
 import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
 import {faDAndD} from "@fortawesome/free-brands-svg-icons"
 import {logout} from "../../../n2-features/f1-auth/auth-reducer";
+import {BurgerNav} from "./burgerNav/burgerNav";
 
 
 export const Header = () => {
@@ -23,10 +24,11 @@ export const Header = () => {
 
             <FontAwesomeIcon icon={faDAndD} size="4x"/>
             <Nav/>
+            <BurgerNav/>
 
-            {isLoggedIn && < SuperButton onClick={logoutOnClick} name="logout"/>}
+           {/* {isLoggedIn && < SuperButton onClick={logoutOnClick} name="logout"/>}
             {isLoggedIn &&
-            <div className={s.userName}> {UserName} </div>}
+            <div className={s.userName}> {UserName} </div>}*/}
         </div>
     )
 }

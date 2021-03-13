@@ -1,5 +1,18 @@
 .nav {
     display: flex;
-    width: 800px;
+    width:100%;
     justify-content: space-around;
+    align-items: center;
+    font-size: 15px
+}
+.userName{
+    margin: 10px;
+    color: #e08821;
+    font-weight: bold;
+
+}
+@media  screen and (max-width: 400px) {
+    .nav {
+        display: none;
+    }
 }

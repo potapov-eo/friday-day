@@ -1,13 +1,13 @@
 .header {
-
+    width:100%;
     display: flex;
     align-items:center;
-    justify-content: center;
+    /*justify-content: center;*/
     height: 100px;
     background: #0e0e0e;
 }
 
-.burgerToggle {
+/*.burgerToggle {
     position: relative;
     display: inline-block;
     width: 15px;
@@ -49,7 +49,7 @@ margin-top: 4.5px;
     content: "";
     position: absolute;
     display: block;
-    /* left: 6px; */
+    !* left: 6px; *!
     width: 3px;
     height: 3px;
     background-color: #fff;
@@ -78,12 +78,6 @@ margin-top: 4.5px;
 .devInput{
     position: absolute;
     left: 100px;
-    top:0px
+    top:0px}*/
 
-}
-.userName{
-    margin: 10px;
-    color: #e08821;
-    font-weight: bold;
-    font-size: 20px
-}
+

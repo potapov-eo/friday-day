@@ -15,13 +15,19 @@
     border: 1px solid white;
     padding: 20px;
     width: 50%;
+    white-space: pre-wrap
 }
 .info span {
     color: #e08821;
     font-weight: 600;
     line-height: 1.2;
     font-size: 25px;
+
 }
 .avatar{
     height: 200px;
+}
+
+@media  screen and (max-width: 400px) {
+    .info span{font-size: 20px;}
 }

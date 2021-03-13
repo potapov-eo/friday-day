@@ -102,10 +102,9 @@ export const Packs = (props: { activeModal: boolean, setActiveModal: (activeModa
             </div>
 
             <div> Pack name search: <input value={searchName} onChange={onChangeCallback}/></div>
+
             {isLoggedIn ? <div className={s.tableString}>
-
                 < Headings setActiveAddPackModal={setActiveAddPackModal}/>
-
             </div> : <div>"you are not authorized"</div>}
 
             {cardPacks.map(pack =>

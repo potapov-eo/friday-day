@@ -69,7 +69,7 @@ export const Cards = () => {
             </div>
             {token ? <div className={s.tableString}>
                 <CardsHeadings setActiveAddCardModal={setActiveAddCardModal}
-                               isMyPack={isMyPack}/>
+                               isMyPack={isMyPack}/><div></div>
 
             </div> : <h3>"НЕОБХОДИМО ВЫБРАТЬ КОЛОДУ"</h3>}
 
