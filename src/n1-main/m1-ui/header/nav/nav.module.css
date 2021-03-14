@@ -3,7 +3,7 @@
     width:100%;
     justify-content: space-around;
     align-items: center;
-    font-size: 15px
+    font-size: 20px
 }
 .userName{
     margin: 10px;
@@ -11,7 +11,7 @@
     font-weight: bold;
 
 }
-@media  screen and (max-width: 400px) {
+@media  screen and (max-width: 700px) {
     .nav {
         display: none;
     }

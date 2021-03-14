@@ -1,0 +1,11 @@
+.burger {
+    display: flex;
+    flex-direction: column;
+}
+.nav{
+    display: flex;
+    width:100%;
+    justify-content: space-around;
+    align-items: center;
+    font-size: 20px
+}
