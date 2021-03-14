@@ -21,7 +21,7 @@ export const BurgerNav = () => {
     const setMenu = () => setMenuIsOpen(!menuIsOpen)
     const btnName = menuIsOpen ? "Close" : "Menu"
 
-    return (<>
+    return (<div  className={s.burgerNav}>
             {isLoggedIn &&
             < SuperButton disabled={isLoading} onClick={logoutOnClick} name="logout"/>
             }
@@ -34,6 +34,6 @@ export const BurgerNav = () => {
             <div className={s.positionBtn}>
                 <SuperButton  name={btnName} onClick={setMenu}/>
             </div>
-        </>
+        </div>
     )
 }

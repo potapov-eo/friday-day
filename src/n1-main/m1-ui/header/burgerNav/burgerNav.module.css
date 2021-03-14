@@ -17,3 +17,11 @@
     right: 10px;
     top: 32px;
 }
+.burgerNav{
+
+}
+@media  screen and (min-width: 770px) {
+    .burgerNav {
+        display: none;
+    }
+}

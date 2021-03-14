@@ -1,0 +1,27 @@
+
+.table {
+    text-align: center;
+    height: 100vh;
+
+}
+
+.tableColumnTitle {
+    display: flex;
+    justify-content: center;
+    align-items:center;
+    width: 10px;
+
+}
+.tableColumnTitleHide {
+    display: flex;
+    justify-content: center;
+    align-items:center;
+    width: 10px;
+}
+
+@media  screen and (max-width: 770px) {
+    .tableColumnTitleHide {
+        display: none !important;
+    }
+
+}

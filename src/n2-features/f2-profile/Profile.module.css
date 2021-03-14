@@ -28,6 +28,6 @@
     height: 200px;
 }
 
-@media  screen and (max-width: 400px) {
+@media  screen and (max-width: 770px) {
     .info span{font-size: 20px;}
 }
