@@ -62,11 +62,7 @@ export const Cards = () => {
             <h1>Cards</h1>
             {token && (cards.length > 0) &&
             <h2><NavLink to={`${PATH.LEARN}/${token}`} activeClassName={s.activeLink}>Learn</NavLink></h2>}
-            <div>
-                {token && (cards.length > 0) &&
-                <Paginator currentPage={page} pageSize={pageCount} totalItemsCount={totalCardsCount} portionSize={3}
-                           onPageChanged={onPageChanged}/>}
-            </div>
+
             {token ? <div className={s.tableString}>
                 <CardsHeadings setActiveAddCardModal={setActiveAddCardModal}
                                isMyPack={isMyPack}/>
@@ -76,6 +72,12 @@ export const Cards = () => {
             {token ? cards.map(card =>
                 <Card key={card._id} card={card}/>
             ) : <div></div>}
+
+            <div>
+                {token && (cards.length > 0) &&
+                <Paginator currentPage={page} pageSize={pageCount} totalItemsCount={totalCardsCount} portionSize={3}
+                           onPageChanged={onPageChanged}/>}
+            </div>
 
             <Modal activeModal={activeAddCardModal} setActiveModal={setActiveAddCardModal}>
                 <AddCardForm addCard={addCard} text={"Enter question and answer of new card"}/>

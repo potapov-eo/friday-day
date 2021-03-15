@@ -96,13 +96,13 @@ export const Packs = (props: { activeModal: boolean, setActiveModal: (activeModa
         <div className={s.table}>
             <h1>Packs</h1>
             <div> my Pack <input checked={isMyPackChecked} type={"checkbox"} onChange={change}/></div>
-            <div>
+            {/*<div>
                 <Paginator currentPage={page} pageSize={pageCount} totalItemsCount={totalPacksCount}
                            portionSize={10}  // пагинатор
                            onPageChanged={onPageChanged}/>
-            </div>
+            </div>*/}
 
-            <div> Pack name search: <SuperInput value={searchName} onChange={onChangeCallback}/></div>
+            <div className={s.search}> Pack name search: <SuperInput value={searchName} onChange={onChangeCallback}/></div>
 
             {isLoggedIn ? <div className={s.tableString}>
                 < Headings setActiveAddPackModal={setActiveAddPackModal}/>

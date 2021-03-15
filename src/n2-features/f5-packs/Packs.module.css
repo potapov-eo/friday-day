@@ -24,7 +24,9 @@
 
     overflow: hidden
 }
-
+.search{
+    margin-bottom: 15px;
+}
 .ActiveColumnPack {
 }
 
