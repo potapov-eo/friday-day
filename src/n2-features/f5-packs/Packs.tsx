@@ -11,6 +11,7 @@ import {AddForm} from "../../n1-main/m1-ui/common/Modal/AddForm/AddForm";
 import {Redirect} from "react-router-dom";
 import {PATH} from "../../n1-main/m1-ui/routes/Routes";
 import {Headings} from "./pack/headings/Headings";
+import SuperInput from "../../n1-main/m1-ui/common/SuperInput/SuperInput";
 
 export const Packs = (props: { activeModal: boolean, setActiveModal: (activeModal: boolean) => void }) => {
     const dispatch = useDispatch()
@@ -21,8 +22,8 @@ export const Packs = (props: { activeModal: boolean, setActiveModal: (activeModa
     (state => state.app)
     const {cardPacks, pagination, totalPacksCount} = useSelector<AppRootStateType,
         { cardPacks: Array<PackType>, pagination: paginationType, totalPacksCount: number }>(state => state.packs)
-    const {page, user_id, pageCount} = pagination
-
+    const {page, user_id} = pagination
+    const pageCount =useSelector<AppRootStateType,number>(state => state.packs.pagination.pageCount)
     const [isChange, setIsChange] = useState<boolean>(false)
     const [idTimeout, setIdTimeout] = useState<number>(0)
     const [searchName, setSearchName] = useState<string>("")
@@ -101,7 +102,7 @@ export const Packs = (props: { activeModal: boolean, setActiveModal: (activeModa
                            onPageChanged={onPageChanged}/>
             </div>
 
-            <div> Pack name search: <input value={searchName} onChange={onChangeCallback}/></div>
+            <div> Pack name search: <SuperInput value={searchName} onChange={onChangeCallback}/></div>
 
             {isLoggedIn ? <div className={s.tableString}>
                 < Headings setActiveAddPackModal={setActiveAddPackModal}/>

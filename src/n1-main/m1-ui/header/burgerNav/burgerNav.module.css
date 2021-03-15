@@ -8,7 +8,7 @@
     flex-wrap: nowrap;
     font-size: 15px;
     position: absolute;
-    right: 20%;
+    right: 18%;
     top: 10px;
 }
 
@@ -23,5 +23,10 @@
 @media  screen and (min-width: 480px) {
     .burgerNav {
         display: none;
+    }
+}
+@media  screen and (max-width: 360px) {
+    .nav{
+        font-size: 12px;
     }
 }

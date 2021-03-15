@@ -5,7 +5,8 @@
     background-color: transparent;
     color: white;
     padding: 12px 20px;
-    width: 400px;
+  width: 80%;
+    max-width: 500px;
 }
 .input::placeholder {
     color: #495057;

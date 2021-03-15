@@ -58,7 +58,7 @@ export const Login = () => {
                                  type="password" value={formik.values.password} placeholder={"Password"}/></div>
                 {formik.touched.password && formik.errors.password ?
                     <div style={{color: "red"}}> {formik.errors.password} </div> : null}
-                <div><span>Remember me </span><SuperInput name="rememberMe" onChange={formik.handleChange}
+                <div><span>Remember me </span><input name="rememberMe" onChange={formik.handleChange}
                                                           checked={formik.values.rememberMe} type="checkbox"/></div>
                 <div><SuperButton disabled={disable} name="log in"/></div>
             </form>

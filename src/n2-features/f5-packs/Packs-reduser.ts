@@ -71,6 +71,7 @@ export const addCardPacksTC = (newPackName: string) =>
             const response = await getCardPacks(getState, dispatch)
             dispatch(setPublicCardPacksCountAC(response.data.cardPacksTotalCount))
             setSuccessfulResponseData(dispatch)
+            dispatch(setTotalPacksCountAC(response.data.cardPacksTotalCount))
 
         } catch (e) {
             handleResponseError(e, dispatch)
@@ -85,6 +86,7 @@ export const removePackTC = (idCarsPack: string) =>
             const response = await getCardPacks(getState, dispatch)
             dispatch(setPublicCardPacksCountAC(response.data.cardPacksTotalCount))
             setSuccessfulResponseData(dispatch)
+            dispatch(setTotalPacksCountAC(response.data.cardPacksTotalCount))
         } catch (e) {
             handleResponseError(e, dispatch)
         }
