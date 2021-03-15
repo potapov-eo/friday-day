@@ -1,17 +1,39 @@
 .page {
     text-align: center;
-  height: 100vh;
+    height: 100vh;
 }
+
 .cardQuestion {
     color: #43a8c6;
-    font-size: 30px
+    font-size: 30px;
+    overflow: hidden
 }
+
 .cardAnswer {
     color: #98f58b;
-    font-size: 30px
+    font-size: 30px;
+    overflow: hidden
 }
+
 .card {
     background-color: #292828;
 }
 
 
+@media screen and (max-width: 770px) {
+    .cardQuestion, .cardAnswer {
+        font-size: 24px;
+    }
+}
+
+@media screen and (max-width: 480px) {
+    .cardQuestion, .cardAnswer {
+        font-size: 18px;
+    }
+}
+
+@media screen and (max-width: 360px) {
+    .cardQuestion, .cardAnswer {
+        font-size: 14px;
+    }
+}

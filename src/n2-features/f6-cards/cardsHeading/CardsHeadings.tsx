@@ -1,12 +1,12 @@
 import React from 'react'
 
-import s from '../../f5-packs/Packs.module.css'
+import s from '../../f5-packs/pack/headings/Headings.module.css'
 import {SortCardButton} from "../../../n1-main/m1-ui/common/SortButtons/SortCardButton";
 import SuperButton from "../../../n1-main/m1-ui/common/SuperButton/SuperButton";
 
 type CardsHeadingsPropsType = {
     setActiveAddCardModal: (value: boolean) => void
-    isMyPack:boolean
+    isMyPack: boolean
 }
 export const CardsHeadings = (props: CardsHeadingsPropsType) => {
 
@@ -16,23 +16,27 @@ export const CardsHeadings = (props: CardsHeadingsPropsType) => {
                 <h2>question</h2>
                 <SortCardButton param="question"/>
             </div>
+
             <div className={s.tableColumnTitle}>
                 <h2>answer</h2>
                 <SortCardButton param="answer"/>
             </div>
+
             <div className={s.tableColumnTitle}>
                 <h2>grade</h2>
                 <SortCardButton param="grade"/>
             </div>
-            <div className={s.tableColumnTitle}>
+
+            <div className={s.tableColumnTitleHide}>
                 <h2>updated</h2>
             </div>
-                <div>
-                    <SuperButton onClick={() => {
-                        props.setActiveAddCardModal(true)
-                    }} disabled={!props.isMyPack} name={"add"}/>
-                </div>
 
+            <div>
+                <SuperButton onClick={() => {
+                    props.setActiveAddCardModal(true)
+                }} disabled={!props.isMyPack} name={"add"}/>
+            </div>
+            <div className={s.tableColumnTitleHide}></div>
         </>
 
 

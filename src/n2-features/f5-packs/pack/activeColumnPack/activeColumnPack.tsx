@@ -26,7 +26,7 @@ export const ActiveColumnPack = (props: ActiveColumnPackType) => {
 
     return (
 
-            <div className={s.tableString} key={_id}>
+            <div className={s.tableString} >
                 <div><SuperButton disabled={!isMyPack} onClick={() => {
                     props.setActiveDelPackModal(true)
                 }} name={"del"}/></div>

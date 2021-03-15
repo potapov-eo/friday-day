@@ -20,7 +20,7 @@ export const Nav = () => {
 
             {!isLoggedIn && <NotAuthorizedNav/>}
             {isLoggedIn && <> <AuthorizedNav/>
-                <span> < SuperButton onClick={logoutOnClick} name="logout"/> </span>
+                <span> < SuperButton onClick={logoutOnClick} name="Logout"/> </span>
                 <span className={s.userName}> {UserName} </span>
             </>}
         </div>

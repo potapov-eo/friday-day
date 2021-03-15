@@ -19,7 +19,7 @@
     justify-content: center;
     align-items: center;
     height: 80px;
-    width: 180px;
+    width: 150px;
     border-bottom: 2px solid #404040;
 
     overflow: hidden
@@ -57,7 +57,7 @@
 @media screen and (max-width: 770px) {
     .tableString > div {
         height: 60px;
-        width: 140px;
+        width: 130px;
     }
 
     .ActiveColumnPack {
@@ -77,7 +77,7 @@
 @media screen and (max-width: 360px) {
     .tableString > div {
         height: 40px;
-        width: 60px;
+        width: 75px;
     }
 
 

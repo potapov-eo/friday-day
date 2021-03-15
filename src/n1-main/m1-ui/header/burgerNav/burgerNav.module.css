@@ -20,7 +20,7 @@
 .burgerNav{
 
 }
-@media  screen and (min-width: 770px) {
+@media  screen and (min-width: 480px) {
     .burgerNav {
         display: none;
     }

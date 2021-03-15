@@ -8,6 +8,7 @@ import SuperButton from "../../../n1-main/m1-ui/common/SuperButton/SuperButton";
 import {Modal} from "../../../n1-main/m1-ui/common/Modal/Modal";
 import {BooleanForm} from "../../../n1-main/m1-ui/common/Modal/BooleanModal/BooleanForm";
 import {AddCardForm, valueType} from "../../../n1-main/m1-ui/common/Modal/AddCardForm/AddCardForm";
+import {ActiveColumnCard} from "./activeColumnCard/activeColumnCard";
 
 type cardPropsType = {
     card: CardType
@@ -17,38 +18,49 @@ export const Card = (props: cardPropsType) => {
     const dispatch = useDispatch()
     const registerUserId = useSelector<AppRootStateType, string>(state => state.app.UserData ? state.app.UserData._id : "")
     const status = useSelector<AppRootStateType, RequestStatusType>(state => state.app.status)
-
+    const [isActiveColumnPack, setIsActiveColumnPack] = useState<boolean>(false)
     const [activeAddCardModal, setActiveAddCardModal] = useState<boolean>(false)
-    const [activeDelPackModal, setActiveDelPackModal] = useState<boolean>(false)
+    const [activeDelPackModal, setActiveDelCardModal] = useState<boolean>(false)
 
     const isMyPack = (card.user_id === registerUserId) && !(status === 'loading')
 
     const removeCard = (isDel: boolean) => {
-        setActiveDelPackModal(false)
+        setActiveDelCardModal(false)
         isDel && dispatch(removeCardTC(card.cardsPack_id, card._id))
     }
     const updatedCard = (value: valueType) => {
         setActiveAddCardModal(false)
         dispatch(updateCardTC(card._id, value))
     }
-
+    const showActiveColumnPack = () => {
+        setIsActiveColumnPack(!isActiveColumnPack)
+    }
+    const nameBtn = isActiveColumnPack ? "<<<" : ">>>"
     return (
         <div>
-            <div className={s.tableString} key={card._id}>
+            <div className={s.tableString}>
                 <div>{card.question}</div>
                 <div>{card.answer}</div>
                 <div>{card.grade}</div>
-                <div>{card.updated.slice(0, 10)}</div>
-                <div><SuperButton disabled={!isMyPack} onClick={() => {
-                    setActiveDelPackModal(true)
-                }} name={"del"}/></div>
 
-                <div>
-                    <SuperButton disabled={!isMyPack} onClick={() => setActiveAddCardModal(true)} name={"update"}/>
-                </div>
+                <div className={s.ActiveColumnPack3}><SuperButton onClick={() => showActiveColumnPack()}
+                                                                  name={nameBtn}/></div>
+                <span className={s.ActiveColumnPack}>
+                    <ActiveColumnCard card={card} setActiveAddCardModal={setActiveAddCardModal}
+                                      setActiveDelCardModal={setActiveDelCardModal}/>
 
+           </span>
             </div>
-            <Modal activeModal={activeDelPackModal} setActiveModal={setActiveDelPackModal}>
+
+            <span className={s.ActiveColumnPack2}>
+                {isActiveColumnPack && <ActiveColumnCard card={card} setActiveAddCardModal={setActiveAddCardModal}
+                                                         setActiveDelCardModal={setActiveDelCardModal}
+                                                         additionalColumn={true}
+                />}
+            </span>
+
+
+            <Modal activeModal={activeDelPackModal} setActiveModal={setActiveDelCardModal}>
                 <BooleanForm question={`you want to remove the card with the question: "${card.question}"`}
                              push={removeCard}/>
             </Modal>

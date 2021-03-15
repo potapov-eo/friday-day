@@ -9,7 +9,7 @@ type AuthorizedNavPropsType = {
 export const NotAuthorizedNav = (props: AuthorizedNavPropsType) => {
 
     return (
-        <div className={props.burgerNav ? s.burger : s.nav}>
+        <div className={props.burgerNav ? s.burger : s.NANav}>
            <span>
                 <NavLink to={PATH.LOGIN} activeClassName={s.activeLink}>LOGIN</NavLink>
             </span>
