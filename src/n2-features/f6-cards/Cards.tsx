@@ -2,7 +2,7 @@ import React, {useEffect, useState} from 'react'
 import {useDispatch, useSelector} from "react-redux";
 import {AppRootStateType} from "../../n1-main/m2-bll/store";
 import {RequestStatusType, UserDataType} from "../../n1-main/m2-bll/app-reduser";
-import {NavLink, Redirect, useParams} from "react-router-dom";
+import {NavLink, Redirect, Route, useParams} from "react-router-dom";
 import s from "../f5-packs/Packs.module.css";
 import {addCardTC, CardType, getCardTC, paginationCardsType, setPaginationCardAC} from "./Cards-reducer";
 import {Card} from "./card/Card";
@@ -42,7 +42,7 @@ export const Cards = () => {
             dispatch(setPaginationCardAC({cardsPack_id: token}))
             dispatch(getCardTC())
         }
-    }, [isLoggedIn, token])
+    }, [isLoggedIn, token, dispatch])
 
     const addCard = (value: valueType) => {
         dispatch(addCardTC(token, value))
@@ -54,8 +54,9 @@ export const Cards = () => {
         dispatch(getCardTC())
     }
 
-    const redirectPacks = () => <Redirect to={PATH.PACK}/>
+
     if (!UserData) {
+
         return <Redirect to={PATH.LOGIN}/>
     }
 
@@ -69,12 +70,15 @@ export const Cards = () => {
 
             {token ? <div className={s.tableString}>
                 {isLoggedIn ? <CardsHeadings setActiveAddCardModal={setActiveAddCardModal}
-                               isMyPack={isMyPack}/>:<>
+                                             isMyPack={isMyPack}/> : <>
                     <div className={s.notAuthorized}>"you are not authorized"</div>
                     <NavLink to={PATH.LOGIN} activeClassName={s.activeLink}>{"LOGIN >>> "}</NavLink>
                 </>}
 
-            </div> :<><h3>"НЕОБХОДИМО ВЫБРАТЬ КОЛОДУ"</h3> < SuperButton onClick={redirectPacks} name=">>> Packs"/></>}
+            </div> : <><h3>"НЕОБХОДИМО ВЫБРАТЬ КОЛОДУ"</h3>
+                <NavLink to={PATH.PACK} activeClassName={s.activeLink}>
+                    < SuperButton name=">>> Packs"/>
+                </NavLink>  </>}
 
             {token ? cards.map(card =>
                 <Card key={card._id} card={card}/>

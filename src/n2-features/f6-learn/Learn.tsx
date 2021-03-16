@@ -1,6 +1,6 @@
 import React, {useEffect, useState} from 'react'
 import {useDispatch, useSelector} from "react-redux";
-import {Redirect, useParams} from "react-router-dom";
+import {NavLink, Redirect, useParams} from "react-router-dom";
 import {AppRootStateType} from "../../n1-main/m2-bll/store";
 import {UserDataType} from "../../n1-main/m2-bll/app-reduser";
 import {CardType, getCardTC, gradeCardTC, setPaginationCardAC} from "../f6-cards/Cards-reducer";
@@ -62,7 +62,7 @@ export const Learn = (props: LearnPropsType) => {
         }
 
     }
-    const redirectPacks = () => <Redirect to={PATH.PACK}/>
+
     if (!UserData) {
         return <Redirect to={PATH.LOGIN}/>
     }                                            // при logOut с этой страницы перебрасывает на стр. Логин
@@ -80,7 +80,10 @@ export const Learn = (props: LearnPropsType) => {
                 <div>
                     <SuperButton name={"check"} onClick={() => setIsChecked(true)}/>
                 </div>
-            </div> :<><h3>"НЕОБХОДИМО ВЫБРАТЬ КОЛОДУ"</h3> < SuperButton onClick={redirectPacks} name=">>> Packs"/></>}
+            </div> :<><h3>"НЕОБХОДИМО ВЫБРАТЬ КОЛОДУ"</h3>
+                <NavLink to={PATH.PACK} activeClassName={s.activeLink}>
+                    < SuperButton name=">>> Packs"/>
+                </NavLink> </>}
 
             {isChecked && (
                 <>
