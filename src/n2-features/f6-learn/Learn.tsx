@@ -62,7 +62,7 @@ export const Learn = (props: LearnPropsType) => {
         }
 
     }
-
+    const redirectPacks = () => <Redirect to={PATH.PACK}/>
     if (!UserData) {
         return <Redirect to={PATH.LOGIN}/>
     }                                            // при logOut с этой страницы перебрасывает на стр. Логин
@@ -80,7 +80,7 @@ export const Learn = (props: LearnPropsType) => {
                 <div>
                     <SuperButton name={"check"} onClick={() => setIsChecked(true)}/>
                 </div>
-            </div> : <h3>"НЕОБХОДИМО ВЫБРАТЬ КОЛОДУ"</h3>}
+            </div> :<><h3>"НЕОБХОДИМО ВЫБРАТЬ КОЛОДУ"</h3> < SuperButton onClick={redirectPacks} name=">>> Packs"/></>}
 
             {isChecked && (
                 <>

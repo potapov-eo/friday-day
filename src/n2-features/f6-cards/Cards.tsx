@@ -12,6 +12,7 @@ import {Modal} from '../../n1-main/m1-ui/common/Modal/Modal'
 import {PATH} from "../../n1-main/m1-ui/routes/Routes";
 import {AddCardForm, valueType} from "../../n1-main/m1-ui/common/Modal/AddCardForm/AddCardForm";
 import {CardsHeadings} from "./cardsHeading/CardsHeadings";
+import SuperButton from "../../n1-main/m1-ui/common/SuperButton/SuperButton";
 
 
 export const Cards = () => {
@@ -52,6 +53,8 @@ export const Cards = () => {
         dispatch(setPaginationCardAC({page: newNumber}))
         dispatch(getCardTC())
     }
+
+    const redirectPacks = () => <Redirect to={PATH.PACK}/>
     if (!UserData) {
         return <Redirect to={PATH.LOGIN}/>
     }
@@ -71,7 +74,7 @@ export const Cards = () => {
                     <NavLink to={PATH.LOGIN} activeClassName={s.activeLink}>{"LOGIN >>> "}</NavLink>
                 </>}
 
-            </div> : <h3>"НЕОБХОДИМО ВЫБРАТЬ КОЛОДУ"</h3>}
+            </div> :<><h3>"НЕОБХОДИМО ВЫБРАТЬ КОЛОДУ"</h3> < SuperButton onClick={redirectPacks} name=">>> Packs"/></>}
 
             {token ? cards.map(card =>
                 <Card key={card._id} card={card}/>
