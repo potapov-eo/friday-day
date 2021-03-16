@@ -8,7 +8,7 @@ import {RequestStatusType, UserDataType} from "../../n1-main/m2-bll/app-reduser"
 import {Paginator} from "../../n1-main/m1-ui/common/Paginator/Paginator";
 import {Modal} from '../../n1-main/m1-ui/common/Modal/Modal'
 import {AddForm} from "../../n1-main/m1-ui/common/Modal/AddForm/AddForm";
-import {Redirect} from "react-router-dom";
+import {NavLink, Redirect} from "react-router-dom";
 import {PATH} from "../../n1-main/m1-ui/routes/Routes";
 import {Headings} from "./pack/headings/Headings";
 import SuperInput from "../../n1-main/m1-ui/common/SuperInput/SuperInput";
@@ -106,7 +106,10 @@ export const Packs = (props: { activeModal: boolean, setActiveModal: (activeModa
 
             {isLoggedIn ? <div className={s.tableString}>
                 < Headings setActiveAddPackModal={setActiveAddPackModal}/>
-            </div> : <div>"you are not authorized"</div>}
+            </div> : <>
+            <div>"you are not authorized"</div>
+            <NavLink to={PATH.LOGIN} activeClassName={s.activeLink}>{"LOGIN >>> >>> >>> "}</NavLink>
+                </>}
 
             {cardPacks.map(pack =>
                 <Pack key={pack._id} pack={pack}

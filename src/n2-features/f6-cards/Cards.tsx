@@ -56,6 +56,7 @@ export const Cards = () => {
         return <Redirect to={PATH.LOGIN}/>
     }
 
+
     return (
 
         <div className={s.table}>
@@ -64,8 +65,11 @@ export const Cards = () => {
             <h2><NavLink to={`${PATH.LEARN}/${token}`} activeClassName={s.activeLink}>Learn</NavLink></h2>}
 
             {token ? <div className={s.tableString}>
-                <CardsHeadings setActiveAddCardModal={setActiveAddCardModal}
-                               isMyPack={isMyPack}/>
+                {isLoggedIn ? <CardsHeadings setActiveAddCardModal={setActiveAddCardModal}
+                               isMyPack={isMyPack}/>:<>
+                    <div className={s.notAuthorized}>"you are not authorized"</div>
+                    <NavLink to={PATH.LOGIN} activeClassName={s.activeLink}>{"LOGIN >>> "}</NavLink>
+                </>}
 
             </div> : <h3>"НЕОБХОДИМО ВЫБРАТЬ КОЛОДУ"</h3>}
 
