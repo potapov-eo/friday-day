@@ -1,16 +1,16 @@
 import React from 'react'
 import {useSelector} from "react-redux";
-import {AppRootStateType} from "../../n1-main/m2-bll/store";
 import {Redirect} from "react-router-dom";
 import {PATH} from "../../n1-main/m1-ui/routes/Routes";
-import {UserDataType} from "../../n1-main/m2-bll/app-reduser";
 import s from "./Profile.module.css";
+import {selectorIsLoggedIn} from "../f1-auth/authSelector";
+import {selectorUserData} from "../../n1-main/m2-bll/appSelector";
 
 
 export const Profile = () => {
 
-    const isLoggedIn = useSelector<AppRootStateType, boolean>(state => state.auth.isLoggedIn)
-    const userData = useSelector<AppRootStateType, UserDataType>(state => state.app.UserData)
+    const isLoggedIn = useSelector(selectorIsLoggedIn)
+    const userData = useSelector(selectorUserData)
     let {name, email, publicCardPacksCount} = userData ? userData : {name: "", email: "", publicCardPacksCount: ""}
 
     if (!isLoggedIn) {

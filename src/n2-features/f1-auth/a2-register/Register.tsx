@@ -2,18 +2,19 @@ import React from 'react'
 import {useFormik} from "formik";
 import {useDispatch, useSelector} from "react-redux";
 import {Redirect} from "react-router-dom";
-import {AppRootStateType} from "../../../n1-main/m2-bll/store";
 import {PATH} from "../../../n1-main/m1-ui/routes/Routes";
-import {RequestStatusType} from "../../../n1-main/m2-bll/app-reduser";
 import SuperButton from "../../../n1-main/m1-ui/common/SuperButton/SuperButton";
 import SuperInput from "../../../n1-main/m1-ui/common/SuperInput/SuperInput";
 import {RegisterTC} from "../auth-reducer";
+import {selectorIsLoggedIn, selectorIsRegister} from "../authSelector";
+import {selectorStatus} from "../../../n1-main/m2-bll/appSelector";
 
 export const Register = () => {
     const dispatch = useDispatch()
-    const status = useSelector<AppRootStateType, RequestStatusType>(state => state.app.status)
-    const isLoggedIn = useSelector<AppRootStateType, boolean>(state => state.auth.isLoggedIn)
-    const isRegister = useSelector<AppRootStateType, boolean>(state => state.auth.isRegister)
+    const status = useSelector(selectorStatus)
+    const isLoggedIn = useSelector(selectorIsLoggedIn)
+    const isRegister = useSelector(selectorIsRegister)
+
     type FormikErrorType = {
         email?: string
         password?: string

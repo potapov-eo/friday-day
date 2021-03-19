@@ -1,9 +1,7 @@
 import React, {useState} from 'react'
 import s from '../../f5-packs/Packs.module.css'
-import {useDispatch, useSelector} from "react-redux";
-import {AppRootStateType} from "../../../n1-main/m2-bll/store";
+import {useDispatch} from "react-redux";
 import {CardType, removeCardTC, updateCardTC} from "../Cards-reducer";
-import {RequestStatusType} from "../../../n1-main/m2-bll/app-reduser";
 import SuperButton from "../../../n1-main/m1-ui/common/SuperButton/SuperButton";
 import {Modal} from "../../../n1-main/m1-ui/common/Modal/Modal";
 import {BooleanForm} from "../../../n1-main/m1-ui/common/Modal/BooleanModal/BooleanForm";
@@ -16,13 +14,9 @@ type cardPropsType = {
 export const Card = (props: cardPropsType) => {
     const card = props.card
     const dispatch = useDispatch()
-    const registerUserId = useSelector<AppRootStateType, string>(state => state.app.UserData ? state.app.UserData._id : "")
-    const status = useSelector<AppRootStateType, RequestStatusType>(state => state.app.status)
     const [isActiveColumnPack, setIsActiveColumnPack] = useState<boolean>(false)
     const [activeAddCardModal, setActiveAddCardModal] = useState<boolean>(false)
     const [activeDelPackModal, setActiveDelCardModal] = useState<boolean>(false)
-
-    const isMyPack = (card.user_id === registerUserId) && !(status === 'loading')
 
     const removeCard = (isDel: boolean) => {
         setActiveDelCardModal(false)

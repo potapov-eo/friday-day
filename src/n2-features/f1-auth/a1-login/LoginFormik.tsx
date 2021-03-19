@@ -4,15 +4,15 @@ import SuperButton from '../../../n1-main/m1-ui/common/SuperButton/SuperButton';
 import {useDispatch, useSelector} from 'react-redux';
 import {Redirect} from 'react-router-dom';
 import {useFormik} from 'formik';
-import {AppRootStateType} from '../../../../src/n1-main/m2-bll/store'
 import {PATH} from "../../../n1-main/m1-ui/routes/Routes";
-import {RequestStatusType} from "../../../n1-main/m2-bll/app-reduser";
 import {login} from "../auth-reducer";
+import {selectorIsLoggedIn} from "../authSelector";
+import {selectorStatus} from "../../../n1-main/m2-bll/appSelector";
 
 
 export const Login = () => {
-    const status = useSelector<AppRootStateType, RequestStatusType>(state => state.app.status)
-    const isLoggedIn = useSelector<AppRootStateType, boolean>(state => state.auth.isLoggedIn)
+    const status = useSelector(selectorStatus)
+    const isLoggedIn = useSelector(selectorIsLoggedIn)
     const dispatch = useDispatch()
 
     const disable = status === 'loading'
@@ -43,7 +43,7 @@ export const Login = () => {
     })
 
     if (isLoggedIn) {
-          return <Redirect to={PATH.PROFILE}/>
+        return <Redirect to={PATH.PROFILE}/>
     }
 
     return (
@@ -59,7 +59,7 @@ export const Login = () => {
                 {formik.touched.password && formik.errors.password ?
                     <div style={{color: "red"}}> {formik.errors.password} </div> : null}
                 <div><span>Remember me </span><input name="rememberMe" onChange={formik.handleChange}
-                                                          checked={formik.values.rememberMe} type="checkbox"/></div>
+                                                     checked={formik.values.rememberMe} type="checkbox"/></div>
                 <div><SuperButton disabled={disable} name="log in"/></div>
             </form>
         </div>

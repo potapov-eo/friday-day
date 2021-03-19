@@ -2,23 +2,23 @@ import React from 'react'
 import {useFormik} from "formik";
 import {useDispatch, useSelector} from "react-redux";
 import {Redirect, useParams} from "react-router-dom";
-import {AppRootStateType} from "../../../n1-main/m2-bll/store";
-import {RequestStatusType} from "../../../n1-main/m2-bll/app-reduser";
 import SuperButton from "../../../n1-main/m1-ui/common/SuperButton/SuperButton";
 import SuperInput from "../../../n1-main/m1-ui/common/SuperInput/SuperInput";
 import {PATH} from "../../../n1-main/m1-ui/routes/Routes";
 import {setPasswordTC} from "../auth-reducer";
+import {selectorStatus} from "../../../n1-main/m2-bll/appSelector";
+import {selectorNewPassword} from "../authSelector";
 
 export const NewPassword = () => {
     const dispatch = useDispatch()
-    const status = useSelector<AppRootStateType, RequestStatusType>(state => state.app.status)
-    const newPassword = useSelector<AppRootStateType, boolean>(state => state.auth.newPassword)
+    const status = useSelector(selectorStatus)
+    const newPassword = useSelector(selectorNewPassword)
     type FormikErrorType = {
         password?: string
         resetPasswordToken?: string
     }
 
-    let {token} = useParams<{token:string}>()
+    let {token} = useParams<{ token: string }>()
 
     const disable = status === 'loading'
 

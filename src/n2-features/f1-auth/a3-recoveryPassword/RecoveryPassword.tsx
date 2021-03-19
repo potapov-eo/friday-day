@@ -1,19 +1,18 @@
 import React from 'react'
 import {useFormik} from "formik";
 import {useDispatch, useSelector} from "react-redux";
-import {AppRootStateType} from "../../../n1-main/m2-bll/store";
 import SuperButton from "../../../n1-main/m1-ui/common/SuperButton/SuperButton";
 import SuperInput from "../../../n1-main/m1-ui/common/SuperInput/SuperInput";
-import {RequestStatusType} from "../../../n1-main/m2-bll/app-reduser";
 import {DEV_VERSION} from "../../../config";
 import {recoveryEmailAC, verificationEmailTC} from "../auth-reducer";
+import {selectorStatus} from "../../../n1-main/m2-bll/appSelector";
+import {selectorRecoveryEmail} from "../authSelector";
 
 
 export const RecoveryPassword = () => {
     const dispatch = useDispatch()
-    const status = useSelector<AppRootStateType, RequestStatusType>(state => state.app.status)
-    const registeredEmail = useSelector<AppRootStateType, boolean>(state => state.auth.recoveryEmail)
-
+    const status = useSelector(selectorStatus)
+    const registeredEmail = useSelector(selectorRecoveryEmail)
     const from = "test-front-admin <ai73a@yandex.by>"
     const message = !DEV_VERSION
         ? "<div>password recovery link:<a" +

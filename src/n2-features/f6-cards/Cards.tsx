@@ -1,31 +1,33 @@
 import React, {useEffect, useState} from 'react'
 import {useDispatch, useSelector} from "react-redux";
-import {AppRootStateType} from "../../n1-main/m2-bll/store";
-import {RequestStatusType, UserDataType} from "../../n1-main/m2-bll/app-reduser";
-import {NavLink, Redirect, Route, useParams} from "react-router-dom";
+import {NavLink, Redirect, useParams} from "react-router-dom";
 import s from "../f5-packs/Packs.module.css";
-import {addCardTC, CardType, getCardTC, paginationCardsType, setPaginationCardAC} from "./Cards-reducer";
+import {addCardTC, getCardTC, setPaginationCardAC} from "./Cards-reducer";
 import {Card} from "./card/Card";
-import {PackType} from "../f5-packs/Packs-reduser";
 import {Paginator} from "../../n1-main/m1-ui/common/Paginator/Paginator";
 import {Modal} from '../../n1-main/m1-ui/common/Modal/Modal'
 import {PATH} from "../../n1-main/m1-ui/routes/Routes";
 import {AddCardForm, valueType} from "../../n1-main/m1-ui/common/Modal/AddCardForm/AddCardForm";
 import {CardsHeadings} from "./cardsHeading/CardsHeadings";
 import SuperButton from "../../n1-main/m1-ui/common/SuperButton/SuperButton";
+import {selectorStatus, selectorUserData, selectorUserId} from "../../n1-main/m2-bll/appSelector";
+import {selectorIsLoggedIn} from "../f1-auth/authSelector";
+import {selectorCardPacks} from "../f5-packs/packSelector";
+import {selectorCards, selectorPaginationCards, selectorTotalCardsCount} from "./cardSelector";
 
 
 export const Cards = () => {
 
     const dispatch = useDispatch()
 
-    const UserData = useSelector<AppRootStateType, UserDataType | null>(state => state.app.UserData)
-    const status = useSelector<AppRootStateType, RequestStatusType>(state => state.app.status)
-    const registerUserId = useSelector<AppRootStateType, string>(state => state.app.UserData ? state.app.UserData._id : "")
-    const isLoggedIn = useSelector<AppRootStateType, boolean>(state => state.auth.isLoggedIn)
-    const packs = useSelector<AppRootStateType, Array<PackType>>(state => state.packs.cardPacks)
-    const {paginationCards, totalCardsCount, cards} = useSelector<AppRootStateType,
-        { paginationCards: paginationCardsType, totalCardsCount: number, cards: Array<CardType> }>(state => state.cards)
+    const UserData = useSelector(selectorUserData)
+    const status = useSelector(selectorStatus)
+    const registerUserId = useSelector(selectorUserId)
+    const isLoggedIn = useSelector(selectorIsLoggedIn)
+    const packs = useSelector(selectorCardPacks)
+    const paginationCards = useSelector(selectorPaginationCards)
+    const totalCardsCount = useSelector(selectorTotalCardsCount)
+    const cards = useSelector(selectorCards)
     const {page, pageCount} = paginationCards
 
     const [activeAddCardModal, setActiveAddCardModal] = useState<boolean>(false)

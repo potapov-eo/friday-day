@@ -1,10 +1,9 @@
 import React from 'react'
 import s from '../../../f5-packs/Packs.module.css'
 import {useSelector} from "react-redux";
-import {AppRootStateType} from "../../../../n1-main/m2-bll/store";
-import {RequestStatusType} from "../../../../n1-main/m2-bll/app-reduser";
 import SuperButton from "../../../../n1-main/m1-ui/common/SuperButton/SuperButton";
 import {CardType} from "../../Cards-reducer";
+import {selectorStatus, selectorUserId} from "../../../../n1-main/m2-bll/appSelector";
 
 
 type ActiveColumnCardType = {
@@ -15,8 +14,8 @@ type ActiveColumnCardType = {
 }
 export const ActiveColumnCard = (props: ActiveColumnCardType) => {
 
-    const registerUserId = useSelector<AppRootStateType, string>(state => state.app.UserData ? state.app.UserData._id : "")
-    const status = useSelector<AppRootStateType, RequestStatusType>(state => state.app.status)
+    const status = useSelector(selectorStatus)
+    const registerUserId = useSelector(selectorUserId)
     const isMyPack = (props.card.user_id === registerUserId) && !(status === 'loading')
 
     return (

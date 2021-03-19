@@ -1,10 +1,8 @@
 import React, {ChangeEvent, useCallback, useEffect, useState} from 'react'
 import {useDispatch, useSelector} from 'react-redux'
-import {AppRootStateType} from '../../../src/n1-main/m2-bll/store'
-import {addCardPacksTC, getCardPacksTC, PackType, paginationType, setPaginationAC} from './/Packs-reduser'
+import {addCardPacksTC, getCardPacksTC, setPaginationAC} from './/Packs-reduser'
 import s from './Packs.module.css'
 import {Pack} from "./pack/Pack";
-import {RequestStatusType, UserDataType} from "../../n1-main/m2-bll/app-reduser";
 import {Paginator} from "../../n1-main/m1-ui/common/Paginator/Paginator";
 import {Modal} from '../../n1-main/m1-ui/common/Modal/Modal'
 import {AddForm} from "../../n1-main/m1-ui/common/Modal/AddForm/AddForm";
@@ -12,18 +10,22 @@ import {NavLink, Redirect} from "react-router-dom";
 import {PATH} from "../../n1-main/m1-ui/routes/Routes";
 import {Headings} from "./pack/headings/Headings";
 import SuperInput from "../../n1-main/m1-ui/common/SuperInput/SuperInput";
+import {selectorIsLoggedIn} from "../f1-auth/authSelector";
+import {selectorStatus, selectorUserData, selectorUserId} from "../../n1-main/m2-bll/appSelector";
+import {selectorCardPacks, selectorPagination, selectorTotalPacksCount} from "./packSelector";
+
 
 export const Packs = (props: { activeModal: boolean, setActiveModal: (activeModal: boolean) => void }) => {
     const dispatch = useDispatch()
 
-    const isLoggedIn = useSelector<AppRootStateType, boolean>(state => state.auth.isLoggedIn)
-    const userId = useSelector<AppRootStateType, string>(state => state.app.UserData ? state.app.UserData._id : "")
-    const {status, UserData} = useSelector<AppRootStateType, { status: RequestStatusType, UserData: UserDataType }>
-    (state => state.app)
-    const {cardPacks, pagination, totalPacksCount} = useSelector<AppRootStateType,
-        { cardPacks: Array<PackType>, pagination: paginationType, totalPacksCount: number }>(state => state.packs)
-    const {page, user_id} = pagination
-    const pageCount =useSelector<AppRootStateType,number>(state => state.packs.pagination.pageCount)
+    const isLoggedIn = useSelector(selectorIsLoggedIn)
+    const userId = useSelector(selectorUserId)
+    const UserData = useSelector(selectorUserData)
+    const status = useSelector(selectorStatus)
+    const cardPacks = useSelector(selectorCardPacks)
+    const pagination = useSelector(selectorPagination)
+    const totalPacksCount = useSelector(selectorTotalPacksCount)
+    const {page, user_id, pageCount} = pagination
     const [isChange, setIsChange] = useState<boolean>(false)
     const [idTimeout, setIdTimeout] = useState<number>(0)
     const [searchName, setSearchName] = useState<string>("")
@@ -96,20 +98,16 @@ export const Packs = (props: { activeModal: boolean, setActiveModal: (activeModa
         <div className={s.table}>
             <h1>Packs</h1>
             <div> my Pack <input checked={isMyPackChecked} type={"checkbox"} onChange={change}/></div>
-            {/*<div>
-                <Paginator currentPage={page} pageSize={pageCount} totalItemsCount={totalPacksCount}
-                           portionSize={10}  // пагинатор
-                           onPageChanged={onPageChanged}/>
-            </div>*/}
 
-            <div className={s.search}> Pack name search: <SuperInput value={searchName} onChange={onChangeCallback}/></div>
+            <div className={s.search}> Pack name search: <SuperInput value={searchName} onChange={onChangeCallback}/>
+            </div>
 
             {isLoggedIn ? <div className={s.tableString}>
                 < Headings setActiveAddPackModal={setActiveAddPackModal}/>
             </div> : <>
-            <div>"you are not authorized"</div>
-            <NavLink to={PATH.LOGIN} activeClassName={s.activeLink}>{"LOGIN >>> >>> >>> "}</NavLink>
-                </>}
+                <div>"you are not authorized"</div>
+                <NavLink to={PATH.LOGIN} activeClassName={s.activeLink}>{"LOGIN >>> >>> >>> "}</NavLink>
+            </>}
 
             {cardPacks.map(pack =>
                 <Pack key={pack._id} pack={pack}

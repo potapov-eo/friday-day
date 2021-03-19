@@ -1,21 +1,22 @@
 import React, {useEffect, useState} from 'react'
 import {useDispatch, useSelector} from "react-redux";
 import {NavLink, Redirect, useParams} from "react-router-dom";
-import {AppRootStateType} from "../../n1-main/m2-bll/store";
-import {UserDataType} from "../../n1-main/m2-bll/app-reduser";
 import {CardType, getCardTC, gradeCardTC, setPaginationCardAC} from "../f6-cards/Cards-reducer";
 import SuperButton from "../../n1-main/m1-ui/common/SuperButton/SuperButton";
 import s from './Learn.module.css'
 import {PATH} from "../../n1-main/m1-ui/routes/Routes";
+import {selectorCards} from "../f6-cards/cardSelector";
+import {selectorUserData} from "../../n1-main/m2-bll/appSelector";
+import {selectorIsLoggedIn} from "../f1-auth/authSelector";
 
 
 type LearnPropsType = {}
 export const Learn = (props: LearnPropsType) => {
     const dispatch = useDispatch()
     const {token} = useParams<{ token: string }>()
-    const cards = useSelector<AppRootStateType, Array<CardType>>(state => state.cards.cards)
-    const UserData = useSelector<AppRootStateType, UserDataType | null>(state => state.app.UserData)
-    const isLoggedIn = useSelector<AppRootStateType, boolean>(state => state.auth.isLoggedIn)
+    const cards = useSelector(selectorCards)
+    const UserData = useSelector(selectorUserData)
+    const isLoggedIn = (selectorIsLoggedIn)
     const [isChecked, setIsChecked] = useState<boolean>(false)
     const [first, setFirst] = useState<boolean>(true)
     const [card, setCard] = useState<CardType | null>(null)
@@ -80,7 +81,7 @@ export const Learn = (props: LearnPropsType) => {
                 <div>
                     <SuperButton name={"check"} onClick={() => setIsChecked(true)}/>
                 </div>
-            </div> :<><h3>"НЕОБХОДИМО ВЫБРАТЬ КОЛОДУ"</h3>
+            </div> : <><h3>"НЕОБХОДИМО ВЫБРАТЬ КОЛОДУ"</h3>
                 <NavLink to={PATH.PACK} activeClassName={s.activeLink}>
                     < SuperButton name=">>> Packs"/>
                 </NavLink> </>}
