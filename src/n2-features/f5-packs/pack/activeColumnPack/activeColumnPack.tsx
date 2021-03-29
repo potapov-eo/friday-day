@@ -1,8 +1,6 @@
 import React from 'react'
 import s from '../../Packs.module.css'
-
 import {useSelector} from "react-redux";
-
 import {NavLink} from "react-router-dom";
 import {PackType} from "../../Packs-reduser";
 import SuperButton from "../../../../n1-main/m1-ui/common/SuperButton/SuperButton";
@@ -15,6 +13,8 @@ type ActiveColumnPackType = {
     setActiveDelPackModal: (activeModal: boolean) => void
     setActiveUpdatePackModal: (activeModal: boolean) => void
 }
+
+
 export const ActiveColumnPack = (props: ActiveColumnPackType) => {
 
     const status = useSelector(selectorStatus)

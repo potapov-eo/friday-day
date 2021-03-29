@@ -87,22 +87,22 @@ export const CardsAPI = {
 }
 
 export type getCardPacksDataType = {
-    packName?: string
-    min?: number
-    max?: number
-    sortPacks?: string
-    page?: number
-    pageCount?: number
+    packName: string
+    min: number
+    max: number
+    sortPacks: string
+    page: number
+    pageCount: number
 }
 
 export type getCardsDataType = {
-    cardAnswer?: string
-    cardQuestion?: string
+    cardAnswer: string
+    cardQuestion: string
     cardsPack_id: string
-    min?: number
-    max?: number
-    sortCards?: string
-    page?: number
-    pageCount?: number
+    min: number
+    max: number
+    sortCards: string
+    page: number
+    pageCount: number
 
 }

@@ -48,12 +48,12 @@ export const setTotalPacksCountAC = (packsCount: number) => ({type: "SET-TOTAL-P
 //TC
 
 
-export const getCardPacksTC = (getData: getCardPacksDataType = {}) =>
+export const getCardPacksTC = () =>
     async (dispatch: Dispatch, getState: () => AppRootStateType) => {
         try {
             dispatch(setAppStatusAC('loading'))
             const response = await getCardPacks(getState, dispatch)
-            const currentPage = getData.page
+            const currentPage = getState().packs.pagination.page
             currentPage && dispatch(setPaginationAC({page: currentPage}))
             dispatch(setTotalPacksCountAC(response.data.cardPacksTotalCount))
             setSuccessfulResponseData(dispatch)
@@ -92,7 +92,7 @@ export const removePackTC = (idCarsPack: string) =>
         }
     }
 
-export const updateTC = (id: string, newNamePack: string, getData: getCardPacksDataType = {}) =>
+export const updateTC = (id: string, newNamePack: string) =>
     async (dispatch: Dispatch, getState: () => AppRootStateType) => {
         try {
             dispatch(setAppStatusAC('loading'))
