@@ -1,9 +1,9 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 import './index.css';
-import App from './n1-main/m1-ui/App';
+import App from './app/App';
 
-import {store} from "./n1-main/m2-bll/store";
+import {store} from "./store/store";
 import {Provider} from "react-redux";
 
 ReactDOM.render(
