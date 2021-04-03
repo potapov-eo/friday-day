@@ -1,23 +1,21 @@
 {
   "files": {
-    "main.css": "/friday-day/static/css/main.92294f5a.chunk.css",
-    "main.js": "/friday-day/static/js/main.1221b20d.chunk.js",
-    "main.js.map": "/friday-day/static/js/main.1221b20d.chunk.js.map",
-    "runtime-main.js": "/friday-day/static/js/runtime-main.3055a346.js",
-    "runtime-main.js.map": "/friday-day/static/js/runtime-main.3055a346.js.map",
+    "main.css": "/friday-day/static/css/main.0b8e75fb.chunk.css",
+    "main.js": "/friday-day/static/js/main.3ff26391.chunk.js",
+    "main.js.map": "/friday-day/static/js/main.3ff26391.chunk.js.map",
+    "runtime-main.js": "/friday-day/static/js/runtime-main.80369f99.js",
+    "runtime-main.js.map": "/friday-day/static/js/runtime-main.80369f99.js.map",
     "static/js/2.4818df32.chunk.js": "/friday-day/static/js/2.4818df32.chunk.js",
     "static/js/2.4818df32.chunk.js.map": "/friday-day/static/js/2.4818df32.chunk.js.map",
-    "static/js/3.1160cfb4.chunk.js": "/friday-day/static/js/3.1160cfb4.chunk.js",
-    "static/js/3.1160cfb4.chunk.js.map": "/friday-day/static/js/3.1160cfb4.chunk.js.map",
     "index.html": "/friday-day/index.html",
-    "static/css/main.92294f5a.chunk.css.map": "/friday-day/static/css/main.92294f5a.chunk.css.map",
+    "static/css/main.0b8e75fb.chunk.css.map": "/friday-day/static/css/main.0b8e75fb.chunk.css.map",
     "static/js/2.4818df32.chunk.js.LICENSE.txt": "/friday-day/static/js/2.4818df32.chunk.js.LICENSE.txt",
     "static/media/Infinity-1s-200px.2a677e42.svg": "/friday-day/static/media/Infinity-1s-200px.2a677e42.svg"
   },
   "entrypoints": [
-    "static/js/runtime-main.3055a346.js",
+    "static/js/runtime-main.80369f99.js",
     "static/js/2.4818df32.chunk.js",
-    "static/css/main.92294f5a.chunk.css",
-    "static/js/main.1221b20d.chunk.js"
+    "static/css/main.0b8e75fb.chunk.css",
+    "static/js/main.3ff26391.chunk.js"
   ]
 }
