@@ -1,12 +1,12 @@
 import React, {useState} from 'react'
-import s from '../Packs.module.css'
-import SuperButton from "../../../components/SuperButton/SuperButton";
+import s from '../../pages/packs/Packs.module.css'
+import SuperButton from "../SuperButton/SuperButton";
 import {useDispatch} from "react-redux";
-import {PackType, removePackTC, updateTC} from "../../../store/packs-reduser/Packs-reduser";
-import {BooleanForm} from "../../../components/modal/BooleanModal/BooleanForm";
-import {AddForm} from "../../../components/modal/AddForm/AddForm";
+import {PackType, removePackTC, updateTC} from "../../store/packs-reduser/Packs-reduser";
+import {BooleanForm} from "../modal/BooleanModal/BooleanForm";
+import {AddForm} from "../modal/AddForm/AddForm";
 import {ActiveColumnPack} from "./activeColumnPack/activeColumnPack";
-import {Modal} from "../../../components/modal/Modal";
+import {Modal} from "../modal/Modal";
 
 
 type packPropsType = {

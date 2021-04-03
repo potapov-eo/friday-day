@@ -1,9 +1,9 @@
 import React from 'react'
-import s from '../../../packs/Packs.module.css'
+import s from '../../../pages/packs/Packs.module.css'
 import {useSelector} from "react-redux";
-import SuperButton from "../../../../components/SuperButton/SuperButton";
-import {CardType} from "../../../../store/cards-reduser/Cards-reducer";
-import {selectorStatus, selectorUserId} from "../../../../store/app-reduser/appSelector";
+import SuperButton from "../../SuperButton/SuperButton";
+import {CardType} from "../../../store/cards-reduser/Cards-reducer";
+import {selectorStatus, selectorUserId} from "../../../store/app-reduser/appSelector";
 
 
 type ActiveColumnCardType = {

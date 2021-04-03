@@ -1,6 +1,6 @@
 import React from 'react'
-import { SortPackButton } from '../../../../components/SortButtons/SortPackButton';
-import SuperButton from "../../../../components/SuperButton/SuperButton";
+import { SortPackButton } from '../../SortButtons/SortPackButton';
+import SuperButton from "../../SuperButton/SuperButton";
 import s from './Headings.module.css'
 
 type HeadingsPropsType = {

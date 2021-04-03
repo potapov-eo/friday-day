@@ -1,11 +1,11 @@
 import React from 'react'
-import s from '../../Packs.module.css'
+import s from '../../../pages/packs/Packs.module.css'
 import {useSelector} from "react-redux";
 import {NavLink} from "react-router-dom";
-import {PackType} from "../../../../store/packs-reduser/Packs-reduser";
-import SuperButton from "../../../../components/SuperButton/SuperButton";
-import {PATH} from "../../../../routes/Routes";
-import {selectorStatus, selectorUserId} from "../../../../store/app-reduser/appSelector";
+import {PackType} from "../../../store/packs-reduser/Packs-reduser";
+import SuperButton from "../../SuperButton/SuperButton";
+import {PATH} from "../../../routes/Routes";
+import {selectorStatus, selectorUserId} from "../../../store/app-reduser/appSelector";
 
 
 type ActiveColumnPackType = {

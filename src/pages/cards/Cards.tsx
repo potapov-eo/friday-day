@@ -3,12 +3,12 @@ import {useDispatch, useSelector} from "react-redux";
 import {NavLink, Redirect, useParams} from "react-router-dom";
 import s from "../packs/Packs.module.css";
 import {addCardTC, getCardTC, setPaginationCardAC} from "../../store/cards-reduser/Cards-reducer";
-import {Card} from "./card/Card";
+import {Card} from "../../components/card/Card";
 import {Paginator} from "../../components/Paginator/Paginator";
 import {Modal} from '../../components/modal/Modal'
 import {PATH} from "../../routes/Routes";
 import {AddCardForm, valueType} from "../../components/modal/AddCardForm/AddCardForm";
-import {CardsHeadings} from "./cardsHeading/CardsHeadings";
+import {CardsHeadings} from "../../components/card/cardsHeading/CardsHeadings";
 import SuperButton from "../../components/SuperButton/SuperButton";
 import {selectorStatus, selectorUserData, selectorUserId} from "../../store/app-reduser/appSelector";
 import {selectorIsLoggedIn} from "../../store/auth-reduser/authSelector";

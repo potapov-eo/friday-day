@@ -1,8 +1,8 @@
 import React from 'react'
 
-import s from '../../packs/pack/headings/Headings.module.css'
-import {SortCardButton} from "../../../components/SortButtons/SortCardButton";
-import SuperButton from "../../../components/SuperButton/SuperButton";
+import s from '../../pack/headings/Headings.module.css'
+import {SortCardButton} from "../../SortButtons/SortCardButton";
+import SuperButton from "../../SuperButton/SuperButton";
 
 type CardsHeadingsPropsType = {
     setActiveAddCardModal: (value: boolean) => void

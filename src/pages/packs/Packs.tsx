@@ -1,13 +1,13 @@
 import React, {ChangeEvent, useCallback, useEffect, useState} from 'react'
 import {useDispatch, useSelector} from 'react-redux'
 import s from './Packs.module.css'
-import {Pack} from "./pack/Pack";
+import {Pack} from "../../components/pack/Pack";
 import {Paginator} from "../../components/Paginator/Paginator";
 import {Modal} from '../../components/modal/Modal'
 import {AddForm} from "../../components/modal/AddForm/AddForm";
 import {NavLink, Redirect} from "react-router-dom";
 import {PATH} from "../../routes/Routes";
-import {Headings} from "./pack/headings/Headings";
+import {Headings} from "../../components/pack/headings/Headings";
 import SuperInput from "../../components/SuperInput/SuperInput";
 import {selectorIsLoggedIn} from "../../store/auth-reduser/authSelector";
 import {selectorStatus, selectorUserData, selectorUserId} from "../../store/app-reduser/appSelector";
