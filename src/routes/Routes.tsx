@@ -2,11 +2,11 @@ import React, {useState} from 'react'
 import {Redirect, Route, Switch} from "react-router-dom";
 import {Error404} from "../pages/404/Error404";
 import {Test} from "../pages/test/test";
-import {Login} from "../pages/auth/a1-login/LoginFormik";
-import {Register} from "../pages/auth/a2-register/Register";
-import {RecoveryPassword} from "../pages/auth/a3-recoveryPassword/RecoveryPassword";
+import {Login} from "../pages/auth/login/LoginFormik";
+import {Register} from "../pages/auth/register/Register";
+import {RecoveryPassword} from "../pages/auth/recoveryPassword/RecoveryPassword";
 import {Profile} from "../pages/profile/Profile";
-import {NewPassword} from "../pages/auth/a4-newPassword/NewPassword";
+import {NewPassword} from "../pages/auth/newPassword/NewPassword";
 import { Packs } from '../pages/packs/Packs';
 import {Cards} from "../pages/cards/Cards";
 import {Learn} from "../pages/learn/Learn";
