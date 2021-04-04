@@ -1,6 +1,6 @@
 import {CardsAPI, getCardPacksDataType} from '../../api/instance'
 import {Dispatch} from 'redux'
-import {setAppStatusAC, setPublicCardPacksCountAC} from "../app-reduser/app-reduser";
+import {RequestStatusType, setAppStatusAC, setPublicCardPacksCountAC, UserDataType} from "../app-reduser/app-reduser";
 import {AppRootStateType} from "../store";
 import {
     getCardPacks,
@@ -8,6 +8,7 @@ import {
     setSuccessfulResponseData
 } from "../../utils/HelperFunctions";
 import {setIsLoggedIn} from "../auth-reduser/auth-reducer";
+import {createSlice, PayloadAction} from "@reduxjs/toolkit";
 
 
 let initialState = {
@@ -25,26 +26,26 @@ let initialState = {
         },
     totalPacksCount: 0  //кол-во колод
 }
-export type packsReducerInitialStateType = typeof initialState
-export const packsReducer = (state: packsReducerInitialStateType = initialState, action: ActionsType): packsReducerInitialStateType => {
+const packSlice = createSlice({
+    name: "pack",
+    initialState,
+    reducers:{
+        setCardPacksAC(state, action: PayloadAction< Array<PackType>>){
+            state.cardPacks = action.payload
+        },
+        setPaginationAC(state, action: PayloadAction<setPaginationType>){
+            return {...state, pagination: {...state.pagination, ...action.payload}}
+        },
+        setTotalPacksCountAC(state, action: PayloadAction<number>){
+            state.totalPacksCount = action.payload
+        },
 
-    switch (action.type) {
-        case 'SET_CARD_PACKS':
-            return {...state, cardPacks: action.cardPacks}
-        case 'SET_PAGINATION_PROPERTY':
-            return {...state, pagination: {...state.pagination, ...action.property}}
-        case "SET-TOTAL-PACKS-COUNT":
-            return {...state, totalPacksCount: action.packsCount}
 
-        default:
-            return state
     }
-}
+})
+export const { setCardPacksAC, setPaginationAC, setTotalPacksCountAC } = packSlice.actions
 
-//AC
-export const setCardPacksAC = (cardPacks: Array<PackType>) => ({type: 'SET_CARD_PACKS', cardPacks} as const)
-export const setPaginationAC = (property: setPaginationType) => ({type: 'SET_PAGINATION_PROPERTY', property} as const)
-export const setTotalPacksCountAC = (packsCount: number) => ({type: "SET-TOTAL-PACKS-COUNT", packsCount} as const)
+
 //TC
 
 
@@ -158,3 +159,4 @@ export type paginationType = {
     user_id: string
 
 }
+export const packsReducer =  packSlice.reducer

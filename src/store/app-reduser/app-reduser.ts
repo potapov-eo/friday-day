@@ -31,7 +31,7 @@ const initialState: AppInitialStateType = {
             state.UserData = action.payload
         },
         setPublicCardPacksCountAC(state, action: PayloadAction<number>){
-            state.UserData?state.UserData.publicCardPacksCount = action.payload:state=state
+            state.UserData?state.UserData.publicCardPacksCount = action.payload:state= {...state}
         },
 
     }

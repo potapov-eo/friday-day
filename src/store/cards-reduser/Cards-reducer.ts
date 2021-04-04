@@ -5,6 +5,7 @@ import {AxiosResponse} from "axios";
 import {AppRootStateType} from "../store";
 import {valueType} from "../../components/modal/AddCardForm/AddCardForm";
 import {getCards, handleResponseError} from "../../utils/HelperFunctions";
+import {createSlice, PayloadAction} from "@reduxjs/toolkit";
 
 
 const initialState = {
@@ -23,34 +24,34 @@ const initialState = {
 }
 
 export type cardsReducerInitialStateType = typeof initialState
+const cardsSlice = createSlice({
+    name: "cards",
+    initialState,
+    reducers: {
+        setCardsAC(state, action: PayloadAction<Array<CardType>>) {
+            state.cards = action.payload
+        },
+        setTotalCardsCountAC(state, action: PayloadAction<number>) {
+            state.totalCardsCount = action.payload
+        },
+        setPaginationCardAC(state, action: PayloadAction<setPaginationCardType>) {
+            return {...state, paginationCards: {...state.paginationCards, ...action.payload}}
+        },
+        setCardGradeAC(state, action: PayloadAction<{ card_id: string, grade: number }>) {
+            /* const newCards = state.cards.map((card) => card._id === action.payload.card_id ? {
+                 ...card,
+                 grade: action.payload.grade
+             } : card)
+             return {...state, cards: newCards}*/
+            const index = state.cards.findIndex((card) => card._id === action.payload.card_id)
+            state.cards[index].grade = action.payload.grade
+        },
 
-export const cardsReducer = (state: cardsReducerInitialStateType = initialState, action: ActionsType): cardsReducerInitialStateType => {
-    switch (action.type) {
-        case 'SET_CARDS':
-            return {...state, cards: action.cards}
-        case "SET_TOTAL_CARDS_COUNT":
-            return {...state, totalCardsCount: action.packsCount}
-        case 'SET_PAGINATION_CARD_PROPERTY':
-            return {...state, paginationCards: {...state.paginationCards, ...action.property}}
-        case 'SET_CARD_GRADE':
-            const newCards = state.cards.map((card) => card._id === action.card_id ? {
-                ...card,
-                grade: action.grade
-            } : card)
-            return {...state, cards: newCards}
-
-        default:
-            return state
     }
-}
+})
+export const {setCardsAC, setTotalCardsCountAC, setPaginationCardAC, setCardGradeAC} = cardsSlice.actions
 
-//AC
 
-export const setCardsAC = (cards: Array<CardType>) => ({type: 'SET_CARDS', cards} as const)
-export const setTotalCardsCountAC = (packsCount: number) => ({type: "SET_TOTAL_CARDS_COUNT", packsCount} as const)
-export const setPaginationCardAC = (property: setPaginationCardType) =>
-    ({type: 'SET_PAGINATION_CARD_PROPERTY', property} as const)
-export const setCardGradeAC = (card_id: string, grade: number) => ({type: "SET_CARD_GRADE", card_id, grade} as const)
 //TC
 
 
@@ -67,7 +68,7 @@ export const addCardTC = (cardsPack_id: string, values: { question: string, answ
     async (dispatch: Dispatch, getState: () => AppRootStateType) => {
         try {
             dispatch(setAppStatusAC('loading'))
-           await CardsAPI.createCard(cardsPack_id, values)
+            await CardsAPI.createCard(cardsPack_id, values)
             await getCards(getState, dispatch)
 
         } catch (e) {
@@ -100,7 +101,7 @@ export const gradeCardTC = (grade: number, card_id: string) =>
             dispatch(setAppStatusAC('loading'))
             const Response = <AxiosResponse<any>>await CardsAPI.gradeCard(grade, card_id)
             const newGrade = Response.data.updatedGrade.grade
-            dispatch(setCardGradeAC(card_id, newGrade))
+            dispatch(setCardGradeAC({card_id, grade: newGrade}))
             dispatch(setAppStatusAC('succeeded'))
             dispatch(setAppErrorAC(null))
         } catch (e) {
@@ -162,3 +163,4 @@ export type paginationCardsType = {
     max: number,
     sortCards: string
 }
+export const cardsReducer = cardsSlice.reducer
