@@ -38,11 +38,6 @@ const cardsSlice = createSlice({
             return {...state, paginationCards: {...state.paginationCards, ...action.payload}}
         },
         setCardGradeAC(state, action: PayloadAction<{ card_id: string, grade: number }>) {
-            /* const newCards = state.cards.map((card) => card._id === action.payload.card_id ? {
-                 ...card,
-                 grade: action.payload.grade
-             } : card)
-             return {...state, cards: newCards}*/
             const index = state.cards.findIndex((card) => card._id === action.payload.card_id)
             state.cards[index].grade = action.payload.grade
         },
@@ -109,11 +104,6 @@ export const gradeCardTC = (grade: number, card_id: string) =>
         }
     }
 
-
-type ActionsType = ReturnType<typeof setCardsAC>
-    | ReturnType<typeof setTotalCardsCountAC>
-    | ReturnType<typeof setPaginationCardAC>
-    | ReturnType<typeof setCardGradeAC>
 
 export type GetCardsResponseType = {
     cards: Array<CardType>

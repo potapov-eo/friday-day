@@ -1,12 +1,8 @@
-import {CardsAPI, getCardPacksDataType} from '../../api/instance'
+import {CardsAPI} from '../../api/instance'
 import {Dispatch} from 'redux'
-import {RequestStatusType, setAppStatusAC, setPublicCardPacksCountAC, UserDataType} from "../app-reduser/app-reduser";
+import {setAppStatusAC, setPublicCardPacksCountAC} from "../app-reduser/app-reduser";
 import {AppRootStateType} from "../store";
-import {
-    getCardPacks,
-    handleResponseError,
-    setSuccessfulResponseData
-} from "../../utils/HelperFunctions";
+import {getCardPacks, handleResponseError, setSuccessfulResponseData} from "../../utils/HelperFunctions";
 import {setIsLoggedIn} from "../auth-reduser/auth-reducer";
 import {createSlice, PayloadAction} from "@reduxjs/toolkit";
 
@@ -29,21 +25,21 @@ let initialState = {
 const packSlice = createSlice({
     name: "pack",
     initialState,
-    reducers:{
-        setCardPacksAC(state, action: PayloadAction< Array<PackType>>){
+    reducers: {
+        setCardPacksAC(state, action: PayloadAction<Array<PackType>>) {
             state.cardPacks = action.payload
         },
-        setPaginationAC(state, action: PayloadAction<setPaginationType>){
+        setPaginationAC(state, action: PayloadAction<setPaginationType>) {
             return {...state, pagination: {...state.pagination, ...action.payload}}
         },
-        setTotalPacksCountAC(state, action: PayloadAction<number>){
+        setTotalPacksCountAC(state, action: PayloadAction<number>) {
             state.totalPacksCount = action.payload
         },
 
 
     }
 })
-export const { setCardPacksAC, setPaginationAC, setTotalPacksCountAC } = packSlice.actions
+export const {setCardPacksAC, setPaginationAC, setTotalPacksCountAC} = packSlice.actions
 
 
 //TC
@@ -107,10 +103,6 @@ export const updateTC = (id: string, newNamePack: string) =>
 
 
 //types
-type ActionsType =
-    | ReturnType<typeof setCardPacksAC>
-    | ReturnType<typeof setPaginationAC>
-    | ReturnType<typeof setTotalPacksCountAC>
 
 
 export type PackType = {
@@ -159,4 +151,4 @@ export type paginationType = {
     user_id: string
 
 }
-export const packsReducer =  packSlice.reducer
+export const packsReducer = packSlice.reducer
