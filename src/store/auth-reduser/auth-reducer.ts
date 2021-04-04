@@ -1,5 +1,5 @@
 import {Dispatch} from "redux";
-import {setAppErrorACType, setAppStatusAC, setAppStatusACType, UserDataType} from "../app-reduser/app-reduser";
+import { setAppStatusAC,  UserDataType} from "../app-reduser/app-reduser";
 import {AuthAPI, recoveryPasswordAPI, RegisterAPI} from "../../api/instance";
 import {
     getResponseError,
@@ -127,8 +127,6 @@ export type setIsRegisterACType = ReturnType<typeof setIsRegister>
 export type setPasswordACType = ReturnType<typeof setPasswordAC>
 export type setIsLoggedInACType = ReturnType<typeof setIsLoggedIn>
 type ActionsType = recoveryEmailACType
-    | setAppStatusACType
-    | setAppErrorACType
     | setIsRegisterACType
     | setPasswordACType
     | setIsLoggedInACType

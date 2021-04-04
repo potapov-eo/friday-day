@@ -1,3 +1,4 @@
+import {createSlice, PayloadAction} from "@reduxjs/toolkit";
 export type RequestStatusType = 'idle' | 'loading' | 'succeeded' | 'failed'
 
 const initialState: AppInitialStateType = {
@@ -12,12 +13,54 @@ const initialState: AppInitialStateType = {
         created: null as Date | null,
         updated: null as Date | null,
         isAdmin: false,
-        verified: false, // подтвердил ли почту
+        verified: false, //
         rememberMe: false,
     }
 }
+ const appSlice = createSlice({
+    name: "app",
+    initialState,
+    reducers:{
+        setAppStatusAC(state, action: PayloadAction<RequestStatusType>){
+            state.status = action.payload
+        },
+        setAppErrorAC(state, action: PayloadAction<string|null>){
+            state.error = action.payload
+        },
+        setUserDataAC(state, action: PayloadAction<UserDataType>){
+            state.UserData = action.payload
+        },
+        setPublicCardPacksCountAC(state, action: PayloadAction<number>){
+            state.UserData?state.UserData.publicCardPacksCount = action.payload:state=state
+        },
 
-export const appReducer = (state: AppInitialStateType = initialState, action: ActionsType): AppInitialStateType => {
+    }
+})
+export const { setAppStatusAC, setAppErrorAC, setUserDataAC , setPublicCardPacksCountAC} = appSlice.actions
+
+export type UserDataType = {
+    _id: string
+    email: string | null,
+    name: string | null,
+    avatar: string | null,
+    publicCardPacksCount: number | null,
+    created: Date | null,
+    updated: Date | null,
+    isAdmin: boolean,
+    verified: boolean,
+    rememberMe: boolean,
+} | null
+
+export type AppInitialStateType = {
+    error: string | null
+    status: RequestStatusType
+    UserData: UserDataType
+    userId?: string
+}
+
+export const appReducer =  appSlice.reducer
+
+/*export const appReducer = (state: AppInitialStateType = initialState, action: ActionsType): AppInitialStateType => {
     switch (action.type) {
         case 'SET_APP_STATUS':
             return {...state, status: action.status}
@@ -33,12 +76,9 @@ export const appReducer = (state: AppInitialStateType = initialState, action: Ac
                     }
                 }
             } else return state
-
-
         default:
             return state
     }
-}
 
 export const setAppStatusAC = (status: RequestStatusType) =>
     ({type: 'SET_APP_STATUS', status} as const)
@@ -49,37 +89,10 @@ export const setPublicCardPacksCountAC = (publicCardPacksCount: number | null) =
     ({type: 'SET_CARDS_PACK_TOTAL_COUNT', publicCardPacksCount} as const)
 
 
-
 export type setAppStatusACType = ReturnType<typeof setAppStatusAC>
 export type setAppErrorACType = ReturnType<typeof setAppErrorAC>
 export type setUserDataACType = ReturnType<typeof setUserDataAC>
-export type setPublicCardPacksCountACType = ReturnType<typeof setPublicCardPacksCountAC>
-
-export type UserDataType = {
-    _id: string
-    email: string | null,
-    name: string | null,
-    avatar: string | null,
-    publicCardPacksCount: number | null,
-    created: Date | null,
-    updated: Date | null,
-    isAdmin: boolean,
-    verified: boolean, // подтвердил ли почту
-    rememberMe: boolean,
-} | null
-
-export type AppInitialStateType = {
-    error: string | null
-    status: RequestStatusType
-    UserData: UserDataType
-    userId?: string
-}
-
-type ActionsType =
-    setAppStatusACType
-    | setAppErrorACType
-    | setUserDataACType
-    | setPublicCardPacksCountACType
+export type setPublicCardPacksCountACType = ReturnType<typeof setPublicCardPacksCountAC>*/
 
 
 
