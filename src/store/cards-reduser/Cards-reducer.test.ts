@@ -109,7 +109,7 @@ test('correct pagination property should be added', () => {
 test('correct card grade should be added', () => {
 
 
-    const action = setCardGradeAC("23",4);
+    const action = setCardGradeAC({card_id:"23", grade :4});
 
     const endState = cardsReducer(startState, action)
 
