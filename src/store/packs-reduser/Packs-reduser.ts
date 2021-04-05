@@ -20,7 +20,7 @@ let initialState = {
             user_id: "",
 
         },
-    totalPacksCount: 0  //кол-во колод
+    totalPacksCount: 0
 }
 
 export const getCardPacksTC = createAsyncThunk<void,void,{state: AppRootStateType}>("pack/getCardPacks", (async (arg, thunkAPI) => {
