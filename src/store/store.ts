@@ -4,7 +4,7 @@ import {appReducer} from "./app-reduser/app-reduser";
 import {cardsReducer} from "./cards-reduser/Cards-reducer";
 import {authReducer} from "./auth-reduser/auth-reducer";
 import {configureStore} from "@reduxjs/toolkit";
-
+import thunkMiddleware from 'redux-thunk'
 
 const rootReducer = combineReducers({
     auth: authReducer,
@@ -17,7 +17,7 @@ const rootReducer = combineReducers({
 //export const store = createStore(rootReducer, applyMiddleware(thunkMiddleware)); old
 export const store = configureStore({
     reducer: rootReducer,
-    middleware: (getDefaultMiddleware) => getDefaultMiddleware()
+    middleware: (getDefaultMiddleware) =>  (getDefaultMiddleware().prepend(thunkMiddleware))
 })//new (getDefaultMiddleware().prepend(thunkMiddleware)) recommends Dimych
 
 
