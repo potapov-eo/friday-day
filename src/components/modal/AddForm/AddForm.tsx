@@ -5,7 +5,7 @@ import SuperButton from "../../SuperButton/SuperButton";
 
 export type valueType = { question: string, answer: string }
 type AddCardFormPropsType = {
-    addItem:  (title: string) => void
+    addItem:  (title: string) => Promise<any>
     buttonName: string
     itemName: string
     text?: string

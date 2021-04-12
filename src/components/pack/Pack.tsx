@@ -27,9 +27,13 @@ export const Pack = (props: packPropsType) => {
         isDel && dispatch(removePackTC(_id))
     }
 
-    const updatePack = (newNamePack: string) => {
-        dispatch(updateTC(_id, newNamePack))
-        setActiveUpdatePackModal(false)
+    const updatePack = async (newNamePack: string) => {
+      try  {
+            await dispatch(updateTC(_id, newNamePack))
+            setActiveUpdatePackModal(false)
+        }catch (e){
+
+      }
     }
     const showActiveColumnPack = () => {
         setIsActiveColumnPack(!isActiveColumnPack)
