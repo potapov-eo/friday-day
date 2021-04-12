@@ -2,6 +2,7 @@ import axios from "axios";
 import {DEV_VERSION} from "../config";
 import {registeredEmailType, RegisterParamsType, SetPasswordType} from "../store/auth-reduser/auth-reducer";
 
+
 export const baseURL = !DEV_VERSION
     ? "http://localhost:7542/2.0"
     : "https://neko-back.herokuapp.com/2.0"

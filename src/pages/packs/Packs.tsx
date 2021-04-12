@@ -15,6 +15,7 @@ import {selectorCardPacks, selectorPagination, selectorTotalPacksCount} from "..
 import {addCardPacksTC, getCardPacksTC, setPaginationAC} from "../../store/packs-reduser/Packs-reduser";
 
 
+
 export const Packs = (props: { activeModal: boolean, setActiveModal: (activeModal: boolean) => void }) => {
     const dispatch = useDispatch()
 

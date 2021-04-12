@@ -3,18 +3,18 @@ import './App.css';
 import {HashRouter} from "react-router-dom";
 import {useDispatch, useSelector} from 'react-redux';
 import {AppRootStateType} from "../store/store";
-import {RequestStatusType} from "../store/app-reduser/app-reduser";
 import Preloader from "../components/Preloder/Preloader";
 import {Routes} from "../routes/Routes";
 import {Header} from "../components/header/Header";
 import {getMe, setIsLoggedIn} from "../store/auth-reduser/auth-reducer";
 import {ErrorSnackBar} from "../components/ErrorSnackBar/ErrorSnackBar";
+import {selectorError, selectorStatus} from "../store/app-reduser/appSelector";
 
 
 function App() {
     const dispatch = useDispatch()
-    const status = useSelector<AppRootStateType, RequestStatusType>(state => state.app.status)
-    const error = useSelector<AppRootStateType, string | null>(state => state.app.error)
+    const status = useSelector(selectorStatus)
+    const error = useSelector(selectorError)
     let [firstRendering, setFirstRendering] = useState<boolean>(true)
 
     useEffect(() => {
