@@ -72,9 +72,9 @@ export const addCardPacksTC = (newPackName: string) =>
             dispatch(setPublicCardPacksCountAC(response.data.cardPacksTotalCount))
             setSuccessfulResponseData(dispatch)
             dispatch(setTotalPacksCountAC(response.data.cardPacksTotalCount))
-
         } catch (e) {
             handleResponseError(e, dispatch)
+            throw new Error("add cardPack error")
         }
     }
 
@@ -101,6 +101,7 @@ export const updateTC = (id: string, newNamePack: string) =>
             setSuccessfulResponseData(dispatch)
         } catch (e) {
             handleResponseError(e, dispatch)
+            throw new Error("update cardPack error")
         }
     }
 

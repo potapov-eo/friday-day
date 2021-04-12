@@ -79,9 +79,9 @@ export const Packs = (props: { activeModal: boolean, setActiveModal: (activeModa
         }
     }
 
-    const addPack = (newPackName: string) => {
-        dispatch(addCardPacksTC(newPackName))
-        setActiveAddPackModal(false)
+    const addPack = async (newPackName: string) => {
+          await dispatch(addCardPacksTC(newPackName))
+          setActiveAddPackModal(false)
     }
 
     const onPageChanged = (pageNumber: number) => {

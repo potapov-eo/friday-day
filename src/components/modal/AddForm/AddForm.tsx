@@ -5,7 +5,7 @@ import SuperButton from "../../SuperButton/SuperButton";
 
 export type valueType = { question: string, answer: string }
 type AddCardFormPropsType = {
-    addItem:  (title: string) => void
+    addItem:  (title: string) =>void
     buttonName: string
     itemName: string
     text?: string
@@ -24,10 +24,13 @@ export const AddForm = React.memo((props: AddCardFormPropsType
             }
             return errors;
         },
-        onSubmit: values => {
-            formik.resetForm()
-            props.addItem(values.values)
-
+        onSubmit: async values => {
+            try {
+                await props.addItem(values.values)
+                formik.resetForm()
+            }catch (e){
+                console.log(e)
+            }
         },
     })
 
