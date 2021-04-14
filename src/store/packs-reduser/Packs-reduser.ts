@@ -1,12 +1,8 @@
-import {CardsAPI, getCardPacksDataType} from '../../api/instance'
+import {CardsAPI} from '../../api/instance'
 import {Dispatch} from 'redux'
 import {setAppStatusAC, setPublicCardPacksCountAC} from "../app-reduser/app-reduser";
 import {AppRootStateType} from "../store";
-import {
-    getCardPacks,
-    handleResponseError,
-    setSuccessfulResponseData
-} from "../../utils/HelperFunctions";
+import {getCardPacks, handleResponseError, setSuccessfulResponseData} from "../../utils/HelperFunctions";
 import {setIsLoggedIn} from "../auth-reduser/auth-reducer";
 
 

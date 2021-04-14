@@ -28,9 +28,13 @@ export const AddCardForm = React.memo((props: AddCardFormPropsType
 
             return errors;
         },
-        onSubmit: values => {
-            formik.resetForm()
-            props.addCard(values)
+        onSubmit: async values => {
+            try {
+                await props.addCard(values)
+                formik.resetForm()
+            } catch (e) {
+                console.log(e)
+            }
         },
     })
 
