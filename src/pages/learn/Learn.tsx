@@ -1,20 +1,20 @@
-import React, {useEffect, useState} from 'react'
-import {useDispatch, useSelector} from "react-redux";
-import {NavLink, Redirect, useParams} from "react-router-dom";
-import {CardType, setPaginationCardAC} from "../../store/cards-reduser/Cards-reducer";
+import React, { useEffect, useState } from 'react'
+import { useDispatch, useSelector } from "react-redux";
+import { NavLink, Redirect, useParams } from "react-router-dom";
+import { CardType, setPaginationCardAC } from "../../store/cards-reduser/Cards-reducer";
 import SuperButton from "../../components/SuperButton/SuperButton";
 import s from './Learn.module.css'
-import {PATH} from "../../routes/Routes";
-import {selectorCards} from "../../store/cards-reduser/cardSelector";
-import {selectorUserData} from "../../store/app-reduser/appSelector";
-import {selectorIsLoggedIn} from "../../store/auth-reduser/authSelector";
+import { PATH } from "../../routes/Routes";
+import { selectorCards } from "../../store/cards-reduser/cardSelector";
+import { selectorUserData } from "../../store/app-reduser/appSelector";
+import { selectorIsLoggedIn } from "../../store/auth-reduser/authSelector";
 import { getCardsAC, gradeCardAC } from "../../store/cards-reduser/cards-sagas";
 
 
 type LearnPropsType = {}
 export const Learn = (props: LearnPropsType) => {
     const dispatch = useDispatch()
-    const {token} = useParams<{ token: string }>()
+    const { token } = useParams<{ token: string }>()
     const cards = useSelector(selectorCards)
     const UserData = useSelector(selectorUserData)
     const isLoggedIn = (selectorIsLoggedIn)
@@ -28,9 +28,9 @@ export const Learn = (props: LearnPropsType) => {
         const rand = Math.random() * sum;
         const res = cards.reduce((acc: { sum: number, id: number }, card, i) => {
                 const newSum = acc.sum + (6 - card.grade) ** 2;
-                return {sum: newSum, id: newSum < rand ? i : acc.id}
+                return { sum: newSum, id: newSum < rand ? i : acc.id }
             }
-            , {sum: 0, id: -1});
+            , { sum: 0, id: -1 });
 
         return cards[res.id + 1];
     }
@@ -39,7 +39,7 @@ export const Learn = (props: LearnPropsType) => {
 
     useEffect(() => {
         if (first && token && isLoggedIn) {
-            dispatch(setPaginationCardAC({cardsPack_id: token}))
+            dispatch(setPaginationCardAC({ cardsPack_id: token }))
             dispatch(getCardsAC())
             setFirst(false);
         }

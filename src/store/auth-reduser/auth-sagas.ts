@@ -1,4 +1,4 @@
-import { call, put, select, takeEvery } from "redux-saga/effects";
+import { call, put, takeEvery } from "redux-saga/effects";
 import { setAppStatusAC, UserDataType } from "../app-reduser/app-reduser";
 import { AxiosResponse } from "axios";
 import { AuthAPI, recoveryPasswordAPI, RegisterAPI } from "../../api/instance";

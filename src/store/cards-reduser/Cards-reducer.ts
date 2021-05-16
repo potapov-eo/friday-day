@@ -42,66 +42,6 @@ export const setTotalCardsCountAC = (packsCount: number) => ({ type: "SET_TOTAL_
 export const setPaginationCardAC = (property: setPaginationCardType) =>
     ({ type: 'SET_PAGINATION_CARD_PROPERTY', property } as const)
 export const setCardGradeAC = (card_id: string, grade: number) => ({ type: "SET_CARD_GRADE", card_id, grade } as const)
-//TC
-
-
-/*
-export const getCardTC = () =>
-    async (dispatch: Dispatch, getState: () => AppRootStateType) => {
-        try {
-            dispatch(setAppStatusAC('loading'))
-            await getCards(getState, dispatch)
-        } catch (e) {
-            handleResponseErrorTH(e, dispatch)
-        }
-    }
-export const addCardTC = (cardsPack_id: string, values: { question: string, answer: string }) =>
-    async (dispatch: Dispatch, getState: () => AppRootStateType) => {
-        try {
-            dispatch(setAppStatusAC('loading'))
-            await CardsAPI.createCard(cardsPack_id, values)
-            await getCards(getState, dispatch)
-
-        } catch (e) {
-            handleResponseErrorTH(e, dispatch)
-            throw new Error("add card error")
-        }
-    }
-export const removeCardTC = (cardsPack_id: string, cardId: string) =>
-    async (dispatch: Dispatch, getState: () => AppRootStateType) => {
-        try {
-            dispatch(setAppStatusAC('loading'))
-            await CardsAPI.deleteCard(cardId)
-            await getCards(getState, dispatch)
-        } catch (e) {
-            handleResponseErrorTH(e, dispatch)
-        }
-    }
-export const updateCardTC = (cardId: string, value: valueType) =>
-    async (dispatch: Dispatch, getState: () => AppRootStateType) => {
-        try {
-            dispatch(setAppStatusAC('loading'))
-            await CardsAPI.updateCard(cardId, value.question, value.answer)
-            await getCards(getState, dispatch)
-        } catch (e) {
-            handleResponseErrorTH(e, dispatch)
-            throw new Error("update card error")
-        }
-    }
-export const gradeCardTC = (grade: number, card_id: string) =>
-    async (dispatch: Dispatch) => {
-        try {
-            dispatch(setAppStatusAC('loading'))
-            const Response = <AxiosResponse<any>>await CardsAPI.gradeCard(grade, card_id)
-            const newGrade = Response.data.updatedGrade.grade
-            dispatch(setCardGradeAC(card_id, newGrade))
-            dispatch(setAppStatusAC('succeeded'))
-            dispatch(setAppErrorAC(null))
-        } catch (e) {
-            handleResponseErrorTH(e, dispatch)
-        }
-    }
-*/
 
 
 type ActionsType = ReturnType<typeof setCardsAC>

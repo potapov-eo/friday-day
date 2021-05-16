@@ -1,5 +1,3 @@
-import { Dispatch } from "redux";
-import { AppRootStateType } from "../store";
 import { setAppErrorAC, setAppStatusAC } from "../app-reduser/app-reduser";
 import { handleResponseError, helperGetCards } from "../../utils/HelperFunctions";
 import { CardsAPI } from "../../api/instance";
@@ -28,37 +26,40 @@ export function* addCard(action: ReturnType<typeof addCardAC>) {
     }
 }
 
-export function* removeCard (action: ReturnType<typeof removeCardAC>){
-        try {
-            yield put(setAppStatusAC('loading'))
-            yield call( CardsAPI.deleteCard, action.cardId)
-            yield call(helperGetCards)
-        } catch (e) {
-            yield call(handleResponseError, e)
-        }
+export function* removeCard(action: ReturnType<typeof removeCardAC>) {
+    try {
+        yield put(setAppStatusAC('loading'))
+        yield call(CardsAPI.deleteCard, action.cardId)
+        yield call(helperGetCards)
+    } catch (e) {
+        yield call(handleResponseError, e)
     }
-export function* updateCard (action: ReturnType<typeof updateCardAC>) {
-        try {
-            yield put(setAppStatusAC('loading'))
-            yield call (CardsAPI.updateCard, action.cardId, action.value.question, action.value.answer)
-            yield call(helperGetCards)
-        } catch (e) {
-            yield call(handleResponseError, e)
-            throw new Error("update card error")
-        }
+}
+
+export function* updateCard(action: ReturnType<typeof updateCardAC>) {
+    try {
+        yield put(setAppStatusAC('loading'))
+        yield call(CardsAPI.updateCard, action.cardId, action.value.question, action.value.answer)
+        yield call(helperGetCards)
+    } catch (e) {
+        yield call(handleResponseError, e)
+        throw new Error("update card error")
     }
-export function* gradeCard  (action: ReturnType<typeof gradeCardAC>) {
-        try {
-            yield put(setAppStatusAC('loading'))
-            const Response :AxiosResponse<any> = yield call (CardsAPI.gradeCard, action.grade, action.card_id)
-            const newGrade = Response.data.updatedGrade.grade
-            yield put(setCardGradeAC(action.card_id, newGrade))
-            yield put(setAppStatusAC('succeeded'))
-            yield put(setAppErrorAC(null))
-        } catch (e) {
-            yield call(handleResponseError, e)
-        }
+}
+
+export function* gradeCard(action: ReturnType<typeof gradeCardAC>) {
+    try {
+        yield put(setAppStatusAC('loading'))
+        const Response: AxiosResponse<any> = yield call(CardsAPI.gradeCard, action.grade, action.card_id)
+        const newGrade = Response.data.updatedGrade.grade
+        yield put(setCardGradeAC(action.card_id, newGrade))
+        yield put(setAppStatusAC('succeeded'))
+        yield put(setAppErrorAC(null))
+    } catch (e) {
+        yield call(handleResponseError, e)
     }
+}
+
 export const getCardsAC = () => ({ type: 'CARDS-SAGAS/GET-CARDS' } as const)
 export const addCardAC = (cardsPack_id: string, values: { question: string, answer: string }) =>
     ({ type: 'CARDS-SAGAS/ADD-CARD', cardsPack_id, values } as const)

@@ -1,7 +1,7 @@
 import { Dispatch } from "redux";
 import { setAppErrorAC, setAppStatusAC, setUserDataAC, UserDataType } from "../store/app-reduser/app-reduser";
 import { AxiosResponse } from "axios";
-import { AuthAPI, CardsAPI } from "../api/instance";
+import { CardsAPI } from "../api/instance";
 import { GetCardsResponseType, setCardsAC, setTotalCardsCountAC } from "../store/cards-reduser/Cards-reducer";
 import { AppRootStateType } from "../store/store";
 import { setIsLoggedIn } from "../store/auth-reduser/auth-reducer";

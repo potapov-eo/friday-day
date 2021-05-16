@@ -1,12 +1,12 @@
-import React, {useState} from 'react'
+import React, { useState } from 'react'
 import s from '../../pages/packs/Packs.module.css'
-import {useDispatch} from "react-redux";
-import {CardType} from "../../store/cards-reduser/Cards-reducer";
+import { useDispatch } from "react-redux";
+import { CardType } from "../../store/cards-reduser/Cards-reducer";
 import SuperButton from "../SuperButton/SuperButton";
-import {Modal} from "../modal/Modal";
-import {BooleanForm} from "../modal/BooleanModal/BooleanForm";
-import {AddCardForm, valueType} from "../modal/AddCardForm/AddCardForm";
-import {ActiveColumnCard} from "./activeColumnCard/activeColumnCard";
+import { Modal } from "../modal/Modal";
+import { BooleanForm } from "../modal/BooleanModal/BooleanForm";
+import { AddCardForm, valueType } from "../modal/AddCardForm/AddCardForm";
+import { ActiveColumnCard } from "./activeColumnCard/activeColumnCard";
 import { removeCardAC, updateCardAC } from "../../store/cards-reduser/cards-sagas";
 
 type cardPropsType = {
