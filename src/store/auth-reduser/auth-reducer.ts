@@ -4,12 +4,13 @@ import {AuthAPI, recoveryPasswordAPI, RegisterAPI} from "../../api/instance";
 import {
     getResponseError,
     handleResponseError,
-    setResponseData,
+    setResponseData, setResponseDataSG,
     setSuccessfulResponseData
 } from "../../utils/HelperFunctions";
 import {setCardPacksAC} from "../packs-reduser/Packs-reduser";
 import {setCardsAC} from "../cards-reduser/Cards-reducer";
 import {AxiosResponse} from "axios";
+import { call, put } from "redux-saga/effects";
 
 
 const initialState = {
@@ -73,18 +74,7 @@ export const setPasswordTC = (data: SetPasswordType) =>
             handleResponseError(e, dispatch)
         }
     }
-export const getMe = () => async (dispatch: Dispatch) => {
-    try {
-        dispatch(setAppStatusAC('loading'))
-        let response = <AxiosResponse<UserDataType>>await AuthAPI.getAuthMe()
-        setResponseData(dispatch, response.data, true)
-    } catch (e) {
-        dispatch(setAppStatusAC('failed'))
-        const error = getResponseError(e)
-        console.log(error)
-        dispatch(setIsLoggedIn(false))
-    }
-}
+
 export const login = (mail: string, password: string, remember_Me: boolean) =>
     async (dispatch: any) => {
         try {

@@ -1,6 +1,7 @@
-import axios from "axios";
+import axios, { AxiosResponse } from "axios";
 import {DEV_VERSION} from "../config";
 import {registeredEmailType, RegisterParamsType, SetPasswordType} from "../store/auth-reduser/auth-reducer";
+import { UserDataType } from "../store/app-reduser/app-reduser";
 
 
 export const baseURL = !DEV_VERSION
@@ -10,8 +11,8 @@ export const instance = axios.create({baseURL, withCredentials: true})
 
 
 export const AuthAPI = {
-    getAuthMe() {
-        return instance.post(`auth/me`,)
+    getAuthMe():Promise<AxiosResponse<UserDataType>> {
+        return instance.post(`auth/me`)
     },
     login(email: string, password: string, rememberMe: boolean) {
         return instance.post(`auth/login`, {email, password, rememberMe})

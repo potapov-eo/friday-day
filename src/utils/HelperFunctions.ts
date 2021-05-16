@@ -17,6 +17,7 @@ import {
 
 
 } from "../store/packs-reduser/Packs-reduser";
+import { call, put } from "redux-saga/effects";
 
 export const getResponseError = (e: any) => e.response
     ? e.response.data.error
@@ -43,9 +44,19 @@ export const setResponseData = (dispatch: Dispatch, userData: UserDataType,  isL
     setSuccessfulResponseData(dispatch)
 
 }
+export function* setResponseDataSG ( userData: UserDataType,  isLoggedIn: boolean) {
+    yield put (setUserDataAC(userData))
+    yield put (setIsLoggedIn(isLoggedIn))
+    yield call (setSuccessfulResponseDataSG)
+
+}
 export const setSuccessfulResponseData=(dispatch: Dispatch)=>{
     dispatch(setAppErrorAC(null))
     dispatch(setAppStatusAC('succeeded'))
+}
+export function*  setSuccessfulResponseDataSG(){
+    yield put(setAppErrorAC(null))
+    yield put (setAppStatusAC('succeeded'))
 }
 export const getCardPacks= async (getState: () => AppRootStateType, dispatch: Dispatch) => {
     const paginationData = getState().packs.pagination

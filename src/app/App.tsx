@@ -1,13 +1,14 @@
-import React, {useEffect} from 'react';
+import React, { useEffect } from 'react';
 import './App.css';
-import {HashRouter} from "react-router-dom";
-import {useDispatch, useSelector} from 'react-redux';
+import { HashRouter } from "react-router-dom";
+import { useDispatch, useSelector } from 'react-redux';
 import Preloader from "../components/Preloder/Preloader";
-import {Routes} from "../routes/Routes";
-import {Header} from "../components/header/Header";
-import {getMe, setIsLoggedIn} from "../store/auth-reduser/auth-reducer";
-import {ErrorSnackBar} from "../components/ErrorSnackBar/ErrorSnackBar";
-import {selectorError, selectorStatus} from "../store/app-reduser/appSelector";
+import { Routes } from "../routes/Routes";
+import { Header } from "../components/header/Header";
+import { setIsLoggedIn } from "../store/auth-reduser/auth-reducer";
+import { ErrorSnackBar } from "../components/ErrorSnackBar/ErrorSnackBar";
+import { selectorError, selectorStatus } from "../store/app-reduser/appSelector";
+import { getMeACT } from "../store/auth-reduser/auth-sagas";
 
 
 function App() {
@@ -17,7 +18,7 @@ function App() {
 
     useEffect(() => {
         dispatch(setIsLoggedIn(false))
-        dispatch(getMe())
+        dispatch(getMeACT())
     }, [])
 
     return (
