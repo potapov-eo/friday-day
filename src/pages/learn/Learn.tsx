@@ -1,13 +1,14 @@
 import React, {useEffect, useState} from 'react'
 import {useDispatch, useSelector} from "react-redux";
 import {NavLink, Redirect, useParams} from "react-router-dom";
-import {CardType, getCardTC, gradeCardTC, setPaginationCardAC} from "../../store/cards-reduser/Cards-reducer";
+import {CardType, setPaginationCardAC} from "../../store/cards-reduser/Cards-reducer";
 import SuperButton from "../../components/SuperButton/SuperButton";
 import s from './Learn.module.css'
 import {PATH} from "../../routes/Routes";
 import {selectorCards} from "../../store/cards-reduser/cardSelector";
 import {selectorUserData} from "../../store/app-reduser/appSelector";
 import {selectorIsLoggedIn} from "../../store/auth-reduser/authSelector";
+import { getCardsAC, gradeCardAC } from "../../store/cards-reduser/cards-sagas";
 
 
 type LearnPropsType = {}
@@ -39,7 +40,7 @@ export const Learn = (props: LearnPropsType) => {
     useEffect(() => {
         if (first && token && isLoggedIn) {
             dispatch(setPaginationCardAC({cardsPack_id: token}))
-            dispatch(getCardTC())
+            dispatch(getCardsAC())
             setFirst(false);
         }
         if (cards.length > 0) setCard(getCard(cards));
@@ -54,7 +55,7 @@ export const Learn = (props: LearnPropsType) => {
         }
     }
     const setGrade = (i: number) => {
-        dispatch(gradeCardTC(i + 1, card ? card._id : ""))
+        dispatch(gradeCardAC(i + 1, card ? card._id : ""))
         setCard(getCard(cards))
         setIsChecked(false);
 

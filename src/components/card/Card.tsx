@@ -1,12 +1,13 @@
 import React, {useState} from 'react'
 import s from '../../pages/packs/Packs.module.css'
 import {useDispatch} from "react-redux";
-import {CardType, removeCardTC, updateCardTC} from "../../store/cards-reduser/Cards-reducer";
+import {CardType} from "../../store/cards-reduser/Cards-reducer";
 import SuperButton from "../SuperButton/SuperButton";
 import {Modal} from "../modal/Modal";
 import {BooleanForm} from "../modal/BooleanModal/BooleanForm";
 import {AddCardForm, valueType} from "../modal/AddCardForm/AddCardForm";
 import {ActiveColumnCard} from "./activeColumnCard/activeColumnCard";
+import { removeCardAC, updateCardAC } from "../../store/cards-reduser/cards-sagas";
 
 type cardPropsType = {
     card: CardType
@@ -20,11 +21,11 @@ export const Card = (props: cardPropsType) => {
 
     const removeCard = (isDel: boolean) => {
         setActiveDelCardModal(false)
-        isDel && dispatch(removeCardTC(card.cardsPack_id, card._id))
+        isDel && dispatch(removeCardAC(card.cardsPack_id, card._id))
     }
     const updatedCard = (value: valueType) => {
         setActiveAddCardModal(false)
-        dispatch(updateCardTC(card._id, value))
+        dispatch(updateCardAC(card._id, value))
     }
     const showActiveColumnPack = () => {
         setIsActiveColumnPack(!isActiveColumnPack)

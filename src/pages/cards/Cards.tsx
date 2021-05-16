@@ -1,19 +1,24 @@
-import React, {useEffect, useState} from 'react'
-import {useDispatch, useSelector} from "react-redux";
-import {NavLink, Redirect, useParams} from "react-router-dom";
+import React, { useEffect, useState } from 'react'
+import { useDispatch, useSelector } from "react-redux";
+import { NavLink, Redirect, useParams } from "react-router-dom";
 import s from "../packs/Packs.module.css";
-import {addCardTC, getCardTC, setPaginationCardAC} from "../../store/cards-reduser/Cards-reducer";
-import {Card} from "../../components/card/Card";
-import {Paginator} from "../../components/Paginator/Paginator";
-import {Modal} from '../../components/modal/Modal'
-import {PATH} from "../../routes/Routes";
-import {AddCardForm, valueType} from "../../components/modal/AddCardForm/AddCardForm";
-import {CardsHeadings} from "../../components/card/cardsHeading/CardsHeadings";
+import { setPaginationCardAC } from "../../store/cards-reduser/Cards-reducer";
+import { Card } from "../../components/card/Card";
+import { Paginator } from "../../components/Paginator/Paginator";
+import { Modal } from '../../components/modal/Modal'
+import { PATH } from "../../routes/Routes";
+import { AddCardForm, valueType } from "../../components/modal/AddCardForm/AddCardForm";
+import { CardsHeadings } from "../../components/card/cardsHeading/CardsHeadings";
 import SuperButton from "../../components/SuperButton/SuperButton";
-import {selectorStatus, selectorUserData, selectorUserId} from "../../store/app-reduser/appSelector";
-import {selectorIsLoggedIn} from "../../store/auth-reduser/authSelector";
-import {selectorCardPacks} from "../../store/packs-reduser/packSelector";
-import {selectorCards, selectorPaginationCards, selectorTotalCardsCount} from "../../store/cards-reduser/cardSelector";
+import { selectorStatus, selectorUserData, selectorUserId } from "../../store/app-reduser/appSelector";
+import { selectorIsLoggedIn } from "../../store/auth-reduser/authSelector";
+import { selectorCardPacks } from "../../store/packs-reduser/packSelector";
+import {
+    selectorCards,
+    selectorPaginationCards,
+    selectorTotalCardsCount
+} from "../../store/cards-reduser/cardSelector";
+import { addCardAC, getCardsAC } from "../../store/cards-reduser/cards-sagas";
 
 
 export const Cards = () => {
@@ -28,11 +33,11 @@ export const Cards = () => {
     const paginationCards = useSelector(selectorPaginationCards)
     const totalCardsCount = useSelector(selectorTotalCardsCount)
     const cards = useSelector(selectorCards)
-    const {page, pageCount} = paginationCards
+    const { page, pageCount } = paginationCards
 
     const [activeAddCardModal, setActiveAddCardModal] = useState<boolean>(false)
 
-    const {token} = useParams<{ token: string }>()
+    const { token } = useParams<{ token: string }>()
 
     const pack = packs.find(p => p._id === token)
     const createdUserId = pack ? pack.user_id : registerUserId
@@ -41,19 +46,19 @@ export const Cards = () => {
 
     useEffect(() => {
         if (isLoggedIn && token) {
-            dispatch(setPaginationCardAC({cardsPack_id: token}))
-            dispatch(getCardTC())
+            dispatch(setPaginationCardAC({ cardsPack_id: token }))
+            dispatch(getCardsAC())
         }
     }, [isLoggedIn, token, dispatch])
 
     const addCard = async (value: valueType) => {
-        await dispatch(addCardTC(token, value))
+        await dispatch(addCardAC(token, value))
         setActiveAddCardModal(false)
     }
 
     const onPageChanged = (newNumber: number) => {
-        dispatch(setPaginationCardAC({page: newNumber}))
-        dispatch(getCardTC())
+        dispatch(setPaginationCardAC({ page: newNumber }))
+        dispatch(getCardsAC())
     }
 
 

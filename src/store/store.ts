@@ -8,6 +8,7 @@ import createSagaMiddleware from 'redux-saga'
 import { all } from 'redux-saga/effects'
 import { composeWithDevTools } from 'redux-devtools-extension'
 import { authSaga } from "./auth-reduser/auth-sagas";
+import { cardsSaga } from "./cards-reduser/cards-sagas";
 
 const rootReducer = combineReducers({
     auth: authReducer,
@@ -24,7 +25,7 @@ export const store = createStore(rootReducer, composeWithDevTools(applyMiddlewar
 sagaMiddleware.run(mySaga)
 
 function* mySaga() {
-     yield all([authSaga()])
+     yield all([authSaga(),cardsSaga() ])
 }
 
 export type AppRootStateType = ReturnType<typeof rootReducer>

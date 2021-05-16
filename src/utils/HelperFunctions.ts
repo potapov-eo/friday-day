@@ -1,12 +1,12 @@
 import { Dispatch } from "redux";
 import { setAppErrorAC, setAppStatusAC, setUserDataAC, UserDataType } from "../store/app-reduser/app-reduser";
 import { AxiosResponse } from "axios";
-import { CardsAPI } from "../api/instance";
+import { AuthAPI, CardsAPI } from "../api/instance";
 import { GetCardsResponseType, setCardsAC, setTotalCardsCountAC } from "../store/cards-reduser/Cards-reducer";
 import { AppRootStateType } from "../store/store";
 import { setIsLoggedIn } from "../store/auth-reduser/auth-reducer";
 import { getCardPacksResponseType, setCardPacksAC, } from "../store/packs-reduser/Packs-reduser";
-import { call, put } from "redux-saga/effects";
+import { call, put, select } from "redux-saga/effects";
 
 export const getResponseError = (e: any) => e.response
     ? e.response.data.error
@@ -17,6 +17,7 @@ export function* handleResponseError(e: any) {
     const error = getResponseError(e)
     yield put(setAppErrorAC(error))
 }
+
 export const handleResponseErrorTH = (e: any, dispatch: Dispatch) => {
 
     dispatch(setAppStatusAC('failed'))
@@ -24,14 +25,13 @@ export const handleResponseErrorTH = (e: any, dispatch: Dispatch) => {
     dispatch(setAppErrorAC(error))
 }
 
-export const getCards = async (getState: () => AppRootStateType, dispatch: Dispatch) => {
-    const paginationData = getState().cards.paginationCards
-    const response = <AxiosResponse<GetCardsResponseType>>await CardsAPI.getCards(paginationData)
-    const cards = response.data.cards
-    dispatch(setTotalCardsCountAC(response.data.cardsTotalCount))
-    dispatch(setCardsAC(cards))
-    dispatch(setAppStatusAC('succeeded'))
-    dispatch(setAppErrorAC(null))
+export function* helperGetCards() {
+    const state = yield select()
+    const response: AxiosResponse<GetCardsResponseType> = yield call(CardsAPI.getCards, state.cards.paginationCards)
+    yield put(setTotalCardsCountAC(response.data.cardsTotalCount))
+    yield put(setCardsAC(response.data.cards))
+    yield put(setAppStatusAC('succeeded'))
+    yield put(setAppErrorAC(null))
 }
 
 export function* setResponseData(userData: UserDataType, isLoggedIn: boolean) {
@@ -45,7 +45,8 @@ export function* setSuccessfulResponseData() {
     yield put(setAppErrorAC(null))
     yield put(setAppStatusAC('succeeded'))
 }
-export const setSuccessfulResponseDataTH=(dispatch: Dispatch)=>{
+
+export const setSuccessfulResponseDataTH = (dispatch: Dispatch) => {
     dispatch(setAppErrorAC(null))
     dispatch(setAppStatusAC('succeeded'))
 }

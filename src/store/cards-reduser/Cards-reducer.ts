@@ -1,12 +1,3 @@
-import {CardsAPI} from "../../api/instance";
-import {Dispatch} from "redux";
-import {setAppErrorAC, setAppStatusAC} from "../app-reduser/app-reduser";
-import {AxiosResponse} from "axios";
-import {AppRootStateType} from "../store";
-import {valueType} from "../../components/modal/AddCardForm/AddCardForm";
-import { getCards, handleResponseError, handleResponseErrorTH } from "../../utils/HelperFunctions";
-
-
 const initialState = {
     cards: [] as Array<CardType>,
     paginationCards: {
@@ -27,17 +18,17 @@ export type cardsReducerInitialStateType = typeof initialState
 export const cardsReducer = (state: cardsReducerInitialStateType = initialState, action: ActionsType): cardsReducerInitialStateType => {
     switch (action.type) {
         case 'SET_CARDS':
-            return {...state, cards: action.cards}
+            return { ...state, cards: action.cards }
         case "SET_TOTAL_CARDS_COUNT":
-            return {...state, totalCardsCount: action.packsCount}
+            return { ...state, totalCardsCount: action.packsCount }
         case 'SET_PAGINATION_CARD_PROPERTY':
-            return {...state, paginationCards: {...state.paginationCards, ...action.property}}
+            return { ...state, paginationCards: { ...state.paginationCards, ...action.property } }
         case 'SET_CARD_GRADE':
             const newCards = state.cards.map((card) => card._id === action.card_id ? {
                 ...card,
                 grade: action.grade
             } : card)
-            return {...state, cards: newCards}
+            return { ...state, cards: newCards }
 
         default:
             return state
@@ -46,14 +37,15 @@ export const cardsReducer = (state: cardsReducerInitialStateType = initialState,
 
 //AC
 
-export const setCardsAC = (cards: Array<CardType>) => ({type: 'SET_CARDS', cards} as const)
-export const setTotalCardsCountAC = (packsCount: number) => ({type: "SET_TOTAL_CARDS_COUNT", packsCount} as const)
+export const setCardsAC = (cards: Array<CardType>) => ({ type: 'SET_CARDS', cards } as const)
+export const setTotalCardsCountAC = (packsCount: number) => ({ type: "SET_TOTAL_CARDS_COUNT", packsCount } as const)
 export const setPaginationCardAC = (property: setPaginationCardType) =>
-    ({type: 'SET_PAGINATION_CARD_PROPERTY', property} as const)
-export const setCardGradeAC = (card_id: string, grade: number) => ({type: "SET_CARD_GRADE", card_id, grade} as const)
+    ({ type: 'SET_PAGINATION_CARD_PROPERTY', property } as const)
+export const setCardGradeAC = (card_id: string, grade: number) => ({ type: "SET_CARD_GRADE", card_id, grade } as const)
 //TC
 
 
+/*
 export const getCardTC = () =>
     async (dispatch: Dispatch, getState: () => AppRootStateType) => {
         try {
@@ -109,6 +101,7 @@ export const gradeCardTC = (grade: number, card_id: string) =>
             handleResponseErrorTH(e, dispatch)
         }
     }
+*/
 
 
 type ActionsType = ReturnType<typeof setCardsAC>
