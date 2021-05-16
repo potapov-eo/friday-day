@@ -67,11 +67,12 @@ export const addCardTC = (cardsPack_id: string, values: { question: string, answ
     async (dispatch: Dispatch, getState: () => AppRootStateType) => {
         try {
             dispatch(setAppStatusAC('loading'))
-           await CardsAPI.createCard(cardsPack_id, values)
+            await CardsAPI.createCard(cardsPack_id, values)
             await getCards(getState, dispatch)
 
         } catch (e) {
             handleResponseError(e, dispatch)
+            throw new Error("add card error")
         }
     }
 export const removeCardTC = (cardsPack_id: string, cardId: string) =>
@@ -92,6 +93,7 @@ export const updateCardTC = (cardId: string, value: valueType) =>
             await getCards(getState, dispatch)
         } catch (e) {
             handleResponseError(e, dispatch)
+            throw new Error("update card error")
         }
     }
 export const gradeCardTC = (grade: number, card_id: string) =>

@@ -28,12 +28,8 @@ export const Pack = (props: packPropsType) => {
     }
 
     const updatePack = async (newNamePack: string) => {
-      try  {
-            await dispatch(updateTC(_id, newNamePack))
-            setActiveUpdatePackModal(false)
-        }catch (e){
-
-      }
+        await dispatch(updateTC(_id, newNamePack))
+        setActiveUpdatePackModal(false)
     }
     const showActiveColumnPack = () => {
         setIsActiveColumnPack(!isActiveColumnPack)

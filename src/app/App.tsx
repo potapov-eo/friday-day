@@ -1,8 +1,7 @@
-import React, {useEffect, useState} from 'react';
+import React, {useEffect} from 'react';
 import './App.css';
 import {HashRouter} from "react-router-dom";
 import {useDispatch, useSelector} from 'react-redux';
-import {AppRootStateType} from "../store/store";
 import Preloader from "../components/Preloder/Preloader";
 import {Routes} from "../routes/Routes";
 import {Header} from "../components/header/Header";
@@ -15,14 +14,10 @@ function App() {
     const dispatch = useDispatch()
     const status = useSelector(selectorStatus)
     const error = useSelector(selectorError)
-    let [firstRendering, setFirstRendering] = useState<boolean>(true)
 
     useEffect(() => {
-        if (firstRendering) {
-            dispatch(setIsLoggedIn(false))
-            dispatch(getMe())
-
-        }
+        dispatch(setIsLoggedIn(false))
+        dispatch(getMe())
     }, [])
 
     return (

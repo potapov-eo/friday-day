@@ -15,7 +15,6 @@ import {selectorCardPacks, selectorPagination, selectorTotalPacksCount} from "..
 import {addCardPacksTC, getCardPacksTC, setPaginationAC} from "../../store/packs-reduser/Packs-reduser";
 
 
-
 export const Packs = (props: { activeModal: boolean, setActiveModal: (activeModal: boolean) => void }) => {
     const dispatch = useDispatch()
 
@@ -80,12 +79,8 @@ export const Packs = (props: { activeModal: boolean, setActiveModal: (activeModa
     }
 
     const addPack = async (newPackName: string) => {
-         try {
-             await dispatch(addCardPacksTC(newPackName))
-            setActiveAddPackModal(false)
-        }catch (e){
-
-        }
+        await dispatch(addCardPacksTC(newPackName))
+        setActiveAddPackModal(false)
     }
 
     const onPageChanged = (pageNumber: number) => {

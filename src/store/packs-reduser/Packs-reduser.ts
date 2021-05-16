@@ -1,12 +1,8 @@
-import {CardsAPI, getCardPacksDataType} from '../../api/instance'
+import {CardsAPI} from '../../api/instance'
 import {Dispatch} from 'redux'
 import {setAppStatusAC, setPublicCardPacksCountAC} from "../app-reduser/app-reduser";
 import {AppRootStateType} from "../store";
-import {
-    getCardPacks,
-    handleResponseError,
-    setSuccessfulResponseData
-} from "../../utils/HelperFunctions";
+import {getCardPacks, handleResponseError, setSuccessfulResponseData} from "../../utils/HelperFunctions";
 import {setIsLoggedIn} from "../auth-reduser/auth-reducer";
 
 
@@ -72,9 +68,9 @@ export const addCardPacksTC = (newPackName: string) =>
             dispatch(setPublicCardPacksCountAC(response.data.cardPacksTotalCount))
             setSuccessfulResponseData(dispatch)
             dispatch(setTotalPacksCountAC(response.data.cardPacksTotalCount))
-
         } catch (e) {
             handleResponseError(e, dispatch)
+            throw new Error("add cardPack error")
         }
     }
 
@@ -101,6 +97,7 @@ export const updateTC = (id: string, newNamePack: string) =>
             setSuccessfulResponseData(dispatch)
         } catch (e) {
             handleResponseError(e, dispatch)
+            throw new Error("update cardPack error")
         }
     }
 

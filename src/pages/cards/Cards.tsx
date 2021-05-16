@@ -46,8 +46,8 @@ export const Cards = () => {
         }
     }, [isLoggedIn, token, dispatch])
 
-    const addCard = (value: valueType) => {
-        dispatch(addCardTC(token, value))
+    const addCard = async (value: valueType) => {
+        await dispatch(addCardTC(token, value))
         setActiveAddCardModal(false)
     }
 
