@@ -1,9 +1,7 @@
-import { Dispatch } from "redux";
 import { setAppErrorAC, setAppStatusAC, setUserDataAC, UserDataType } from "../store/app-reduser/app-reduser";
 import { AxiosResponse } from "axios";
 import { CardsAPI } from "../api/instance";
 import { GetCardsResponseType, setCardsAC, setTotalCardsCountAC } from "../store/cards-reduser/Cards-reducer";
-import { AppRootStateType } from "../store/store";
 import { setIsLoggedIn } from "../store/auth-reduser/auth-reducer";
 import { getCardPacksResponseType, setCardPacksAC, } from "../store/packs-reduser/Packs-reduser";
 import { call, put, select } from "redux-saga/effects";
@@ -16,13 +14,6 @@ export function* handleResponseError(e: any) {
     yield put(setAppStatusAC('failed'))
     const error = getResponseError(e)
     yield put(setAppErrorAC(error))
-}
-
-export const handleResponseErrorTH = (e: any, dispatch: Dispatch) => {
-
-    dispatch(setAppStatusAC('failed'))
-    const error = getResponseError(e)
-    dispatch(setAppErrorAC(error))
 }
 
 export function* helperGetCards() {
@@ -46,14 +37,9 @@ export function* setSuccessfulResponseData() {
     yield put(setAppStatusAC('succeeded'))
 }
 
-export const setSuccessfulResponseDataTH = (dispatch: Dispatch) => {
-    dispatch(setAppErrorAC(null))
-    dispatch(setAppStatusAC('succeeded'))
-}
-
-export const getCardPacks = async (getState: () => AppRootStateType, dispatch: Dispatch) => {
-    const paginationData = getState().packs.pagination
-    const response = <AxiosResponse<getCardPacksResponseType>>await CardsAPI.getCardPacks(paginationData)
-    dispatch(setCardPacksAC(response.data.cardPacks))
+export function* helperGetCardPacks() {
+    const state = yield select()
+    const response: AxiosResponse<getCardPacksResponseType> = yield call(CardsAPI.getCardPacks, state.packs.pagination)
+    yield put(setCardPacksAC(response.data.cardPacks))
     return response
 }

@@ -1,18 +1,19 @@
-import React, {ChangeEvent, useCallback, useEffect, useState} from 'react'
-import {useDispatch, useSelector} from 'react-redux'
+import React, { ChangeEvent, useCallback, useEffect, useState } from 'react'
+import { useDispatch, useSelector } from 'react-redux'
 import s from './Packs.module.css'
-import {Pack} from "../../components/pack/Pack";
-import {Paginator} from "../../components/Paginator/Paginator";
-import {Modal} from '../../components/modal/Modal'
-import {AddForm} from "../../components/modal/AddForm/AddForm";
-import {NavLink, Redirect} from "react-router-dom";
-import {PATH} from "../../routes/Routes";
-import {Headings} from "../../components/pack/headings/Headings";
+import { Pack } from "../../components/pack/Pack";
+import { Paginator } from "../../components/Paginator/Paginator";
+import { Modal } from '../../components/modal/Modal'
+import { AddForm } from "../../components/modal/AddForm/AddForm";
+import { NavLink, Redirect } from "react-router-dom";
+import { PATH } from "../../routes/Routes";
+import { Headings } from "../../components/pack/headings/Headings";
 import SuperInput from "../../components/SuperInput/SuperInput";
-import {selectorIsLoggedIn} from "../../store/auth-reduser/authSelector";
-import {selectorStatus, selectorUserData, selectorUserId} from "../../store/app-reduser/appSelector";
-import {selectorCardPacks, selectorPagination, selectorTotalPacksCount} from "../../store/packs-reduser/packSelector";
-import {addCardPacksTC, getCardPacksTC, setPaginationAC} from "../../store/packs-reduser/Packs-reduser";
+import { selectorIsLoggedIn } from "../../store/auth-reduser/authSelector";
+import { selectorStatus, selectorUserData, selectorUserId } from "../../store/app-reduser/appSelector";
+import { selectorCardPacks, selectorPagination, selectorTotalPacksCount } from "../../store/packs-reduser/packSelector";
+import { setPaginationAC } from "../../store/packs-reduser/Packs-reduser";
+import { addCardPackAC, getCardPacksAC } from "../../store/packs-reduser/packs-sagas";
 
 
 export const Packs = (props: { activeModal: boolean, setActiveModal: (activeModal: boolean) => void }) => {
@@ -25,7 +26,7 @@ export const Packs = (props: { activeModal: boolean, setActiveModal: (activeModa
     const cardPacks = useSelector(selectorCardPacks)
     const pagination = useSelector(selectorPagination)
     const totalPacksCount = useSelector(selectorTotalPacksCount)
-    const {page, user_id, pageCount} = pagination
+    const { page, user_id, pageCount } = pagination
     const [isChange, setIsChange] = useState<boolean>(false)
     const [idTimeout, setIdTimeout] = useState<number>(0)
     const [searchName, setSearchName] = useState<string>("")
@@ -44,8 +45,8 @@ export const Packs = (props: { activeModal: boolean, setActiveModal: (activeModa
 
     useEffect(() => {
         if (isChange && !isLoading) {
-            dispatch(setPaginationAC({packName: searchName}))
-            dispatch(getCardPacksTC())
+            dispatch(setPaginationAC({ packName: searchName }))
+            dispatch(getCardPacksAC())
             setIsChange(false)
         }
         if (user_id) {
@@ -61,31 +62,31 @@ export const Packs = (props: { activeModal: boolean, setActiveModal: (activeModa
 
     useEffect(() => {
         if (isLoggedIn) {
-            dispatch(getCardPacksTC())
+            dispatch(getCardPacksAC())
         }
     }, [isLoggedIn])
 
     const change = (e: ChangeEvent<HTMLInputElement>) => {
         if (e.currentTarget.checked) {
             setIsMyPackChecked(true)
-            dispatch(setPaginationAC({user_id: userId}))
-            dispatch(getCardPacksTC())
+            dispatch(setPaginationAC({ user_id: userId }))
+            dispatch(getCardPacksAC())
 
         } else {
             setIsMyPackChecked(false)
-            dispatch(setPaginationAC({user_id: ""}))
-            dispatch(getCardPacksTC())
+            dispatch(setPaginationAC({ user_id: "" }))
+            dispatch(getCardPacksAC())
         }
     }
 
     const addPack = async (newPackName: string) => {
-        await dispatch(addCardPacksTC(newPackName))
+        await dispatch(addCardPackAC(newPackName))
         setActiveAddPackModal(false)
     }
 
     const onPageChanged = (pageNumber: number) => {
-        dispatch(setPaginationAC({page: pageNumber}))
-        dispatch(getCardPacksTC())
+        dispatch(setPaginationAC({ page: pageNumber }))
+        dispatch(getCardPacksAC())
     }
 
     if (!UserData) {

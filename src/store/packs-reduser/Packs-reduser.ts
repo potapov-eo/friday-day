@@ -1,11 +1,3 @@
-import { CardsAPI } from '../../api/instance'
-import { Dispatch } from 'redux'
-import { setAppStatusAC, setPublicCardPacksCountAC } from "../app-reduser/app-reduser";
-import { AppRootStateType } from "../store";
-import { getCardPacks, handleResponseErrorTH, setSuccessfulResponseDataTH } from "../../utils/HelperFunctions";
-import { setIsLoggedIn } from "../auth-reduser/auth-reducer";
-
-
 let initialState = {
     cardPacks: [] as Array<PackType>,
     pagination:
@@ -41,66 +33,6 @@ export const packsReducer = (state: packsReducerInitialStateType = initialState,
 export const setCardPacksAC = (cardPacks: Array<PackType>) => ({type: 'SET_CARD_PACKS', cardPacks} as const)
 export const setPaginationAC = (property: setPaginationType) => ({type: 'SET_PAGINATION_PROPERTY', property} as const)
 export const setTotalPacksCountAC = (packsCount: number) => ({type: "SET-TOTAL-PACKS-COUNT", packsCount} as const)
-//TC
-
-
-export const getCardPacksTC = () =>
-    async (dispatch: Dispatch, getState: () => AppRootStateType) => {
-        try {
-            dispatch(setAppStatusAC('loading'))
-            const response = await getCardPacks(getState, dispatch)
-            const currentPage = getState().packs.pagination.page
-            currentPage && dispatch(setPaginationAC({page: currentPage}))
-            dispatch(setTotalPacksCountAC(response.data.cardPacksTotalCount))
-            setSuccessfulResponseDataTH(dispatch)
-            dispatch(setIsLoggedIn(true))
-        } catch (e) {
-            handleResponseErrorTH(e, dispatch)
-        }
-    }
-
-export const addCardPacksTC = (newPackName: string) =>
-    async (dispatch: Dispatch, getState: () => AppRootStateType) => {
-        try {
-            dispatch(setAppStatusAC('loading'))
-            await CardsAPI.createCardsPack(newPackName)
-            const response = await getCardPacks(getState, dispatch)
-            dispatch(setPublicCardPacksCountAC(response.data.cardPacksTotalCount))
-            setSuccessfulResponseDataTH(dispatch)
-            dispatch(setTotalPacksCountAC(response.data.cardPacksTotalCount))
-        } catch (e) {
-            handleResponseErrorTH(e, dispatch)
-            throw new Error("add cardPack error")
-        }
-    }
-
-export const removePackTC = (idCarsPack: string) =>
-    async (dispatch: Dispatch, getState: () => AppRootStateType) => {
-        try {
-            dispatch(setAppStatusAC('loading'))
-            await CardsAPI.deleteCardsPack(idCarsPack)
-            const response = await getCardPacks(getState, dispatch)
-            dispatch(setPublicCardPacksCountAC(response.data.cardPacksTotalCount))
-            setSuccessfulResponseDataTH(dispatch)
-            dispatch(setTotalPacksCountAC(response.data.cardPacksTotalCount))
-        } catch (e) {
-            handleResponseErrorTH(e, dispatch)
-        }
-    }
-
-export const updateTC = (id: string, newNamePack: string) =>
-    async (dispatch: Dispatch, getState: () => AppRootStateType) => {
-        try {
-            dispatch(setAppStatusAC('loading'))
-            await CardsAPI.updateCardsPack(id, newNamePack)
-            await getCardPacks(getState, dispatch)
-            setSuccessfulResponseDataTH(dispatch)
-        } catch (e) {
-            handleResponseErrorTH(e, dispatch)
-            throw new Error("update cardPack error")
-        }
-    }
-
 
 //types
 type ActionsType =

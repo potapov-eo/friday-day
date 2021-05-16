@@ -1,12 +1,13 @@
-import React, {useState} from 'react'
+import React, { useState } from 'react'
 import s from '../../pages/packs/Packs.module.css'
 import SuperButton from "../SuperButton/SuperButton";
-import {useDispatch} from "react-redux";
-import {PackType, removePackTC, updateTC} from "../../store/packs-reduser/Packs-reduser";
-import {BooleanForm} from "../modal/BooleanModal/BooleanForm";
-import {AddForm} from "../modal/AddForm/AddForm";
-import {ActiveColumnPack} from "./activeColumnPack/activeColumnPack";
-import {Modal} from "../modal/Modal";
+import { useDispatch } from "react-redux";
+import { PackType } from "../../store/packs-reduser/Packs-reduser";
+import { BooleanForm } from "../modal/BooleanModal/BooleanForm";
+import { AddForm } from "../modal/AddForm/AddForm";
+import { ActiveColumnPack } from "./activeColumnPack/activeColumnPack";
+import { Modal } from "../modal/Modal";
+import { removePackAC, updatePackNameAC } from "../../store/packs-reduser/packs-sagas";
 
 
 type packPropsType = {
@@ -19,16 +20,16 @@ export const Pack = (props: packPropsType) => {
     const [activeDelPackModal, setActiveDelPackModal] = useState<boolean>(false)
     const [activeUpdatePackModal, setActiveUpdatePackModal] = useState<boolean>(false)
     const [isActiveColumnPack, setIsActiveColumnPack] = useState<boolean>(false)
-    const {_id, name, cardsCount, updated} = props.pack
+    const { _id, name, cardsCount, updated } = props.pack
 
 
     const deletePack = (isDel: boolean) => {
         setActiveDelPackModal(false)
-        isDel && dispatch(removePackTC(_id))
+        isDel && dispatch(removePackAC(_id))
     }
 
     const updatePack = async (newNamePack: string) => {
-        await dispatch(updateTC(_id, newNamePack))
+        await dispatch(updatePackNameAC(_id, newNamePack))
         setActiveUpdatePackModal(false)
     }
     const showActiveColumnPack = () => {
