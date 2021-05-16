@@ -5,9 +5,9 @@ import {Redirect, useParams} from "react-router-dom";
 import SuperButton from "../../../components/SuperButton/SuperButton";
 import SuperInput from "../../../components/SuperInput/SuperInput";
 import {PATH} from "../../../routes/Routes";
-import {setPasswordTC} from "../../../store/auth-reduser/auth-reducer";
 import {selectorStatus} from "../../../store/app-reduser/appSelector";
 import {selectorNewPassword} from "../../../store/auth-reduser/authSelector";
+import { setPasswordAC } from "../../../store/auth-reduser/auth-sagas";
 
 export const NewPassword = () => {
     const dispatch = useDispatch()
@@ -41,7 +41,7 @@ export const NewPassword = () => {
         },
 
         onSubmit: values => {
-            dispatch(setPasswordTC({password: values.password, resetPasswordToken: values.resetPasswordToken}))
+            dispatch(setPasswordAC({password: values.password, resetPasswordToken: values.resetPasswordToken}))
             formik.resetForm()
         },
     })

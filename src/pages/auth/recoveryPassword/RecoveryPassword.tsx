@@ -4,9 +4,10 @@ import {useDispatch, useSelector} from "react-redux";
 import SuperButton from "../../../components/SuperButton/SuperButton";
 import SuperInput from "../../../components/SuperInput/SuperInput";
 import {DEV_VERSION} from "../../../config";
-import {recoveryEmailAC, verificationEmailTC} from "../../../store/auth-reduser/auth-reducer";
+import {recoveryEmailAC} from "../../../store/auth-reduser/auth-reducer";
 import {selectorStatus} from "../../../store/app-reduser/appSelector";
 import {selectorRecoveryEmail} from "../../../store/auth-reduser/authSelector";
+import { verificationEmailAC } from "../../../store/auth-reduser/auth-sagas";
 
 
 export const RecoveryPassword = () => {
@@ -42,7 +43,7 @@ export const RecoveryPassword = () => {
         },
 
         onSubmit: values => {
-            dispatch(verificationEmailTC({email: values.email, from, message}))
+            dispatch(verificationEmailAC({email: values.email, from, message}))
             formik.resetForm()
         },
     })

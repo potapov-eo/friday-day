@@ -4,7 +4,7 @@ import {setAppErrorAC, setAppStatusAC} from "../app-reduser/app-reduser";
 import {AxiosResponse} from "axios";
 import {AppRootStateType} from "../store";
 import {valueType} from "../../components/modal/AddCardForm/AddCardForm";
-import {getCards, handleResponseError} from "../../utils/HelperFunctions";
+import { getCards, handleResponseError, handleResponseErrorTH } from "../../utils/HelperFunctions";
 
 
 const initialState = {
@@ -60,7 +60,7 @@ export const getCardTC = () =>
             dispatch(setAppStatusAC('loading'))
             await getCards(getState, dispatch)
         } catch (e) {
-            handleResponseError(e, dispatch)
+            handleResponseErrorTH(e, dispatch)
         }
     }
 export const addCardTC = (cardsPack_id: string, values: { question: string, answer: string }) =>
@@ -71,7 +71,7 @@ export const addCardTC = (cardsPack_id: string, values: { question: string, answ
             await getCards(getState, dispatch)
 
         } catch (e) {
-            handleResponseError(e, dispatch)
+            handleResponseErrorTH(e, dispatch)
             throw new Error("add card error")
         }
     }
@@ -82,7 +82,7 @@ export const removeCardTC = (cardsPack_id: string, cardId: string) =>
             await CardsAPI.deleteCard(cardId)
             await getCards(getState, dispatch)
         } catch (e) {
-            handleResponseError(e, dispatch)
+            handleResponseErrorTH(e, dispatch)
         }
     }
 export const updateCardTC = (cardId: string, value: valueType) =>
@@ -92,7 +92,7 @@ export const updateCardTC = (cardId: string, value: valueType) =>
             await CardsAPI.updateCard(cardId, value.question, value.answer)
             await getCards(getState, dispatch)
         } catch (e) {
-            handleResponseError(e, dispatch)
+            handleResponseErrorTH(e, dispatch)
             throw new Error("update card error")
         }
     }
@@ -106,7 +106,7 @@ export const gradeCardTC = (grade: number, card_id: string) =>
             dispatch(setAppStatusAC('succeeded'))
             dispatch(setAppErrorAC(null))
         } catch (e) {
-            handleResponseError(e, dispatch)
+            handleResponseErrorTH(e, dispatch)
         }
     }
 

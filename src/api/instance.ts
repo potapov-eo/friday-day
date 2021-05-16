@@ -14,7 +14,7 @@ export const AuthAPI = {
     getAuthMe():Promise<AxiosResponse<UserDataType>> {
         return instance.post(`auth/me`)
     },
-    login(email: string, password: string, rememberMe: boolean) {
+    login(email: string, password: string, rememberMe: boolean):Promise<AxiosResponse<UserDataType>> {
         return instance.post(`auth/login`, {email, password, rememberMe})
     },
     logout() {

@@ -24,7 +24,7 @@ export const store = createStore(rootReducer, composeWithDevTools(applyMiddlewar
 sagaMiddleware.run(mySaga)
 
 function* mySaga() {
-     yield all([authSaga])
+     yield all([authSaga()])
 }
 
 export type AppRootStateType = ReturnType<typeof rootReducer>

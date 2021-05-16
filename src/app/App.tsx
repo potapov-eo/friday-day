@@ -8,7 +8,7 @@ import { Header } from "../components/header/Header";
 import { setIsLoggedIn } from "../store/auth-reduser/auth-reducer";
 import { ErrorSnackBar } from "../components/ErrorSnackBar/ErrorSnackBar";
 import { selectorError, selectorStatus } from "../store/app-reduser/appSelector";
-import { getMeACT } from "../store/auth-reduser/auth-sagas";
+import { getMeAC } from "../store/auth-reduser/auth-sagas";
 
 
 function App() {
@@ -18,7 +18,7 @@ function App() {
 
     useEffect(() => {
         dispatch(setIsLoggedIn(false))
-        dispatch(getMeACT())
+        dispatch(getMeAC())
     }, [])
 
     return (

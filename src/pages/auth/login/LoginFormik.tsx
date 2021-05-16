@@ -5,9 +5,9 @@ import {useDispatch, useSelector} from 'react-redux';
 import {Redirect} from 'react-router-dom';
 import {useFormik} from 'formik';
 import {PATH} from "../../../routes/Routes";
-import {login} from "../../../store/auth-reduser/auth-reducer";
 import {selectorIsLoggedIn} from "../../../store/auth-reduser/authSelector";
 import {selectorStatus} from "../../../store/app-reduser/appSelector";
+import { loginAC } from "../../../store/auth-reduser/auth-sagas";
 
 
 export const Login = () => {
@@ -36,7 +36,7 @@ export const Login = () => {
             return errors;
         },
         onSubmit: values => {
-            const thunk = login(values.email, values.password, values.rememberMe)
+            const thunk = loginAC(values.email, values.password, values.rememberMe)
             dispatch(thunk)
             formik.resetForm()
         },

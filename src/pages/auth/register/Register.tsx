@@ -5,9 +5,9 @@ import {Redirect} from "react-router-dom";
 import {PATH} from "../../../routes/Routes";
 import SuperButton from "../../../components/SuperButton/SuperButton";
 import SuperInput from "../../../components/SuperInput/SuperInput";
-import {RegisterTC} from "../../../store/auth-reduser/auth-reducer";
 import {selectorIsLoggedIn, selectorIsRegister} from "../../../store/auth-reduser/authSelector";
 import {selectorStatus} from "../../../store/app-reduser/appSelector";
+import { registerAC } from "../../../store/auth-reduser/auth-sagas";
 
 export const Register = () => {
     const dispatch = useDispatch()
@@ -45,7 +45,7 @@ export const Register = () => {
 
 
         onSubmit: values => {
-            dispatch(RegisterTC({email: values.email, password: values.password}))
+            dispatch(registerAC({email: values.email, password: values.password}))
             formik.resetForm()
         },
     })
