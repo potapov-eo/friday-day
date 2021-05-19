@@ -37,8 +37,8 @@ export function* getMe() {
 export function* login(action: ReturnType<typeof loginAC>) {
     try {
         yield put(setAppStatusAC('loading'))
-        let response: AxiosResponse<UserDataType> = yield call(AuthAPI.login, action.mail, action.password, action.remember_Me)
-        yield call(setResponseData, response.data, true)
+        let response:UserDataType = yield call(AuthAPI.login, action.mail, action.password, action.remember_Me)
+        yield call(setResponseData, response, true)
     } catch (e) {
         yield call(handleResponseError, e)
     }
