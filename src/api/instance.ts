@@ -1,21 +1,22 @@
 import axios, { AxiosResponse } from "axios";
-import {DEV_VERSION} from "../config";
-import {registeredEmailType, RegisterParamsType, SetPasswordType} from "../store/auth-reduser/auth-reducer";
+import { DEV_VERSION } from "../config";
+import { registeredEmailType, RegisterParamsType, SetPasswordType } from "../store/auth-reduser/auth-reducer";
 import { UserDataType } from "../store/app-reduser/app-reduser";
 
 
 export const baseURL = !DEV_VERSION
     ? "http://localhost:7542/2.0"
     : "https://neko-back.herokuapp.com/2.0"
-export const instance = axios.create({baseURL, withCredentials: true})
+export const instance = axios.create({ baseURL, withCredentials: true })
 
 
 export const AuthAPI = {
-    getAuthMe():Promise<AxiosResponse<UserDataType>> {
-        return instance.post(`auth/me`)
+    async getAuthMe(){
+        const res: AxiosResponse<UserDataType> = await instance.post(`auth/me`)
+        return res.data
     },
-    login(email: string, password: string, rememberMe: boolean):Promise<AxiosResponse<UserDataType>> {
-        return instance.post(`auth/login`, {email, password, rememberMe})
+    login(email: string, password: string, rememberMe: boolean): Promise<AxiosResponse<UserDataType>> {
+        return instance.post(`auth/login`, { email, password, rememberMe })
     },
     logout() {
         return instance.delete(`auth/me`)
@@ -39,20 +40,20 @@ export const recoveryPasswordAPI = {
 
 export const CardsAPI = {
     getCardPacks(paginationData: any) {
-        return instance.get(`cards/pack`, {params: paginationData})
+        return instance.get(`cards/pack`, { params: paginationData })
     },
 
     createCardsPack(newPackName: string) {
-        return instance.post(`cards/pack`, {cardsPack: {name: newPackName}})
+        return instance.post(`cards/pack`, { cardsPack: { name: newPackName } })
     },
     deleteCardsPack(idCarsPack: string) {
         return instance.delete(`cards/pack/?id=${idCarsPack}`)
     },
     updateCardsPack(id: string, newNamePack: string) {
-        return instance.put(`cards/pack/`, {cardsPack: {_id: id, name: newNamePack}})
+        return instance.put(`cards/pack/`, { cardsPack: { _id: id, name: newNamePack } })
     },
     getCards(paginationCardsData: any) {
-        return instance.get(`cards/card/`, {params: paginationCardsData})
+        return instance.get(`cards/card/`, { params: paginationCardsData })
     },
     createCard(cardsPack_id: string, values: { question: string, answer: string }) {
         return instance.post(`cards/card`, {

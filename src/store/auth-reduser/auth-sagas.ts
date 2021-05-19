@@ -24,8 +24,8 @@ import { setCardsAC } from "../cards-reduser/Cards-reducer";
 export function* getMe() {
     try {
         yield put(setAppStatusAC('loading'))
-        let response: AxiosResponse<UserDataType> = yield call(AuthAPI.getAuthMe)
-        yield call(setResponseData, response.data, true)
+        let response: UserDataType = yield call(AuthAPI.getAuthMe)
+        yield call(setResponseData, response, true)
     } catch (e) {
         yield put(setAppStatusAC('failed'))
         const error = getResponseError(e)

@@ -4,7 +4,7 @@ import {
     recoveryEmailAC,
     setIsLoggedIn,
     setIsRegister,
-    setPasswordAC
+    setIsPasswordAC
 } from "./auth-reducer";
 
 let startState: AuthInitialStateType
@@ -45,7 +45,7 @@ test('correct isRegister should be added', () => {
     });
 })
 test('correct newPassword should be added', () => {
-    const action = setPasswordAC(true);
+    const action = setIsPasswordAC(true);
 
     const endState = authReducer(startState, action)
 
