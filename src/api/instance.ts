@@ -29,7 +29,7 @@ export const RegisterAPI = {
 
 export const recoveryPasswordAPI = {
     registeredEmail(data: registeredEmailType) {
-        return instance.post('/auth/forgot', data)
+        return instance.post('/auth/forgot', data).then(res=>res.data)
     },
     setPassword(data: SetPasswordType) {
         return instance.post('/auth/set-new-password', data)

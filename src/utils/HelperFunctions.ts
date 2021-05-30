@@ -43,7 +43,7 @@ export const setResponseData = (dispatch: Dispatch, userData: UserDataType,  isL
     setSuccessfulResponseData(dispatch)
 
 }
-export const setSuccessfulResponseData=(dispatch: Dispatch)=>{
+export let setSuccessfulResponseData=(dispatch: Dispatch)=>{
     dispatch(setAppErrorAC(null))
     dispatch(setAppStatusAC('succeeded'))
 }
