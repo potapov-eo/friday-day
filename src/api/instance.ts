@@ -11,7 +11,7 @@ export const instance = axios.create({baseURL, withCredentials: true})
 
 export const AuthAPI = {
     getAuthMe() {
-        return instance.post(`auth/me`,)
+        return instance.post(`auth/me`,).then(res=>res.data)
     },
     login(email: string, password: string, rememberMe: boolean) {
         return instance.post(`auth/login`, {email, password, rememberMe})

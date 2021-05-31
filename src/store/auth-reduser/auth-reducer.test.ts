@@ -1,6 +1,6 @@
 import {
     AuthInitialStateType,
-    authReducer,
+    authReducer, init,
     recoveryEmailAC,
     setIsLoggedIn,
     setIsRegister,
@@ -10,7 +10,7 @@ import {
 let startState: AuthInitialStateType;
 
 
-describe('auth-reducer test', () => {
+describe('auth-reducer thunk test', () => {
     beforeEach(() => {
         startState = {
             recoveryEmail: false, // если true ссылка для восстановления пароля отправлена
@@ -68,6 +68,11 @@ describe('auth-reducer test', () => {
             newPassword: false,
             isLoggedIn: true,
         });
+    });
+    it('correct work with initial action ', () => {
+        const action = init();
+        const endState = authReducer(startState, action);
+        expect(endState).toEqual(startState);
     });
 });
 

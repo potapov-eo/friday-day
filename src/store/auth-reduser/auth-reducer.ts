@@ -38,12 +38,13 @@ export const recoveryEmailAC = (value: boolean) => ({ type: 'RECOVERY_EMAIL', va
 export const setIsRegister = (value: boolean) => ({ type: 'SET_IS_REGISTER', value } as const);
 export const setPasswordAC = (newPassword: boolean) => ({ type: 'APP_SET_PASSWORD', newPassword } as const);
 export const setIsLoggedIn = (isLoggedIn: boolean) => ({ type: 'SET_IS_LOGGED_IN', isLoggedIn } as const);
+export const init = () => ({ type: 'INIT'} as const);
 
 
 export const verificationEmailTC = (data: registeredEmailType) => async (dispatch: Dispatch) => {
     try {
         dispatch(setAppStatusAC('loading'));
-        const x = await recoveryPasswordAPI.registeredEmail(data);
+        await recoveryPasswordAPI.registeredEmail(data);
         dispatch(recoveryEmailAC(true));
         setSuccessfulResponseData(dispatch);
     } catch (e) {
@@ -68,7 +69,6 @@ export const setPasswordTC = (data: SetPasswordType) =>
             await recoveryPasswordAPI.setPassword(data);
             dispatch(setPasswordAC(true));
             setSuccessfulResponseData(dispatch);
-
         } catch (e) {
             handleResponseError(e, dispatch);
         }
@@ -76,8 +76,8 @@ export const setPasswordTC = (data: SetPasswordType) =>
 export const getMe = () => async (dispatch: Dispatch) => {
     try {
         dispatch(setAppStatusAC('loading'));
-        let response = <AxiosResponse<UserDataType>>await AuthAPI.getAuthMe();
-        setResponseData(dispatch, response.data, true);
+        let response = <UserDataType>await AuthAPI.getAuthMe();
+        setResponseData(dispatch, response, true);
     } catch (e) {
         dispatch(setAppStatusAC('failed'));
         const error = getResponseError(e);
@@ -127,9 +127,11 @@ export type recoveryEmailACType = ReturnType<typeof recoveryEmailAC>
 export type setIsRegisterACType = ReturnType<typeof setIsRegister>
 export type setPasswordACType = ReturnType<typeof setPasswordAC>
 export type setIsLoggedInACType = ReturnType<typeof setIsLoggedIn>
+export type initACType = ReturnType<typeof init>
 type ActionsType = recoveryEmailACType
     | setAppStatusACType
     | setAppErrorACType
     | setIsRegisterACType
     | setPasswordACType
     | setIsLoggedInACType
+    | initACType
