@@ -7,7 +7,7 @@ import {Modal} from "../modal/Modal";
 import {BooleanForm} from "../modal/BooleanModal/BooleanForm";
 import {AddCardForm, valueType} from "../modal/AddCardForm/AddCardForm";
 import {ActiveColumnCard} from "./activeColumnCard/activeColumnCard";
-
+//555
 type cardPropsType = {
     card: CardType
 }
